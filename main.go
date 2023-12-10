@@ -310,20 +310,27 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	return output
 }
 
-
+func fileExists(filename string) bool {
+	_, err := os.Stat(filename)
+	return !os.IsNotExist(err)
+}
 
 
 func thumbnail_music(file string) string {
 	// cache := filepath.Join(cacheFile, ".bmp")
-	cache := cacheFile + ".jpg"
-	// ffmpeg -i "$1" -an -c:v copy "${CACHE}.bmp"
-	cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
+	cache := cacheFile + ".bmp"
+	if !fileExists(cache) {
+		// ffmpeg -i "$1" -an -c:v copy "${CACHE}.bmp"
+		cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
 
-	output, err := cmd.CombinedOutput()
-	if err != nil {
-		fmt.Println(string(output), err)
-		log.Fatal(err)
+		output, err := cmd.CombinedOutput()
+		if err != nil {
+			fmt.Println(string(output), err)
+			log.Fatal(err)
+		}
 	}
+
+
 
 	// fmt.Println(string(output))
 	return cache
