@@ -425,7 +425,9 @@ func main() {
 	cacheFile := filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
 
 
-
+	tmp := cacheFile + configDir
+	tmp = ""
+	fmt.Print(tmp)
 
 
 	
