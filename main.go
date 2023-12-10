@@ -199,7 +199,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 	wg.Add(2)
 	go image_gr(image_file, width, height, ch1, &wg)
-	go exif_fmt_gr(file, tags, ch1, &wg)
+	go exif_fmt_gr(file, tags, ch2, &wg)
 
 	go func() {
 		wg.Wait()
