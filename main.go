@@ -232,11 +232,11 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	// gr_array[0] = "test0"
 	// gr_array[1] = "test1"
 	// output = output + fmt.Sprintln(gr_array[0])
-	// var temp_slice []string
+	var temp_slice []string
 
-	// for result := range ch {
-	// 	temp_slice[result.order] = result.content
-	// }
+	for results := range ch {
+		temp_slice[results.order] = results.content
+	}
 
 	// for _, val := range temp_slice {
 	// 	output = output + val
