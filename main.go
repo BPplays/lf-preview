@@ -37,7 +37,7 @@ func get_exif(file string) (any, error) {
 
 
 
-func image(filename string, width, height int) ([]byte) {
+func image(filename string, width, height int) (string) {
 	geometry := fmt.Sprintf("%dx%d", width, height)
 
 	cmd := exec.Command("chafa", filename, fmt.Sprintf("--font-ratio=%s", userOpenFontRatio))
@@ -52,7 +52,7 @@ func image(filename string, width, height int) ([]byte) {
 	}
 
 	// fmt.Println(string(output))
-	return output
+	return string(output)
 }
 
 
@@ -137,7 +137,7 @@ func main() {
     switch ext {
     case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico":
         // fmt.Println("It's an image file.")
-		fmt.Println(string(image(file, width, hight)))
+		fmt.Println(image(file, width, hight))
     // case "Wednesday", "Thursday":
     //     fmt.Println("It's the middle of the week.")
     // case "Friday", "Saturday", "Sunday":
