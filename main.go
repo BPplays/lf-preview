@@ -70,8 +70,8 @@ func exif_fmt(file string, tags [][]string) (string) {
 
 func exif_fmt_gr(file string, tags [][]string, ch chan<- string, wg *sync.WaitGroup) {
 	defer wg.Done()
-	var output = []any{0, ""}
-	output[1] = output[1] + fmt.Sprint("test")
+	// var output = []any{0, ""}
+	// output[1] = output[1] + fmt.Sprint("test")
 
 	// ch <- fmt.Sprint("test")
 	// ch <- fmt.Sprint(exif_fmt(file, tags))
