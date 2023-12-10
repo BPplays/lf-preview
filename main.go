@@ -189,8 +189,8 @@ func image(filename string, width, height int) (string) {
 
 func image_gr(filename string, width, height int, *array, ar_index, wg *sync.WaitGroup) {
 	defer wg.Done()
-	// (*array)[ar_index] = fmt.Sprintln(image(filename, width, height))
-	ch <- fmt.Sprint(image(filename, width, height))
+	(*array)[ar_index] = fmt.Sprintln(image(filename, width, height))
+	// ch <- fmt.Sprint(image(filename, width, height))
 }
 
 
