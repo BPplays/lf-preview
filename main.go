@@ -271,10 +271,15 @@ var chafaColors []string
 
 
 
-
+var start time.Time
 
 func main() {
-	start := time.Now()
+	chafaPreviewDebugTime := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_TIME")
+
+	if chafaPreviewDebugTime == "1" {
+		start = time.Now()
+	}
+	
 
 	arg2, err := strconv.Atoi(os.Args[2])
 	if err != nil {
@@ -301,6 +306,8 @@ func main() {
 	fontRatio := os.Getenv("FONT_RATIO")
 	chafaPreviewDither := os.Getenv("LF_CHAFA_PREVIEW_DITHER")
 	chafaPreviewColors := os.Getenv("LF_CHAFA_PREVIEW_COLORS")
+
+
 
 	defaultUserOpenFontRatio := "1/2"
 
@@ -356,7 +363,7 @@ func main() {
         // fmt.Println("It's an image file.")
 		// fmt.Println(image(file, width, hight))
 		// fmt.Println(width, hight)
-		fmt.Println(image_exif(file, width, hight, file, image_tags))
+		fmt.Print(image_exif(file, width, hight, file, image_tags))
 		//! fmt.Println(exif_fmt(file))
     // case "Wednesday", "Thursday":
     //     fmt.Println("It's the middle of the week.")
@@ -373,9 +380,11 @@ func main() {
 
 
 
+	if chafaPreviewDebugTime == "1" {
+		fmt.Println("execution time: ",time.Since(start))
+	}
 
-
-	fmt.Println(time.Since(start))
+	
 
 
 	
