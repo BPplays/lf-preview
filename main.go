@@ -38,14 +38,28 @@ func get_exif(file string) ([]exiftool.FileMetadata) {
 }
 
 
-func exif_fmt(file string) (string) {
+func exif_fmt(file string, tags [][]string) (string) {
 	fileInfos := get_exif(file)
 	output := ""
 	// cur := ""
-	for _, fileInfo := range fileInfos {
-		output = output + fmt.Sprintln("fileInfos")
-		for k, v := range fileInfo.Fields {
-			output = output + fmt.Sprintf("[%v] %v\n", k, v)
+	for _, tag_small := range tags {
+		for _, tag := range tag_small {
+			for _, fileInfo := range fileInfos {
+				// output = output + fmt.Sprintln("fileInfos")
+				val, ok := fileInfo.Fields[tag]
+				// If the key exists
+				if ok {
+					tag_name := tag
+					tag_val, ok := exif_key_map[tag]
+					// If the key exists
+					if ok {
+						tag_name = tag_val
+					}
+					output = output + fmt.Sprintf("%v: %v\n", tag_name, val)
+				}
+					
+			}
+
 		}
 	}
 
@@ -72,11 +86,53 @@ func exif_fmt(file string) (string) {
 // 	"-BitsPerSample -YCbCrSubSampling"
 // )
 
+var music_tags = [][]string{
+	{"Title", "Duration"},
+	{"Genre", "Album", "Artist", "Composer", "Date"},
+	{"SampleRate", "Channels", "FileType"},
+}
 
 
 
 var exif_key_map = map[string]string{
-	"alma":                "\uF31D",
+	"Title":                "Title",
+	"Genre":                "Genre",
+	"Composer":                "Composer",
+	"PictureBitsPerPixel":                "PictureBitsPerPixel",
+	"FileModifyDate":                "FileModifyDate",
+	"FileAccessDate":                "FileAccessDate",
+	"PictureDescription":                "PictureDescription",
+	"Directory":                "Directory",
+	"TrackNumber":                "TrackNumber",
+	"Duration":                "Duration",
+	"Date":                "Date",
+	"FileTypeExtension":                "FileTypeExtension",
+	"FileSize":                "FileSize",
+	"SampleRate":                "SampleRate",
+	"FileName":                "FileName",
+	"FileType":                "FileType",
+	"Album":                "Album",
+	"Artist":                "Artist",
+	"Comment":                "Comment",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
+	// "Genre":                "Genre",
 }
 
 
@@ -134,7 +190,7 @@ var chafaFmt []string
 var chafaDither []string
 var chafaColors []string
 
-var music_tags [][]string
+
 
 
 
@@ -214,13 +270,13 @@ func main() {
         // fmt.Println("It's an image file.")
 		// fmt.Println(image(file, width, hight))
 		fmt.Println(width, hight)
-		fmt.Println(exif_fmt(file))
+		//! fmt.Println(exif_fmt(file))
     // case "Wednesday", "Thursday":
     //     fmt.Println("It's the middle of the week.")
     // case "Friday", "Saturday", "Sunday":
     //     fmt.Println("It's the end of the week.")
 	case ".mp3", ".flac":
-		fmt.Println(exif_fmt(file))
+		fmt.Println(exif_fmt(file, music_tags))
     default:
         fmt.Println("sdf")
     }
