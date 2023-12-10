@@ -225,7 +225,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 		output = output + fmt.Sprintln(result)
 	}
 	output = output + fmt.Sprintln(sep1)
-	// output = output + fmt.Sprintln(gr_array[1])
+	output = output + fmt.Sprintln(gr_array[1])
 
 	// close(ch)
 	// close(ch2)
