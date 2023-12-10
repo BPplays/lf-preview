@@ -206,7 +206,7 @@ type order_string struct {
 	order int
 	content string
 }
-var gr_array [2]string
+// var gr_array [2]string
 
 func image_exif(image_file string, width, height int, file string, tags [][]string) (string) {
 	output := ""
@@ -239,7 +239,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	}
 
 	for _, val := range temp_slice {
-		output = output + fmt.Sprintln(val)
+		output = output + val
 	}
 
 	output = output + fmt.Sprintln(sep1)
