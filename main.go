@@ -17,10 +17,7 @@ import (
 	"github.com/barasher/go-exiftool"
 )
 
-
-
-
-type thumbnail func(string, int) int
+// type thumbnail func(string, int) int
 
 
 
@@ -244,11 +241,15 @@ func image(filename string, width, height int) (string) {
 }
 
 
-func image_gr(filename string, width, height int, ch chan<- order_string, order int, wg *sync.WaitGroup) {
+func image_gr(filename string, width, height int, ch chan<- order_string, order int, wg *sync.WaitGroup, thumbnail_type string) {
 	defer wg.Done()
 	// gr_array[ar_index] = fmt.Sprintln(image(filename, width, height))
 	// ch <- fmt.Sprint(image(filename, width, height))
 	var output = order_string{order, ""}
+
+	if thumbnail_type == "audio" {
+		filename = thumbnail_music(filename)
+	}
 
 	// output.content = output.content + "test"
 	output.content = output.content + image(filename, width, height)
@@ -262,7 +263,7 @@ type order_string struct {
 }
 // var gr_array [2]string
 
-func image_exif(image_file string, width, height int, file string, tags [][]string) (string) {
+func image_exif(image_file string, width, height int, file string, tags [][]string, thumbnail_type string) (string) {
 	output := ""
 
 	ch := make(chan order_string)
@@ -312,7 +313,19 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 
 
+func thumbnail_music(file string) string {
+	cache := filepath.Join(cacheFile, ".bmp")
+	// ffmpeg -i "$1" -an -c:v copy "${CACHE}.bmp"
+	cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel quiet", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
 
+	_, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// fmt.Println(string(output))
+	return file
+}
 
 
 
@@ -324,6 +337,8 @@ var chafaColors []string
 
 
 var start time.Time
+
+var cacheFile string
 
 func main() {
 	chafaPreviewDebugTime := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_TIME")
@@ -422,7 +437,7 @@ func main() {
 
 
 	hash := calculateHash(file)
-	cacheFile := filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
+	cacheFile = filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
 
 
 	tmp := cacheFile + configDir
@@ -438,14 +453,15 @@ func main() {
 		// fmt.Println(image(file, width, hight))
 		// fmt.Println(width, hight)
 		// fmt.Println(exif_fmt(file, image_tags))
-		fmt.Print(image_exif(file, width, hight, file, image_tags))
+		fmt.Print(image_exif(file, width, hight, file, image_tags, ""))
 		// fmt.Println(exif_fmt(file))
     // case "Wednesday", "Thursday":
     //     fmt.Println("It's the middle of the week.")
     // case "Friday", "Saturday", "Sunday":
     //     fmt.Println("It's the end of the week.")
 	case ".mp3", ".flac":
-		fmt.Println(exif_fmt(file, music_tags))
+		// fmt.Println(exif_fmt(file, music_tags))
+		fmt.Print(image_exif(file, width, hight, file, image_tags, "audio"))
 		
     default:
         fmt.Println("sdf")
