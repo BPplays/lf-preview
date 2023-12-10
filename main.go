@@ -226,28 +226,28 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 	go func() {
 		wg.Wait()
-		// close(ch)
+		close(ch)
 		// close(ch2)
 	}()
 
 	// gr_array[0] = "test0"
 	// gr_array[1] = "test1"
 	// output = output + fmt.Sprintln(gr_array[0])
-	var temp_slice []string
+	var temp_slice [20]string
 
 	for result := range ch {
 		temp_slice[result.order] = result.content
 	}
 
-	// for _, val := range temp_slice {
-	// 	output = output + val
-	// }
+	for _, val := range temp_slice {
+		output = output + val
+	}
 
 	output = output + fmt.Sprintln(sep1)
 	output = output + fmt.Sprintln(sep1)
 	// output = output + fmt.Sprintln(gr_array[1])
 
-	close(ch)
+	// close(ch)
 	// close(ch2)
 
 	return output
