@@ -8,6 +8,7 @@ import (
 	"path"
 	"strconv"
 	"sync"
+	"time"
 
 	"github.com/barasher/go-exiftool"
 )
@@ -89,7 +90,7 @@ func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int
 
 
 
-var sep1 = "============================================================================="
+var sep1 = "=================================================================="
 
 
 // music_tags=(
@@ -273,6 +274,8 @@ var chafaColors []string
 
 
 func main() {
+	start := time.Now()
+
 	arg2, err := strconv.Atoi(os.Args[2])
 	if err != nil {
 		fmt.Println("Error parsing argument:", err)
@@ -336,6 +339,11 @@ func main() {
 	}
 
 
+	for len(sep1) < width {
+		sep1 = sep1 + sep1
+	}
+
+
 
 
 
@@ -367,7 +375,7 @@ func main() {
 
 
 
-
+	fmt.Println(time.Since(start))
 
 
 	
