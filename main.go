@@ -321,6 +321,7 @@ func thumbnail_music(file string) string {
 
 	_, err := cmd.CombinedOutput()
 	if err != nil {
+		fmt.Println(err)
 		log.Fatal(err)
 	}
 
