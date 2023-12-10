@@ -76,8 +76,8 @@ func exif_fmt_gr(file string, tags [][]string, array *[2]string, ar_index int, w
 	// ch <- fmt.Sprint("test")
 	// ch <- fmt.Sprint(exif_fmt(file, tags))
 	// output := exif_fmt(file, tags)
-	gr_array[ar_index] = "test"
-	// gr_array[1] = "test"
+	// gr_array[ar_index] = "test"
+	gr_array[1] = "test"
 	// fmt.Println((*array)[ar_index])
 	// fmt.Println(ar_index)
 	// fmt.Println("testrgji")
@@ -210,7 +210,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 	wg.Add(2)
 	go image_gr(image_file, width, height, &gr_array, 0, &wg)
-	go exif_fmt_gr(file, tags, &gr_array, 0, &wg)
+	go exif_fmt_gr(file, tags, &gr_array, 1, &wg)
 
 	go func() {
 		wg.Wait()
