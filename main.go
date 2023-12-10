@@ -197,7 +197,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	var output = order_string{order, ""}
 
 	// output.content = output.content + "test"
-	// output.content = output.content + image(filename, width, height)
+	output.content = output.content + fmt.Sprintln(image(filename, width, height))
 	ch <- output
 }
 
@@ -211,32 +211,32 @@ type order_string struct {
 func image_exif(image_file string, width, height int, file string, tags [][]string) (string) {
 	output := ""
 
-	// ch := make(chan order_string, 2)
-	// // ch2 := make(chan string)
+	ch := make(chan order_string, 2)
+	// ch2 := make(chan string)
 
-	// // var gr_array [2]string
+	// var gr_array [2]string
 
 
-	// var wg sync.WaitGroup
+	var wg sync.WaitGroup
 
-	// wg.Add(2)
-	// go image_gr(image_file, width, height, ch, 0, &wg)
-	// go exif_fmt_gr(file, tags, ch, 1, &wg)
+	wg.Add(2)
+	go image_gr(image_file, width, height, ch, 0, &wg)
+	go exif_fmt_gr(file, tags, ch, 1, &wg)
 
-	// go func() {
-	// 	wg.Wait()
-	// 	close(ch)
-	// 	// close(ch2)
-	// }()
+	go func() {
+		wg.Wait()
+		close(ch)
+		// close(ch2)
+	}()
 
-	// // gr_array[0] = "test0"
-	// // gr_array[1] = "test1"
-	// // output = output + fmt.Sprintln(gr_array[0])
-	// var temp_slice []string
+	// gr_array[0] = "test0"
+	// gr_array[1] = "test1"
+	// output = output + fmt.Sprintln(gr_array[0])
+	var temp_slice []string
 
-	// for result := range ch {
-	// 	temp_slice[result.order] = result.content
-	// }
+	for result := range ch {
+		temp_slice[result.order] = result.content
+	}
 
 	// for _, val := range temp_slice {
 	// 	output = output + val
