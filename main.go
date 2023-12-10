@@ -43,9 +43,9 @@ func exif_fmt(file string) (string) {
 	output := ""
 	// cur := ""
 	for _, fileInfo := range fileInfos {
-		output = output + fmt.Println("fileInfos")
+		output = output + fmt.Sprintln("fileInfos")
 		for k, v := range fileInfo.Fields {
-			output = output + fmt.Printf("[%v] %v\n", k, v)
+			output = output + fmt.Sprintf("[%v] %v\n", k, v)
 		}
 	}
 
@@ -89,8 +89,8 @@ func image_exif(filename string, width, height int) (string) {
 	ch1 := make(chan string)
 	ch2 := make(chan string)
 
-	defer ch1.Close
-	defer ch2.Close
+	// defer ch1.Close
+	// defer ch2.Close
 
 	var wg sync.WaitGroup
 
