@@ -315,7 +315,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 func thumbnail_music(file string) string {
 	// cache := filepath.Join(cacheFile, ".bmp")
-	cache := cacheFile + ".bmp"
+	cache := cacheFile + ".jpg"
 	// ffmpeg -i "$1" -an -c:v copy "${CACHE}.bmp"
 	cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
 
