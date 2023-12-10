@@ -1,208 +1,159 @@
 package main
 
 import (
-	"io"
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
-	"os/user"
-	"path/filepath"
-	"slices"
+	"path"
 	"strconv"
-	"strings"
-	"time"
+
+	"github.com/barasher/go-exiftool"
 )
 
-var white_list_dirs []string
-
-var white_list_dirs_nfs []string
-
-
-var home_maker_temp_directory string
-var uid_directory string
-
-
-func get_user_from_id(id string) (user.User, error) {
-	// get the filesystem type of the folder
-	getent_out, err := exec.Command("getent", "passwd", id).Output()
+func get_exif(file string) (any, error) {
+	et, err := exiftool.NewExiftool()
 	if err != nil {
-		return user.User{}, err
+		fmt.Printf("Error when intializing: %v\n", err)
+		return "", err
 	}
+	defer et.Close()
 
-	passwd := strings.Split(string(getent_out), ":")
-	gecos := strings.Split(passwd[4], ",")
-	// log.Println(len(passwd))
-	// log.Println(len(gecos))
+	fileInfos := et.ExtractMetadata(file)
 
-	username := passwd[0]
-	uid := passwd[2]
-	gid := passwd[3]
+	return fileInfos, nil
 
-	real_name := gecos[0]
+	// for _, fileInfo := range fileInfos {
+	// 	if fileInfo.Err != nil {
+	// 		fmt.Printf("Error concerning %v: %v\n", fileInfo.File, fileInfo.Err)
+	// 		continue
+	// 	}
 
-	home_dir := passwd[5]
-	// compare the filesystem type with "nfs"
-	return user.User{Uid: uid, Gid: gid, Username: username, Name: real_name, HomeDir: home_dir}, nil
+	// 	for k, v := range fileInfo.Fields {
+	// 		fmt.Printf("[%v] %v\n", k, v)
+	// 	}
+	// }
 }
 
 
 
-// isNFS returns true if the given folder is on an NFS mounted drive
-func isNFS(folder string) (bool, error) {
-	// get the filesystem type of the folder
-	fsType, err := exec.Command("stat", "-f", "-c", "%T", folder).Output()
-	if err != nil {
-		return false, err
-	}
-	// compare the filesystem type with "nfs"
-	return strings.TrimSpace(string(fsType)) == "nfs", nil
-}
+func image(filename string, width, height int) ([]byte) {
+	geometry := fmt.Sprintf("%dx%d", width, height)
 
+	cmd := exec.Command("chafa", filename, fmt.Sprintf("--font-ratio=%s", userOpenFontRatio))
+	cmd.Args = append(cmd.Args, chafaFmt...)
+	cmd.Args = append(cmd.Args, chafaDither...)
+	cmd.Args = append(cmd.Args, chafaColors...)
+	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", geometry, "--animate", "false")
 
-func mk_home_dir(dir string, uid int, gid int) (error) {
-	will_make_dir := false
-	base_dir := filepath.Join(dir, "..")
-
-	if slices.Contains(white_list_dirs, base_dir) {
-		will_make_dir = true
-	}
-
-	if slices.Contains(white_list_dirs_nfs, base_dir) {
-		nfs_status, err := isNFS(base_dir)
-		if err != nil {
-			return err
-		}
-
-		if nfs_status {
-			will_make_dir = true
-		} else {
-			will_make_dir = false
-		}
-	}
-
-
-
-	if will_make_dir {
-		os.Mkdir(dir, 0700)
-		os.Chown(dir, uid, gid)
-	}
-	return nil
-}
-
-
-
-func make_dirs() {
-	err := os.MkdirAll(home_maker_temp_directory, 0755)
-	if err != nil {
-		log.Fatal(err, " home_maker_temp_directory", " ", home_maker_temp_directory)
-	}
-
-
-	err = os.Chmod(home_maker_temp_directory, 0755)
+	output, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = os.MkdirAll(uid_directory, 0777)
-	if err != nil {
-		log.Fatal(err, " uid_directory")
-	}
-
-
-	err = os.Chmod(uid_directory, 0777)
-	if err != nil {
-		log.Fatal(err)
-	}
+	// fmt.Println(string(output))
+	return output
 }
 
+
+var userOpenFontRatio string
+var chafaFmt []string
+var chafaDither []string
+var chafaColors []string
 
 
 
 func main() {
-	home_maker_temp_directory = "/tmp/home-maker"
-	uid_directory = home_maker_temp_directory+"/uid"
-
-	make_dirs()
-
-	log.SetFlags(log.Flags() &^ (log.Ldate | log.Ltime))
-
-	// log.SetFlags(0) // removes all flags
-
-
-	err := os.Chown(uid_directory, 0, 0)
+	arg2, err := strconv.Atoi(os.Args[2])
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Error parsing argument:", err)
+		return
 	}
 
-	white_list_dirs = append(white_list_dirs, "/local-home")
-	white_list_dirs_nfs = append(white_list_dirs_nfs, "/home")
-
-
-	// defer dir.Close()
-
-	for {
-		// files, err := os.ReadDir(uid_directory)
-		// if err != nil {
-		//     log.Fatal(err)
-		// }
-		make_dirs()
-
-
-		dir, err := os.Open(uid_directory)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-	
-		// Read the file names in the directory
-		files, err := dir.Readdirnames(100) // Limit to the first 100 files
-		if err != nil {
-			if err != io.EOF {
-				log.Println(err)
-			}
-		}
-	
-		for _, file := range files {
-			var user_cur_empty bool
-			user_cur_empty = false
-
-			user_cur, err := get_user_from_id(file)
-			if err != nil {
-				log.Println(err)
-				user_cur_empty = true
-			}
-
-			var uid_int int
-			var gid_int int
-
-			if !user_cur_empty  {
-				uid_int, err = strconv.Atoi(user_cur.Uid)
-				if err != nil {
-					log.Fatal(err)
-				}
-	
-				gid_int, err = strconv.Atoi(user_cur.Gid)
-				if err != nil {
-					log.Fatal(err)
-				}
-
-				err = mk_home_dir(user_cur.HomeDir, uid_int, gid_int)
-				if err != nil {
-					log.Println(err)
-				} else {
-					// log.Println("made home folder for:", user_cur.Username, "/", user_cur.Name, "at:", user_cur.HomeDir)
-					log.Printf("made home folder for: %s (%s) at: %s\n", user_cur.Name, user_cur.Username, user_cur.HomeDir)
-				}
-			}
-
-			err = os.Remove(filepath.Join(uid_directory, file))
-
-			if err != nil {
-				log.Println(err)
-			}
-		}
-		dir.Close()
-		time.Sleep(3 * time.Second)
-
+	arg3, err := strconv.Atoi(os.Args[3])
+	if err != nil {
+		fmt.Println("Error parsing argument:", err)
+		return
 	}
+
+	file := os.Args[1]
+	ext := path.Ext(file)
+	// Subtract 2 from the parsed value
+	width := arg2 - 2
+	hight := arg3
+
+
+	lfChafaPreviewFormat := os.Getenv("LF_CHAFA_PREVIEW_FORMAT")
+	lfChafaPreviewFormatOverrideSixelRatio := os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_SIXEL_RATIO")
+	lfChafaPreviewFormatOverrideKittyRatio := os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_KITTY_RATIO")
+	fontRatio := os.Getenv("FONT_RATIO")
+	chafaPreviewDither := os.Getenv("LF_CHAFA_PREVIEW_DITHER")
+	chafaPreviewColors := os.Getenv("LF_CHAFA_PREVIEW_COLORS")
+
+	defaultUserOpenFontRatio := "1/2"
+
+	if lfChafaPreviewFormat == "sixel" {
+		defaultUserOpenFontRatio = "1/1"
+
+		if lfChafaPreviewFormatOverrideSixelRatio != "1" {
+			defaultUserOpenFontRatio = "1/1"
+		}
+	}
+
+	if lfChafaPreviewFormat == "kitty" {
+		if lfChafaPreviewFormatOverrideKittyRatio != "1" {
+			defaultUserOpenFontRatio = "100/225"
+		}
+	}
+
+	userOpenFontRatio = fontRatio
+	if userOpenFontRatio == "" {
+		userOpenFontRatio = defaultUserOpenFontRatio
+	}
+
+	chafaFmt = []string{}
+	if lfChafaPreviewFormat != "" {
+		chafaFmt = append(chafaFmt, "-f", lfChafaPreviewFormat)
+	}
+
+	chafaDither = []string{}
+	if chafaPreviewDither != "" {
+		chafaDither = append(chafaDither, fmt.Sprintf("--dither=%s", chafaPreviewDither))
+	}
+
+	chafaColors = []string{"--colors=full"}
+	if chafaPreviewColors != "" {
+		chafaColors[0] = fmt.Sprintf("--colors=%s", chafaPreviewColors)
+	}
+
+
+
+
+
+
+
+	
+
+    switch ext {
+    case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico":
+        // fmt.Println("It's an image file.")
+		fmt.Println(image(file, width, hight))
+    // case "Wednesday", "Thursday":
+    //     fmt.Println("It's the middle of the week.")
+    // case "Friday", "Saturday", "Sunday":
+    //     fmt.Println("It's the end of the week.")
+    default:
+        fmt.Println("sdf")
+    }
+
+
+
+
+
+
+
+
+
+
+	
 }
