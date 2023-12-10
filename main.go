@@ -361,9 +361,10 @@ func main() {
     switch ext {
     case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico":
         // fmt.Println("It's an image file.")
-		// fmt.Println(image(file, width, hight))
+		fmt.Println(image(file, width, hight))
 		// fmt.Println(width, hight)
-		fmt.Print(image_exif(file, width, hight, file, image_tags))
+		fmt.Println(exif_fmt(file, image_tags))
+		// fmt.Print(image_exif(file, width, hight, file, image_tags))
 		//! fmt.Println(exif_fmt(file))
     // case "Wednesday", "Thursday":
     //     fmt.Println("It's the middle of the week.")
