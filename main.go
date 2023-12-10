@@ -7,21 +7,22 @@ import (
 	"os/exec"
 	"path"
 	"strconv"
+	"sync"
 
 	"github.com/barasher/go-exiftool"
 )
 
-func get_exif(file string) (any, error) {
+func get_exif(file string) ([]exiftool.FileMetadata) {
 	et, err := exiftool.NewExiftool()
 	if err != nil {
-		fmt.Printf("Error when intializing: %v\n", err)
-		return "", err
+		// fmt.Printf("Error when intializing: %v\n", err)
+		// return "", err
+		log.Fatal(err)
 	}
 	defer et.Close()
 
 	fileInfos := et.ExtractMetadata(file)
 
-	return fileInfos, nil
 
 	// for _, fileInfo := range fileInfos {
 	// 	if fileInfo.Err != nil {
@@ -33,7 +34,25 @@ func get_exif(file string) (any, error) {
 	// 		fmt.Printf("[%v] %v\n", k, v)
 	// 	}
 	// }
+	return fileInfos
 }
+
+
+func exif_fmt(file string) (string) {
+	fileInfos := get_exif(file)
+	output := ""
+	// cur := ""
+	for _, fileInfo := range fileInfos {
+		output = output + fmt.Println("fileInfos")
+		for k, v := range fileInfo.Fields {
+			output = output + fmt.Printf("[%v] %v\n", k, v)
+		}
+	}
+
+	return output
+}
+
+
 
 
 
@@ -56,10 +75,41 @@ func image(filename string, width, height int) (string) {
 }
 
 
+func image_gr(filename string, width, height int, ch chan<-string, wg *sync.WaitGroup) {
+	defer wg.Done()
+	ch <- fmt.Sprint(image(filename, width, height))
+}
+
+
+
+
+
+func image_exif(filename string, width, height int) (string) {
+
+	ch1 := make(chan string)
+	ch2 := make(chan string)
+
+	defer ch1.Close
+	defer ch2.Close
+
+	var wg sync.WaitGroup
+
+	go image_gr(filename, width, height, ch1, &wg)
+}
+
+
+
+
+
+
+
+
 var userOpenFontRatio string
 var chafaFmt []string
 var chafaDither []string
 var chafaColors []string
+
+var music_tags [][]string
 
 
 
@@ -137,7 +187,8 @@ func main() {
     switch ext {
     case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico":
         // fmt.Println("It's an image file.")
-		fmt.Println(image(file, width, hight))
+		// fmt.Println(image(file, width, hight))
+		fmt.Println(exif_fmt(file))
     // case "Wednesday", "Thursday":
     //     fmt.Println("It's the middle of the week.")
     // case "Friday", "Saturday", "Sunday":
