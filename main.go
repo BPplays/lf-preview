@@ -52,7 +52,32 @@ func exif_fmt(file string) (string) {
 	return output
 }
 
+// music_tags=(
+//     "-Title -Duration"
+//     "-Genre -Album -Artist -Composer -Date"
+//     "-SampleRate -Channels -FileType"
+// )
 
+// video_tags=(
+//     "-Duration"
+//     "-ImageSize -FileSize"
+//     "-VideoCodecID -FileType"
+// 	"-Megapixels"
+// )
+
+// image_tags=(
+//     "-ImageSize -Megapixels -FileSize"
+//     "-FileType -ColorSpace -Compression"
+// 	# " "
+// 	"-BitsPerSample -YCbCrSubSampling"
+// )
+
+
+
+
+var exif_key_map = map[string]string{
+	"alma":                "\uF31D",
+}
 
 
 
@@ -194,6 +219,8 @@ func main() {
     //     fmt.Println("It's the middle of the week.")
     // case "Friday", "Saturday", "Sunday":
     //     fmt.Println("It's the end of the week.")
+	case ".mp3", ".flac":
+		fmt.Println(exif_fmt(file))
     default:
         fmt.Println("sdf")
     }
