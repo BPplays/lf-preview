@@ -317,7 +317,7 @@ func thumbnail_music(file string) string {
 	// cache := filepath.Join(cacheFile, ".bmp")
 	cache := cacheFile + ".bmp"
 	// ffmpeg -i "$1" -an -c:v copy "${CACHE}.bmp"
-	cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel error", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
+	cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
