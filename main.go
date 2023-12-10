@@ -198,7 +198,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	output := ""
 
 	ch := make(chan string, 2)
-	// ch2 := make(chan string)
+	ch2 := make(chan string)
 
 	// var gr_array [2]string
 
@@ -207,11 +207,12 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 	wg.Add(2)
 	go image_gr(image_file, width, height, ch, &wg)
-	go exif_fmt_gr(file, tags, ch, &wg)
+	go exif_fmt_gr(file, tags, ch2, &wg)
 
 	go func() {
 		wg.Wait()
 		close(ch)
+		close(ch2)
 	}()
 
 	// gr_array[0] = "test0"
