@@ -76,7 +76,7 @@ func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int
 	// ch <- fmt.Sprint("test")
 	// ch <- fmt.Sprint(exif_fmt(file, tags))
 	output.content = output.content + "test"
-	output.content = output.content + fmt.Sprint(exif_fmt(file, tags))
+	output.content = output.content + exif_fmt(file, tags)
 	ch <- output
 	// output := exif_fmt(file, tags)
 	// gr_array[ar_index] = "test"
@@ -197,7 +197,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	var output = order_string{order, ""}
 
 	// output.content = output.content + "test"
-	output.content = output.content + fmt.Sprint(image(filename, width, height))
+	output.content = output.content + image(filename, width, height)
 	ch <- output
 }
 
@@ -239,7 +239,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	}
 
 	for _, val := range temp_slice {
-		output = output + val
+		output = output + fmt.Sprintln(val)
 	}
 
 	output = output + fmt.Sprintln(sep1)
