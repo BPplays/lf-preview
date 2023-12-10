@@ -68,10 +68,13 @@ func exif_fmt(file string, tags [][]string) (string) {
 }
 
 
-func exif_fmt_gr(file string, tags [][]string, ch chan<-string, wg *sync.WaitGroup) {
+func exif_fmt_gr(file string, tags [][]string, ch chan<-[]any, wg *sync.WaitGroup) {
 	defer wg.Done()
-	ch <- fmt.Sprint("test")
-	ch <- fmt.Sprint(exif_fmt(file, tags))
+	order := 2
+	var output = []any{order, fmt.Sprint(exif_fmt(file, tags))}
+	// output := []
+	ch <- {order, fmt.Sprint("test")}
+	ch <- output
 }
 
 
@@ -190,8 +193,8 @@ func image_gr(filename string, width, height int, ch chan<-string, wg *sync.Wait
 func image_exif(image_file string, width, height int, file string, tags [][]string) (string) {
 	output := ""
 
-	ch1 := make(chan string)
-	ch2 := make(chan string)
+	ch1 := make(chan []any)
+	// ch2 := make(chan string)
 
 
 
@@ -204,7 +207,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	go func() {
 		wg.Wait()
 		close(ch1)
-		close(ch2)
+		// close(ch2)
 	}()
 
 
