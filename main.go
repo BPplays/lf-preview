@@ -73,7 +73,7 @@ func exif_fmt_gr(file string, tags [][]string, ar_index int,  wg *sync.WaitGroup
 	// ch <- fmt.Sprint("test")
 	// ch <- fmt.Sprint(exif_fmt(file, tags))
 	// (*array)[ar_index] = fmt.Sprint(exif_fmt(file, tags))
-	gr_array[ar_index] = "test"
+	gr_array[1] = "test"
 	// fmt.Println((*array)[ar_index])
 	// fmt.Println(ar_index)
 	// fmt.Println("testrgji")
