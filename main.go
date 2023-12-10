@@ -68,7 +68,7 @@ func exif_fmt(file string, tags [][]string) (string) {
 }
 
 
-func exif_fmt_gr(file string, tags [][]string, ch chan<- string, wg *sync.WaitGroup) {
+func exif_fmt_gr(file string, tags [][]string, *array, ar_index, wg *sync.WaitGroup) {
 	defer wg.Done()
 	// var output = []any{0, ""}
 	// output[1] = output[1] + fmt.Sprint("test")
@@ -76,8 +76,8 @@ func exif_fmt_gr(file string, tags [][]string, ch chan<- string, wg *sync.WaitGr
 	// ch <- fmt.Sprint("test")
 	// ch <- fmt.Sprint(exif_fmt(file, tags))
 	// output := exif_fmt(file, tags)
-	// (*array)[ar_index] = output
-	gr_array[1] = "test"
+	(*array)[ar_index] = output
+	// gr_array[1] = "test"
 	// fmt.Println((*array)[ar_index])
 	// fmt.Println(ar_index)
 	// fmt.Println("testrgji")
@@ -187,7 +187,7 @@ func image(filename string, width, height int) (string) {
 }
 
 
-func image_gr(filename string, width, height int, ch chan<- string, wg *sync.WaitGroup) {
+func image_gr(filename string, width, height int, *array, ar_index, wg *sync.WaitGroup) {
 	defer wg.Done()
 	// (*array)[ar_index] = fmt.Sprintln(image(filename, width, height))
 	ch <- fmt.Sprint(image(filename, width, height))
@@ -195,35 +195,35 @@ func image_gr(filename string, width, height int, ch chan<- string, wg *sync.Wai
 
 
 
-var gr_array [2]string
+// var gr_array [2]string
 
 func image_exif(image_file string, width, height int, file string, tags [][]string) (string) {
 	output := ""
 
-	ch := make(chan string, 2)
+	// ch := make(chan string, 2)
 	// ch2 := make(chan string)
 
-	// var gr_array [2]string
+	var gr_array [2]string
 
 
 	var wg sync.WaitGroup
 
 	wg.Add(2)
-	go image_gr(image_file, width, height, ch, &wg)
-	go exif_fmt_gr(file, tags, ch, &wg)
+	go image_gr(image_file, width, height, &gr_array, 0, &wg)
+	go exif_fmt_gr(file, tags, &gr_array, 0, &wg)
 
 	go func() {
 		wg.Wait()
-		close(ch)
+		// close(ch)
 		// close(ch2)
 	}()
 
 	// gr_array[0] = "test0"
 	// gr_array[1] = "test1"
-	// output = output + fmt.Sprintln(gr_array[0])
-	for result := range ch {
-		output = output + fmt.Sprintln(result)
-	}
+	output = output + fmt.Sprintln(gr_array[0])
+	// for result := range ch {
+	// 	output = output + fmt.Sprintln(result)
+	// }
 	output = output + fmt.Sprintln(sep1)
 	output = output + fmt.Sprintln(gr_array[1])
 
