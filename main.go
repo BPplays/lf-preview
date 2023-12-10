@@ -189,7 +189,7 @@ func image(filename string, width, height int) (string) {
 
 func image_gr(filename string, width, height int, array *[2]string, ar_index int, wg *sync.WaitGroup) {
 	defer wg.Done()
-	gr_array[ar_index] = fmt.Sprintln(image(filename, width, height))
+	// gr_array[ar_index] = fmt.Sprintln(image(filename, width, height))
 	// ch <- fmt.Sprint(image(filename, width, height))
 }
 
