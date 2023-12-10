@@ -11,7 +11,56 @@ import (
 	"time"
 
 	"github.com/barasher/go-exiftool"
+	"github.com/zclconf/go-cty/cty/function"
 )
+
+
+
+
+type thumbnail func(string, int) int
+
+
+
+func getHomeDir() string {
+	usr, err := user.Current()
+	if err != nil {
+		fmt.Println("Error getting user's home directory:", err)
+		os.Exit(1)
+	}
+	return usr.HomeDir
+}
+
+func getEnvOrFallback(key, fallback string) string {
+	value, exists := os.LookupEnv(key)
+	if !exists {
+		return fallback
+	}
+	return value
+}
+
+func calculateHash(filePath string) string {
+	file, err := os.Open(filePath)
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		os.Exit(1)
+	}
+	defer file.Close()
+
+	hash := sha256.New()
+	if _, err := io.Copy(hash, file); err != nil {
+		fmt.Println("Error calculating hash:", err)
+		os.Exit(1)
+	}
+
+	return fmt.Sprintf("%x", hash.Sum(nil))
+}
+
+
+
+
+
+
+
 
 func get_exif(file string) ([]exiftool.FileMetadata) {
 	et, err := exiftool.NewExiftool()
@@ -39,7 +88,7 @@ func get_exif(file string) ([]exiftool.FileMetadata) {
 }
 
 
-func exif_fmt(file string, tags [][]string) (string) {
+func exif_fmt(file string, tags [][]string, fun func) (string) {
 	fileInfos := get_exif(file)
 	output := ""
 	// cur := ""
@@ -279,7 +328,6 @@ func main() {
 	if chafaPreviewDebugTime == "1" {
 		start = time.Now()
 	}
-	
 
 	arg2, err := strconv.Atoi(os.Args[2])
 	if err != nil {
@@ -351,6 +399,27 @@ func main() {
 	}
 
 
+	defaultConfigBase := filepath.Join(getHomeDir(), ".config")
+	configDir := getEnvOrFallback("XDG_CONFIG_HOME", defaultConfigBase)
+
+	defaultCacheBase := filepath.Join(getHomeDir(), ".cache")
+	cacheBase := getEnvOrFallback("XDG_CACHE_HOME", defaultCacheBase)
+
+	lfCacheDir := filepath.Join(cacheBase, "lf")
+	if _, err := os.Stat(lfCacheDir); os.IsNotExist(err) {
+		err := os.MkdirAll(lfCacheDir, os.ModePerm)
+		if err != nil {
+			fmt.Println("Error creating directory:", err)
+			return
+		}
+	}
+
+
+
+
+
+	hash := calculateHash(filePath)
+	cacheFile := filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
 
 
 
