@@ -211,7 +211,7 @@ type order_string struct {
 func image_exif(image_file string, width, height int, file string, tags [][]string) (string) {
 	output := ""
 
-	ch := make(chan order_string, 2)
+	ch := make(chan order_string)
 	// ch2 := make(chan string)
 
 	// var gr_array [2]string
@@ -219,8 +219,8 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 	var wg sync.WaitGroup
 
-	wg.Add(1)
-	// go image_gr(image_file, width, height, ch, 0, &wg)
+	wg.Add(2)
+	go image_gr(image_file, width, height, ch, 0, &wg)
 	go exif_fmt_gr(file, tags, ch, 1, &wg)
 
 	go func() {
@@ -232,11 +232,11 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	// gr_array[0] = "test0"
 	// gr_array[1] = "test1"
 	// output = output + fmt.Sprintln(gr_array[0])
-	var temp_slice []string
+	// var temp_slice []string
 
-	for result := range ch {
-		temp_slice[result.order] = result.content
-	}
+	// for result := range ch {
+	// 	temp_slice[result.order] = result.content
+	// }
 
 	// for _, val := range temp_slice {
 	// 	output = output + val
