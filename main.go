@@ -84,18 +84,18 @@ func image_gr(filename string, width, height int, ch chan<-string, wg *sync.Wait
 
 
 
-func image_exif(filename string, width, height int) (string) {
+// func image_exif(filename string, width, height int) (string) {
 
-	ch1 := make(chan string)
-	ch2 := make(chan string)
+// 	ch1 := make(chan string)
+// 	ch2 := make(chan string)
 
-	// defer ch1.Close
-	// defer ch2.Close
+// 	// defer ch1.Close
+// 	// defer ch2.Close
 
-	var wg sync.WaitGroup
+// 	var wg sync.WaitGroup
 
-	go image_gr(filename, width, height, ch1, &wg)
-}
+// 	go image_gr(filename, width, height, ch1, &wg)
+// }
 
 
 
@@ -187,7 +187,7 @@ func main() {
     switch ext {
     case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico":
         // fmt.Println("It's an image file.")
-		// fmt.Println(image(file, width, hight))
+		fmt.Println(image(file, width, hight))
 		fmt.Println(exif_fmt(file))
     // case "Wednesday", "Thursday":
     //     fmt.Println("It's the middle of the week.")
