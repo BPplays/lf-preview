@@ -76,6 +76,7 @@ func exif_fmt_gr(file string, tags [][]string, array *[2]string, ar_index int,  
 	(*array)[ar_index] = "test"
 	fmt.Println((*array)[ar_index])
 	fmt.Println(ar_index)
+	fmt.Println("testrgji")
 }
 
 
