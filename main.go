@@ -456,6 +456,7 @@ func main() {
 
 
 	if chafaPreviewDebugTime == "1" {
+		fmt.Println(sep1)
 		fmt.Println("execution time: ",time.Since(start))
 	}
 
