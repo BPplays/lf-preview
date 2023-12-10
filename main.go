@@ -200,6 +200,13 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	go image_gr(image_file, width, height, ch1, &wg)
 	go exif_fmt_gr(file, tags, ch1, &wg)
 
+	go func() {
+		wg.Wait()
+		close(ch1)
+		close(ch2)
+	}()
+
+
 	for result := range ch1 {
 		output = output + fmt.Sprintln(result)
 	}
@@ -208,8 +215,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	}
 
 
-	close(ch1)
-	close(ch2)
+
 	return output
 }
 
