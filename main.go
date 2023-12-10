@@ -68,7 +68,7 @@ func exif_fmt(file string, tags [][]string) (string) {
 }
 
 
-func exif_fmt_gr(file string, tags [][]string, *array, ar_index, wg *sync.WaitGroup) {
+func exif_fmt_gr(file string, tags [][]string, array *[]string, ar_index int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	// var output = []any{0, ""}
 	// output[1] = output[1] + fmt.Sprint("test")
@@ -187,7 +187,7 @@ func image(filename string, width, height int) (string) {
 }
 
 
-func image_gr(filename string, width, height int, *array, ar_index, wg *sync.WaitGroup) {
+func image_gr(filename string, width, height int, array *[]string, ar_index int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	(*array)[ar_index] = fmt.Sprintln(image(filename, width, height))
 	// ch <- fmt.Sprint(image(filename, width, height))
