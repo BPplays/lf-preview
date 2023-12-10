@@ -223,9 +223,10 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	go image_gr(image_file, width, height, ch, 0, &wg)
 	go exif_fmt_gr(file, tags, ch, 1, &wg)
 
+
 	go func() {
 		wg.Wait()
-		close(ch)
+		// close(ch)
 		// close(ch2)
 	}()
 
@@ -234,8 +235,8 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	// output = output + fmt.Sprintln(gr_array[0])
 	var temp_slice []string
 
-	for results := range ch {
-		temp_slice[results.order] = results.content
+	for result := range ch {
+		temp_slice[result.order] = result.content
 	}
 
 	// for _, val := range temp_slice {
@@ -246,7 +247,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	output = output + fmt.Sprintln(sep1)
 	// output = output + fmt.Sprintln(gr_array[1])
 
-	// close(ch)
+	close(ch)
 	// close(ch2)
 
 	return output
