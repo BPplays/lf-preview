@@ -319,9 +319,9 @@ func thumbnail_music(file string) string {
 	// ffmpeg -i "$1" -an -c:v copy "${CACHE}.bmp"
 	cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel error", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
 
-	_, err := cmd.CombinedOutput()
+	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(output)
 		log.Fatal(err)
 	}
 
