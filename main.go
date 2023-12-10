@@ -421,7 +421,7 @@ func main() {
 
 
 
-	hash := calculateHash(filePath)
+	hash := calculateHash(file)
 	cacheFile := filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
 
 
