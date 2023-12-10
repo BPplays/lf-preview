@@ -211,7 +211,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 	go func() {
 		wg.Wait()
-
+		close(ch)
 	}()
 
 	// gr_array[0] = "test0"
@@ -223,7 +223,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	output = output + fmt.Sprintln(sep1)
 	// output = output + fmt.Sprintln(gr_array[1])
 
-	close(ch)
+	// close(ch)
 	// close(ch2)
 
 	return output
