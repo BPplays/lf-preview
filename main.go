@@ -220,8 +220,8 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	var wg sync.WaitGroup
 
 	wg.Add(1)
-	go image_gr(image_file, width, height, ch, 0, &wg)
-	// go exif_fmt_gr(file, tags, ch, 1, &wg)
+	// go image_gr(image_file, width, height, ch, 0, &wg)
+	go exif_fmt_gr(file, tags, ch, 1, &wg)
 
 	go func() {
 		wg.Wait()
