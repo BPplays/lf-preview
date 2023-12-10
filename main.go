@@ -463,7 +463,7 @@ func main() {
     //     fmt.Println("It's the end of the week.")
 	case ".mp3", ".flac":
 		// fmt.Println(exif_fmt(file, music_tags))
-		fmt.Print(image_exif(file, width, hight, file, image_tags, "audio"))
+		fmt.Print(image_exif(file, width, hight, file, music_tags, "audio"))
 		
     default:
         fmt.Println("sdf")
