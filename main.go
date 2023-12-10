@@ -200,7 +200,7 @@ var gr_array [2]string
 func image_exif(image_file string, width, height int, file string, tags [][]string) (string) {
 	output := ""
 
-	// ch := make(chan string, 2)
+	ch := make(chan string, 2)
 	// ch2 := make(chan string)
 
 	// var gr_array [2]string
@@ -214,7 +214,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 	go func() {
 		wg.Wait()
-		// close(ch)
+		close(ch)
 		// close(ch2)
 	}()
 
