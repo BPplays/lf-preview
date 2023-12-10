@@ -209,7 +209,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 	}()
 
-
+	gr_array[0] = "test0"
 	output = output + gr_array[0]
 	output = output + sep1
 	output = output + gr_array[1]
