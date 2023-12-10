@@ -239,9 +239,10 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	}
 
 	for _, val := range temp_slice {
-		output = output + fmt.Sprintln(val)
+		output = output + val
 	}
 
+	output = output + fmt.Sprintln(sep1)
 	output = output + fmt.Sprintln(sep1)
 	// output = output + fmt.Sprintln(gr_array[1])
 
