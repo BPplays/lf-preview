@@ -1,17 +1,20 @@
 package main
 
 import (
+	"crypto/sha256"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"os/exec"
+	"os/user"
 	"path"
+	"path/filepath"
 	"strconv"
 	"sync"
 	"time"
 
 	"github.com/barasher/go-exiftool"
-	"github.com/zclconf/go-cty/cty/function"
 )
 
 
@@ -88,7 +91,7 @@ func get_exif(file string) ([]exiftool.FileMetadata) {
 }
 
 
-func exif_fmt(file string, tags [][]string, fun func) (string) {
+func exif_fmt(file string, tags [][]string) (string) {
 	fileInfos := get_exif(file)
 	output := ""
 	// cur := ""
