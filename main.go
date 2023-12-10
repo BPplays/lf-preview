@@ -326,7 +326,7 @@ func thumbnail_music(file string) string {
 	}
 
 	// fmt.Println(string(output))
-	return file
+	return cache
 }
 
 
