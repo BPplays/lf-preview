@@ -68,16 +68,19 @@ func exif_fmt(file string, tags [][]string) (string) {
 }
 
 
-func exif_fmt_gr(file string, tags [][]string, array *[2]string, ar_index int, wg *sync.WaitGroup) {
+func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int, wg *sync.WaitGroup) {
 	defer wg.Done()
-	// var output = []any{0, ""}
+	var output = order_string{order, ""}
 	// output[1] = output[1] + fmt.Sprint("test")
 
 	// ch <- fmt.Sprint("test")
 	// ch <- fmt.Sprint(exif_fmt(file, tags))
+	output.content = output.content + "test"
+	output.content = output.content + fmt.Sprint(exif_fmt(file, tags))
+	ch <- output
 	// output := exif_fmt(file, tags)
 	// gr_array[ar_index] = "test"
-	gr_array[1] = "test"
+	// gr_array[1] = "test"
 	// fmt.Println((*array)[ar_index])
 	// fmt.Println(ar_index)
 	// fmt.Println("testrgji")
@@ -187,20 +190,28 @@ func image(filename string, width, height int) (string) {
 }
 
 
-func image_gr(filename string, width, height int, array *[2]string, ar_index int, wg *sync.WaitGroup) {
+func image_gr(filename string, width, height int, ch chan<- order_string, order int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	// gr_array[ar_index] = fmt.Sprintln(image(filename, width, height))
 	// ch <- fmt.Sprint(image(filename, width, height))
+	var output = order_string{order, ""}
+
+	// output.content = output.content + "test"
+	output.content = output.content + fmt.Sprint(image(filename, width, height))
+	ch <- output
 }
 
 
-
+type order_string struct {
+	order int
+	content string
+}
 var gr_array [2]string
 
 func image_exif(image_file string, width, height int, file string, tags [][]string) (string) {
 	output := ""
 
-	ch := make(chan string, 2)
+	ch := make(chan order_string, 2)
 	// ch2 := make(chan string)
 
 	// var gr_array [2]string
@@ -209,8 +220,8 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	var wg sync.WaitGroup
 
 	wg.Add(2)
-	go image_gr(image_file, width, height, &gr_array, 0, &wg)
-	go exif_fmt_gr(file, tags, &gr_array, 1, &wg)
+	go image_gr(image_file, width, height, ch, 0, &wg)
+	go exif_fmt_gr(file, tags, ch, 1, &wg)
 
 	go func() {
 		wg.Wait()
