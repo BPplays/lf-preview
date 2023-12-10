@@ -67,6 +67,17 @@ func exif_fmt(file string, tags [][]string) (string) {
 	return output
 }
 
+
+func exif_fmt_gr(file string, tags [][]string, ch chan<-string, wg *sync.WaitGroup) {
+	defer wg.Done()
+	ch <- fmt.Sprint(exif_fmt(file, tags))
+}
+
+
+
+
+
+
 // music_tags=(
 //     "-Title -Duration"
 //     "-Genre -Album -Artist -Composer -Date"
@@ -91,6 +102,15 @@ var music_tags = [][]string{
 	{"Title", "Duration"},
 	{"Genre", "Album", "Artist", "Composer", "Date"},
 	{"SampleRate", "Channels", "FileType"},
+}
+
+
+
+
+var image_tags = [][]string{
+	{"ImageSize", "Megapixels", "FileSize"},
+	{"FileType", "ColorSpace", "Compression"},
+	{"BitsPerSample", "YCbCrSubSampling"},
 }
 
 
@@ -166,18 +186,32 @@ func image_gr(filename string, width, height int, ch chan<-string, wg *sync.Wait
 
 
 
-// func image_exif(filename string, width, height int) (string) {
+func image_exif(image_file string, width, height int, file string, tags [][]string) (string) {
+	output := ""
 
-// 	ch1 := make(chan string)
-// 	ch2 := make(chan string)
+	ch1 := make(chan string)
+	ch2 := make(chan string)
 
-// 	// defer ch1.Close
-// 	// defer ch2.Close
 
-// 	var wg sync.WaitGroup
 
-// 	go image_gr(filename, width, height, ch1, &wg)
-// }
+	var wg sync.WaitGroup
+
+	wg.Add(2)
+	go image_gr(image_file, width, height, ch1, &wg)
+	go exif_fmt_gr(file, tags, ch1, &wg)
+
+	for result := range ch1 {
+		output = output + fmt.Sprintln(result)
+	}
+	for result := range ch2 {
+		output = output + fmt.Sprintln(result)
+	}
+
+
+	close(ch1)
+	close(ch2)
+	return output
+}
 
 
 
@@ -270,7 +304,8 @@ func main() {
     case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico":
         // fmt.Println("It's an image file.")
 		// fmt.Println(image(file, width, hight))
-		fmt.Println(width, hight)
+		// fmt.Println(width, hight)
+		fmt.Println(image_exif(file, width, hight, file, image_tags))
 		//! fmt.Println(exif_fmt(file))
     // case "Wednesday", "Thursday":
     //     fmt.Println("It's the middle of the week.")
@@ -278,6 +313,7 @@ func main() {
     //     fmt.Println("It's the end of the week.")
 	case ".mp3", ".flac":
 		fmt.Println(exif_fmt(file, music_tags))
+		
     default:
         fmt.Println("sdf")
     }
