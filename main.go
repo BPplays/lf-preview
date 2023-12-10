@@ -75,7 +75,7 @@ func exif_fmt_gr(file string, tags [][]string, ch chan<-string, wg *sync.WaitGro
 
 
 
-
+var sep1 = "============================================================================="
 
 
 // music_tags=(
@@ -210,6 +210,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	for result := range ch1 {
 		output = output + fmt.Sprintln(result)
 	}
+	output = output + sep1
 	for result := range ch2 {
 		output = output + fmt.Sprintln(result)
 	}
