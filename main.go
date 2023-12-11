@@ -467,7 +467,9 @@ func main() {
 	}
 
 
-
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
+	}
 
 
 	hash := calculateHash(file)
@@ -478,9 +480,7 @@ func main() {
 	tmp = ""
 	fmt.Print(tmp)
 
-	if chafaPreviewDebugTime == "1" {
-		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
-	}
+
 	
 
     switch ext {
