@@ -16,7 +16,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/barasher/go-exiftool"
-	"github.com/minio/highwayhash"
+	"lukechampine.com/blake3"
 )
 
 // type thumbnail func(string, int) int
@@ -61,39 +61,6 @@ var hash string
 
 
 
-// func calculateHash(filePath string) string {
-// 	if chafaPreviewDebugTime == "1" {
-// 		start = time.Now()
-// 	}
-
-// 	file, err := os.Open(filePath)
-// 	if err != nil {
-// 		fmt.Println("Error opening file:", err)
-// 		os.Exit(1)
-// 	}
-// 	defer file.Close()
-
-// 	hash := blake3.New(256, nil)
-// 	if _, err := io.Copy(hash, file); err != nil {
-// 		fmt.Println("Error calculating hash:", err)
-// 		os.Exit(1)
-// 	}
-
-// 	if chafaPreviewDebugTime == "1" {
-// 		time_output = time_output + fmt.Sprintln("hash time: ",time.Since(start))
-// 	}
-
-// 	output := limitStringToBytes(fmt.Sprintf("%x", hash.Sum(nil)), cache_byte_limit)
-
-// 	return output
-// }
-
-
-
-
-
-
-
 func calculateHash(filePath string) string {
 	if chafaPreviewDebugTime == "1" {
 		start = time.Now()
@@ -106,15 +73,7 @@ func calculateHash(filePath string) string {
 	}
 	defer file.Close()
 
-	key := make([]byte, 32)
-
-	hash, err := highwayhash.New(key)
-
-	if err != nil {
-		fmt.Println(err)
-		log.Fatal(err)
-	}
-
+	hash := blake3.New(256, nil)
 	if _, err := io.Copy(hash, file); err != nil {
 		fmt.Println("Error calculating hash:", err)
 		os.Exit(1)
@@ -128,6 +87,47 @@ func calculateHash(filePath string) string {
 
 	return output
 }
+
+
+
+
+
+
+
+// func calculateHash(filePath string) string {
+// 	if chafaPreviewDebugTime == "1" {
+// 		start = time.Now()
+// 	}
+
+// 	file, err := os.Open(filePath)
+// 	if err != nil {
+// 		fmt.Println("Error opening file:", err)
+// 		os.Exit(1)
+// 	}
+// 	defer file.Close()
+
+// 	key := make([]byte, 32)
+
+// 	hash, err := highwayhash.New(key)
+
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		log.Fatal(err)
+// 	}
+
+// 	if _, err := io.Copy(hash, file); err != nil {
+// 		fmt.Println("Error calculating hash:", err)
+// 		os.Exit(1)
+// 	}
+
+// 	if chafaPreviewDebugTime == "1" {
+// 		time_output = time_output + fmt.Sprintln("hash time: ",time.Since(start))
+// 	}
+
+// 	output := limitStringToBytes(fmt.Sprintf("%x", hash.Sum(nil)), cache_byte_limit)
+
+// 	return output
+// }
 
 
 
