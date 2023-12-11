@@ -223,7 +223,7 @@ func exif_fmt(file string, tags [][]string) (string) {
 	fileInfos := get_exif(file)
 	output := ""
 	// cur := ""
-	for _, tag_small := range tags {
+	for i, tag_small := range tags {
 		for _, tag := range tag_small {
 			for _, fileInfo := range fileInfos {
 				// output = output + fmt.Sprintln("fileInfos")
@@ -242,7 +242,10 @@ func exif_fmt(file string, tags [][]string) (string) {
 			}
 
 		}
-		// output = output + "\n"
+		if i != len(tags) {
+			output = output + "\n"
+		}
+
 	}
 
 	return output
