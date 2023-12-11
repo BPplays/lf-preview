@@ -90,7 +90,8 @@ func get_exif(file string) ([]exiftool.FileMetadata) {
 	if err != nil {
 		// fmt.Printf("Error when intializing: %v\n", err)
 		// return "", err
-		log.Fatal(err)
+		fmt.Println("get_exif", err)
+		log.Fatal("get_exif", err)
 	}
 	defer et.Close()
 
@@ -489,14 +490,14 @@ func main() {
 		}
 	}
 
-	// thumbnail_cache_dir := filepath.Join(lfCacheDir, "thumbnails")
-	// if _, err := os.Stat(thumbnail_cache_dir); os.IsNotExist(err) {
-	// 	err := os.MkdirAll(thumbnail_cache_dir, os.ModePerm)
-	// 	if err != nil {
-	// 		fmt.Println("Error creating directory:", err)
-	// 		return
-	// 	}
-	// }
+	thumbnail_cache_dir := filepath.Join(lfCacheDir, "thumbnails")
+	if _, err := os.Stat(thumbnail_cache_dir); os.IsNotExist(err) {
+		err := os.MkdirAll(thumbnail_cache_dir, os.ModePerm)
+		if err != nil {
+			fmt.Println("Error creating directory:", err)
+			return
+		}
+	}
 
 
 
@@ -509,9 +510,10 @@ func main() {
 	hash := calculateHash(file)
 
 
-	// thumbnail_cache = filepath.Join(thumbnail_cache_dir, fmt.Sprintf("thumbnail.%s", hash))
+	thumbnail_cache = filepath.Join(thumbnail_cache_dir, fmt.Sprintf("thumbnail.%s", hash))
 
-	thumbnail_cache = filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
+	// thumbnail_cache = filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
+
 	tmp := thumbnail_cache + configDir
 	tmp = ""
 	fmt.Print(tmp)
