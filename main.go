@@ -57,7 +57,7 @@ func getEnvOrFallback(key, fallback string) string {
 // 	return fmt.Sprintf("%x", hash.Sum(nil))
 // }
 
-var hash string
+var hash string = ""
 
 
 
@@ -81,7 +81,7 @@ func calculateHash(filePath string) string {
 
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("hash time: ",time.Since(start))
-		time_output = time_output + fmt.Sprintln("hash: ", fmt.Sprintf("%x", hash.Sum(nil)))
+		// time_output = time_output + fmt.Sprintln("hash: ", fmt.Sprintf("%x", hash.Sum(nil)))
 	}
 
 	output := limitStringToBytes(fmt.Sprintf("%x", hash.Sum(nil)), cache_byte_limit)
@@ -90,7 +90,14 @@ func calculateHash(filePath string) string {
 }
 
 
+func get_hash() string {
+	if hash == "" {
+		hash = calculateHash(file)
+	}
 
+	return hash
+
+}
 
 
 
@@ -457,7 +464,7 @@ func fileExists(filename string) bool {
 
 
 func get_thumbnail_cache_file(ext string) string {
-	return filepath.Join(thumbnail_cache_dir, add_ext(hash, ext, cache_byte_limit))
+	return filepath.Join(thumbnail_cache_dir, add_ext(get_hash(), ext, cache_byte_limit))
 }
 
 
@@ -510,7 +517,7 @@ var chafaPreviewDebugTime string
 
 
 var cache_byte_limit int
-
+var file string
 
 
 func main() {
@@ -532,7 +539,7 @@ func main() {
 		return
 	}
 
-	file := os.Args[1]
+	file = os.Args[1]
 	ext := path.Ext(file)
 	// Subtract 2 from the parsed value
 	width := arg2 - 2
@@ -629,7 +636,7 @@ func main() {
 
 
 
-	hash = calculateHash(file)
+	
 
 
 	// thumbnail_cache = filepath.Join(thumbnail_cache_dir, fmt.Sprintf("thumbnail.%s", hash))
