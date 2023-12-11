@@ -91,11 +91,12 @@ func calculateHash(filePath string) string {
 
 
 func add_ext(file string, ext string, limit int) string {
-	// ext_bytes := []byte(ext)
-	// ext_len := len(ext_bytes)
-	// output := limitStringToBytes(file+ext, limit - ext_len)
+	ext_bytes := []byte(ext)
+	ext_len := len(ext_bytes)
 
-	return limitStringToBytes(file+ext, limit)
+	file_limit := limitStringToBytes(file, limit - ext_len)
+
+	return file_limit+ext
 }
 
 func get_folder_max_len(folder string) int {
