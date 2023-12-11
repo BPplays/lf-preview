@@ -57,6 +57,9 @@ func getEnvOrFallback(key, fallback string) string {
 // 	return fmt.Sprintf("%x", hash.Sum(nil))
 // }
 
+var hash string
+
+
 
 func calculateHash(filePath string) string {
 	if chafaPreviewDebugTime == "1" {
@@ -84,6 +87,32 @@ func calculateHash(filePath string) string {
 
 	return output
 }
+
+
+
+func add_ext(file string, ext string, limit int) string {
+	// ext_bytes := []byte(ext)
+	// ext_len := len(ext_bytes)
+	// output := limitStringToBytes(file+ext, limit - ext_len)
+
+	return limitStringToBytes(file+ext, limit)
+}
+
+func get_folder_max_len(folder string) int {
+	cmd := exec.Command("getconf", "NAME_MAX", folder)
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println(string(output), err)
+		log.Fatal(string(output), err)
+	}
+	cleanedString := strings.ReplaceAll(strings.ReplaceAll(string(output), " ", ""), "\n", "")
+	i, err := strconv.Atoi(cleanedString)
+	if err != nil {
+		panic(err)
+	}
+	return i
+}
+
 
 
 func limitStringToBytes(input string, maxBytes int) string {
@@ -379,7 +408,8 @@ func thumbnail_music(file string) string {
 		start = time.Now()
 	}
 	// cache := filepath.Join(cacheFile, ".bmp")
-	cache := thumbnail_cache + ".bmp"
+	// cache := thumbnail_cache + ".bmp"
+	cache := add_ext(thumbnail_cache, ".bmp", cache_byte_limit)
 	if !fileExists(cache) {
 		// ffmpeg -i "$1" -an -c:v copy "${CACHE}.bmp"
 		cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
@@ -523,18 +553,8 @@ func main() {
 
 
 
-	cmd := exec.Command("getconf", "NAME_MAX", thumbnail_cache_dir)
-	output, err := cmd.CombinedOutput()
-	if err != nil {
-		fmt.Println(string(output), err)
-		log.Fatal(string(output), err)
-	}
-	cleanedString := strings.ReplaceAll(strings.ReplaceAll(string(output), " ", ""), "\n", "")
-	i, err := strconv.Atoi(cleanedString)
-	if err != nil {
-		panic(err)
-	}
-	cache_byte_limit = i - 16
+
+	cache_byte_limit = get_folder_max_len(thumbnail_cache_dir)
 
 
 
@@ -546,11 +566,11 @@ func main() {
 
 
 
-	hash := calculateHash(file)
+	hash = calculateHash(file)
 
 
 	// thumbnail_cache = filepath.Join(thumbnail_cache_dir, fmt.Sprintf("thumbnail.%s", hash))
-	thumbnail_cache = filepath.Join(thumbnail_cache_dir, hash)
+	// thumbnail_cache = filepath.Join(thumbnail_cache_dir, hash)
 
 
 	// thumbnail_cache = filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
