@@ -368,6 +368,12 @@ var start time.Time
 var cacheFile string
 var chafaPreviewDebugTime string
 
+
+
+
+
+
+
 func main() {
 	chafaPreviewDebugTime = os.Getenv("LF_CHAFA_PREVIEW_DEBUG_TIME")
 
@@ -472,7 +478,9 @@ func main() {
 	tmp = ""
 	fmt.Print(tmp)
 
-
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
+	}
 	
 
     switch ext {
