@@ -243,7 +243,7 @@ func exif_fmt(file string, tags [][]string) (string) {
 
 		}
 		if i != len(tags) - 1 {
-			output = output + fmt.Sprintln(i)
+			output = output + "\n"
 		}
 
 	}
