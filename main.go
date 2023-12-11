@@ -424,7 +424,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	// gr_array[0] = "test0"
 	// gr_array[1] = "test1"
 	// output = output + fmt.Sprintln(gr_array[0])
-	var temp_slice [len(ch)]string
+	var temp_slice [20]string
 
 	for result := range ch {
 		temp_slice[result.order] = result.content
