@@ -10,6 +10,7 @@ import (
 	"path"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 	"unicode/utf8"
@@ -540,7 +541,8 @@ func main() {
 		fmt.Println(string(output), err)
 		log.Fatal(string(output), err)
 	}
-	i, err := strconv.Atoi(string(output))
+	cleanedString := strings.ReplaceAll(strings.ReplaceAll(string(output), " ", ""), "\n", "")
+	i, err := strconv.Atoi(cleanedString)
 	if err != nil {
 		panic(err)
 	}
