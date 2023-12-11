@@ -527,14 +527,6 @@ func main() {
 		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
 	}
 
-
-
-	hash := calculateHash(file)
-
-
-	// thumbnail_cache = filepath.Join(thumbnail_cache_dir, fmt.Sprintf("thumbnail.%s", hash))
-	thumbnail_cache = filepath.Join(thumbnail_cache_dir, fmt.Sprintf("%s", hash))
-
 	cmd := exec.Command("getconf", "NAME_MAX", thumbnail_cache_dir)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -547,6 +539,15 @@ func main() {
 		panic(err)
 	}
 	cache_byte_limit = i
+
+
+	hash := calculateHash(file)
+
+
+	// thumbnail_cache = filepath.Join(thumbnail_cache_dir, fmt.Sprintf("thumbnail.%s", hash))
+	thumbnail_cache = filepath.Join(thumbnail_cache_dir, hash)
+
+
 	// thumbnail_cache = filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
 
 	tmp := thumbnail_cache + configDir
