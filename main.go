@@ -68,7 +68,7 @@ func calculateHash(filePath string) string {
 	}
 	defer file.Close()
 
-	hash := blake3.New(256, nil)
+	hash := blake3.New(64, nil)
 	if _, err := io.Copy(hash, file); err != nil {
 		fmt.Println("Error calculating hash:", err)
 		os.Exit(1)
@@ -77,12 +77,8 @@ func calculateHash(filePath string) string {
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("hash time: ",time.Since(start))
 	}
-	hashString := fmt.Sprintf("%x", hash.Sum(nil))
-	limit := 64
-	if len(hashString) > limit {
-		hashString = hashString[:limit]
-	}
-	return hashString
+
+	return fmt.Sprintf("%x", hash.Sum(nil))
 }
 
 
