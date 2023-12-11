@@ -263,8 +263,8 @@ func image(filename string, width, height int) (string) {
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Println(output, err)
-		log.Fatal(output, err)
+		fmt.Println(string(output), err)
+		log.Fatal(string(output), err)
 	}
 
 	// fmt.Println(string(output))
