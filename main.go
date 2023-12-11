@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/sha256"
 	"fmt"
 	"io"
 	"log"
@@ -15,6 +14,7 @@ import (
 	"time"
 
 	"github.com/barasher/go-exiftool"
+	"lukechampine.com/blake3"
 )
 
 // type thumbnail func(string, int) int
@@ -38,7 +38,29 @@ func getEnvOrFallback(key, fallback string) string {
 	return value
 }
 
+// func calculateHash(filePath string) string {
+// 	file, err := os.Open(filePath)
+// 	if err != nil {
+// 		fmt.Println("Error opening file:", err)
+// 		os.Exit(1)
+// 	}
+// 	defer file.Close()
+
+// 	hash := sha256.New()
+// 	if _, err := io.Copy(hash, file); err != nil {
+// 		fmt.Println("Error calculating hash:", err)
+// 		os.Exit(1)
+// 	}
+
+// 	return fmt.Sprintf("%x", hash.Sum(nil))
+// }
+
+
 func calculateHash(filePath string) string {
+	if chafaPreviewDebugTime == "1" {
+		start = time.Now()
+	}
+
 	file, err := os.Open(filePath)
 	if err != nil {
 		fmt.Println("Error opening file:", err)
@@ -46,17 +68,18 @@ func calculateHash(filePath string) string {
 	}
 	defer file.Close()
 
-	hash := sha256.New()
+	hash := blake3.New()
 	if _, err := io.Copy(hash, file); err != nil {
 		fmt.Println("Error calculating hash:", err)
 		os.Exit(1)
 	}
 
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("hash time: ",time.Since(start))
+	}
+
 	return fmt.Sprintf("%x", hash.Sum(nil))
 }
-
-
-
 
 
 
