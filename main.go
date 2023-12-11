@@ -120,6 +120,9 @@ func exif_fmt(file string, tags [][]string) (string) {
 
 func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int, wg *sync.WaitGroup) {
 	defer wg.Done()
+	if chafaPreviewDebugTime == "1" {
+		start = time.Now()
+	}
 	var output = order_string{order, ""}
 	// output[1] = output[1] + fmt.Sprint("test")
 
@@ -129,6 +132,9 @@ func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int
 	// output.content = output.content + "test"
 	output.content = output.content + exif_fmt(file, tags)
 	ch <- output
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("exif_fmt_gr time: ",time.Since(start))
+	}
 	// output := exif_fmt(file, tags)
 	// gr_array[ar_index] = "test"
 	// gr_array[1] = "test"
@@ -243,6 +249,9 @@ func image(filename string, width, height int) (string) {
 
 func image_gr(filename string, width, height int, ch chan<- order_string, order int, wg *sync.WaitGroup, thumbnail_type string) {
 	defer wg.Done()
+	if chafaPreviewDebugTime == "1" {
+		start = time.Now()
+	}
 	// gr_array[ar_index] = fmt.Sprintln(image(filename, width, height))
 	// ch <- fmt.Sprint(image(filename, width, height))
 	var output = order_string{order, ""}
@@ -254,9 +263,12 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	// output.content = output.content + "test"
 	output.content = output.content + image(filename, width, height)
 	ch <- output
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("image_gr time: ",time.Since(start))
+	}
 }
 
-
+var time_output string
 type order_string struct {
 	order int
 	content string
@@ -317,6 +329,9 @@ func fileExists(filename string) bool {
 
 
 func thumbnail_music(file string) string {
+	if chafaPreviewDebugTime == "1" {
+		start = time.Now()
+	}
 	// cache := filepath.Join(cacheFile, ".bmp")
 	cache := cacheFile + ".bmp"
 	if !fileExists(cache) {
@@ -333,6 +348,9 @@ func thumbnail_music(file string) string {
 
 
 	// fmt.Println(string(output))
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("thumbnail_music time: ",time.Since(start))
+	}
 	return cache
 }
 
@@ -348,9 +366,10 @@ var chafaColors []string
 var start time.Time
 
 var cacheFile string
+var chafaPreviewDebugTime string
 
 func main() {
-	chafaPreviewDebugTime := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_TIME")
+	chafaPreviewDebugTime = os.Getenv("LF_CHAFA_PREVIEW_DEBUG_TIME")
 
 	if chafaPreviewDebugTime == "1" {
 		start = time.Now()
@@ -481,8 +500,9 @@ func main() {
 
 
 	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("total time: ",time.Since(start))
 		fmt.Println(sep1)
-		fmt.Println("execution time: ",time.Since(start))
+		fmt.Println(time_output)
 	}
 
 	
