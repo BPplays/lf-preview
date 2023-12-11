@@ -262,6 +262,7 @@ func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int
 	output.content = output.content + fmt.Sprintln(sep1)
 	// output.content = output.content + "test"
 	output.content = output.content + exif_fmt(file, tags)
+	output.content = output.content + fmt.Sprintln(sep1)
 	ch <- output
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("exif_fmt_gr time: ",time.Since(start))
@@ -443,7 +444,6 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	for _, val := range temp_slice {
 		output = output + val
 	}
-	output = output + sep1
 
 	// output = output + fmt.Sprintln(sep1)
 	// output = output + fmt.Sprintln(sep1)
