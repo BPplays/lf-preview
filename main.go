@@ -410,7 +410,7 @@ func thumbnail_music(file string) string {
 	}
 	// cache := filepath.Join(cacheFile, ".bmp")
 	// cache := thumbnail_cache + ".bmp"
-	cache := add_ext(thumbnail_cache, ".bmp", cache_byte_limit)
+	cache := filepath.Join(thumbnail_cache_dir, add_ext(hash, ".bmp", cache_byte_limit))
 	if !fileExists(cache) {
 		// ffmpeg -i "$1" -an -c:v copy "${CACHE}.bmp"
 		cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
@@ -442,7 +442,8 @@ var chafaColors []string
 
 var start time.Time
 
-var thumbnail_cache string
+// var thumbnail_cache string
+var thumbnail_cache_dir string
 var chafaPreviewDebugTime string
 
 
@@ -543,7 +544,7 @@ func main() {
 		}
 	}
 
-	thumbnail_cache_dir := filepath.Join(lfCacheDir, "thumbnails")
+	thumbnail_cache_dir = filepath.Join(lfCacheDir, "thumbnails")
 	if _, err := os.Stat(thumbnail_cache_dir); os.IsNotExist(err) {
 		err := os.MkdirAll(thumbnail_cache_dir, os.ModePerm)
 		if err != nil {
