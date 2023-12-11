@@ -12,6 +12,7 @@ import (
 	"strconv"
 	"sync"
 	"time"
+	"unicode/utf8"
 
 	"github.com/barasher/go-exiftool"
 	"lukechampine.com/blake3"
@@ -68,7 +69,7 @@ func calculateHash(filePath string) string {
 	}
 	defer file.Close()
 
-	hash := blake3.New(64, nil)
+	hash := blake3.New(256, nil)
 	if _, err := io.Copy(hash, file); err != nil {
 		fmt.Println("Error calculating hash:", err)
 		os.Exit(1)
@@ -78,11 +79,30 @@ func calculateHash(filePath string) string {
 		time_output = time_output + fmt.Sprintln("hash time: ",time.Since(start))
 	}
 
-	return fmt.Sprintf("%x", hash.Sum(nil))
+	output := limitStringToBytes(fmt.Sprintf("%x", hash.Sum(nil)), cache_byte_limit)
+
+	return output
 }
 
 
+func limitStringToBytes(input string, maxBytes int) string {
+	// Ensure maxBytes is not negative
+	if maxBytes <= 0 {
+		return ""
+	}
 
+	// Convert string to a slice of bytes
+	bytes := []byte(input)
+
+	// Iterate through the string to get the substring within the byte limit
+	for len(bytes) > maxBytes {
+		_, size := utf8.DecodeLastRune(bytes)
+		bytes = bytes[:len(bytes)-size]
+	}
+
+	// Convert the byte slice back to a string
+	return string(bytes)
+}
 
 
 func get_exif(file string) ([]exiftool.FileMetadata) {
@@ -395,7 +415,7 @@ var chafaPreviewDebugTime string
 
 
 
-
+var cache_byte_limit int
 
 
 
@@ -511,8 +531,20 @@ func main() {
 	hash := calculateHash(file)
 
 
-	thumbnail_cache = filepath.Join(thumbnail_cache_dir, fmt.Sprintf("thumbnail.%s", hash))
+	// thumbnail_cache = filepath.Join(thumbnail_cache_dir, fmt.Sprintf("thumbnail.%s", hash))
+	thumbnail_cache = filepath.Join(thumbnail_cache_dir, fmt.Sprintf("%s", hash))
 
+	cmd := exec.Command("getconf", "NAME_MAX", thumbnail_cache_dir)
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println(string(output), err)
+		log.Fatal(string(output), err)
+	}
+	i, err := strconv.Atoi(string(output))
+	if err != nil {
+		panic(err)
+	}
+	cache_byte_limit = i
 	// thumbnail_cache = filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
 
 	tmp := thumbnail_cache + configDir
