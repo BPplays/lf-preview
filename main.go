@@ -68,7 +68,7 @@ func calculateHash(filePath string) string {
 	}
 	defer file.Close()
 
-	hash := blake3.New(128, nil)
+	hash := blake3.New(64, nil)
 	if _, err := io.Copy(hash, file); err != nil {
 		fmt.Println("Error calculating hash:", err)
 		os.Exit(1)
