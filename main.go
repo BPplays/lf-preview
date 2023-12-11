@@ -342,6 +342,7 @@ var exif_key_map = map[string]string{
 	"Comment":                "Comment",
 	"ImageSize":                "Image Size",
 	"YCbCrSubSampling": "Y Cb Cr Sub Sampling",
+	"BitsPerSample": "Bits Per Sample",
 	// "Genre":                "Genre",
 	// "Genre":                "Genre",
 	// "Genre":                "Genre",
