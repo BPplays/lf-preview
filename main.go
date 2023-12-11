@@ -81,6 +81,7 @@ func calculateHash(filePath string) string {
 
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("hash time: ",time.Since(start))
+		time_output = time_output + fmt.Sprintln("hash: ", fmt.Sprintf("%x", hash.Sum(nil)))
 	}
 
 	output := limitStringToBytes(fmt.Sprintf("%x", hash.Sum(nil)), cache_byte_limit)
