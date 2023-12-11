@@ -356,7 +356,7 @@ func thumbnail_music(file string) string {
 		start = time.Now()
 	}
 	// cache := filepath.Join(cacheFile, ".bmp")
-	cache := cacheFile + ".bmp"
+	cache := thumbnail_cache + ".bmp"
 	if !fileExists(cache) {
 		// ffmpeg -i "$1" -an -c:v copy "${CACHE}.bmp"
 		cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
@@ -388,7 +388,7 @@ var chafaColors []string
 
 var start time.Time
 
-var cacheFile string
+var thumbnail_cache string
 var chafaPreviewDebugTime string
 
 
@@ -497,10 +497,10 @@ func main() {
 
 	hash := calculateHash(file)
 
-	cacheFile = filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
+	thumbnail_cache = filepath.Join(lfCacheDir, "thumbnails", fmt.Sprintf("thumbnail.%s", hash))
 
 
-	tmp := cacheFile + configDir
+	tmp := thumbnail_cache + configDir
 	tmp = ""
 	fmt.Print(tmp)
 
