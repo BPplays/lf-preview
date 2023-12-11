@@ -340,6 +340,7 @@ var exif_key_map = map[string]string{
 	"Album":                "Album",
 	"Artist":                "Artist",
 	"Comment":                "Comment",
+	"ImageSize":                "Image Size",
 	// "Genre":                "Genre",
 	// "Genre":                "Genre",
 	// "Genre":                "Genre",
