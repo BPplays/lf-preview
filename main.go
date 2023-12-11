@@ -523,10 +523,6 @@ func main() {
 
 
 
-	if chafaPreviewDebugTime == "1" {
-		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
-	}
-
 	cmd := exec.Command("getconf", "NAME_MAX", thumbnail_cache_dir)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -539,6 +535,15 @@ func main() {
 		panic(err)
 	}
 	cache_byte_limit = i
+
+
+
+
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
+	}
+
+
 
 
 	hash := calculateHash(file)
