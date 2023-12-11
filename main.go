@@ -489,6 +489,17 @@ func main() {
 		}
 	}
 
+	thumbnail_cache_dir := filepath.Join(lfCacheDir, "thumbnails")
+	if _, err := os.Stat(thumbnail_cache_dir); os.IsNotExist(err) {
+		err := os.MkdirAll(thumbnail_cache_dir, os.ModePerm)
+		if err != nil {
+			fmt.Println("Error creating directory:", err)
+			return
+		}
+	}
+
+
+
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
 	}
@@ -497,7 +508,8 @@ func main() {
 
 	hash := calculateHash(file)
 
-	thumbnail_cache = filepath.Join(lfCacheDir, "thumbnails", fmt.Sprintf("thumbnail.%s", hash))
+
+	thumbnail_cache = filepath.Join(thumbnail_cache_dir, fmt.Sprintf("thumbnail.%s", hash))
 
 
 	tmp := thumbnail_cache + configDir
