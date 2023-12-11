@@ -473,12 +473,13 @@ func get_thumbnail_cache_file(ext string) string {
 
 
 func thumbnail_music(file string) string {
+	cache := get_thumbnail_cache_file(".bmp")
+
 	if chafaPreviewDebugTime == "1" {
 		start = time.Now()
 	}
 	// cache := filepath.Join(cacheFile, ".bmp")
 	// cache := thumbnail_cache + ".bmp"
-	cache := get_thumbnail_cache_file(".bmp")
 	if !fileExists(cache) {
 		// ffmpeg -i "$1" -an -c:v copy "${CACHE}.bmp"
 		cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
