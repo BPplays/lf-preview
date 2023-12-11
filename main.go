@@ -534,7 +534,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	cache_byte_limit = i
+	cache_byte_limit = i - 16
 
 
 
