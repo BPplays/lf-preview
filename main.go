@@ -242,7 +242,7 @@ func exif_fmt(file string, tags [][]string) (string) {
 			}
 
 		}
-		output = output + "\n"
+		// output = output + "\n"
 	}
 
 	return output
