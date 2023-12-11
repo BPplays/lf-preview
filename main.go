@@ -489,14 +489,14 @@ func main() {
 		}
 	}
 
-
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
+	}
 
 
 
 	hash := calculateHash(file)
-	if chafaPreviewDebugTime == "1" {
-		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
-	}
+
 	cacheFile = filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
 
 
