@@ -581,6 +581,15 @@ func file_size_mb(file_path string) float64 {
 	return fileSizeInMB
 }
 
+var file_mb float64 = -1
+
+func get_file_mb() float64 {
+	if file_mb == -1 {
+		file_mb = file_size_mb(file)
+	}
+
+	return file_mb
+}
 
 
 
@@ -677,7 +686,7 @@ func main() {
 		
     default:
         // fmt.Println("sdf")
-		if file_size_mb(file) > 1 {
+		if get_file_mb() > 1 {
 			fmt.Print("file to big to preview")
 		} else {
 			fmt.Print(read_file(file))
