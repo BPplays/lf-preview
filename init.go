@@ -110,52 +110,16 @@ func init7(wg *sync.WaitGroup) {
 // 	lfChafaPreviewFormatOverrideSixelRatio = os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_SIXEL_RATIO")
 // }
 
-func gr_initall() {
-	var wg sync.WaitGroup
-
-	wg.Add(7)
-	go init1(&wg)
-	go init2(&wg)
-	go init3(&wg)
-	go init4(&wg)
-	go init5(&wg)
-	go init6(&wg)
-	go init7(&wg)
-
-
-	go func() {
-		wg.Wait()
-	}()
-
-}
-
-
-
-
-
-
-
-func Init() {
-
-
-
-	// Subtract 2 from the parsed value
-
-
-
-
-	gr_initall()
-	
-	
-	
-	
-
-
+func init8(wg *sync.WaitGroup) {
+	defer wg.Done()
 
 	for len(sep1) < width {
 		sep1 = sep1 + sep1
 	}
+}
 
+func init9(wg *sync.WaitGroup) {
+	defer wg.Done()
 
 	defaultConfigBase := filepath.Join(getHomeDir(), ".config")
 	configDir = getEnvOrFallback("XDG_CONFIG_HOME", defaultConfigBase)
@@ -180,9 +144,53 @@ func Init() {
 			return
 		}
 	}
+}
 
-
-
+func init10(wg *sync.WaitGroup) {
+	defer wg.Done()
 
 	cache_byte_limit = get_folder_max_len(thumbnail_cache_dir)
+}
+
+
+
+func gr_initall() {
+	var wg sync.WaitGroup
+
+	wg.Add(10)
+	go init1(&wg)
+	go init2(&wg)
+	go init3(&wg)
+	go init4(&wg)
+	go init5(&wg)
+	go init6(&wg)
+	go init7(&wg)
+	go init8(&wg)
+	go init9(&wg)
+	go init10(&wg)
+
+
+	go func() {
+		wg.Wait()
+	}()
+
+}
+
+
+
+
+
+
+
+func Init() {
+
+
+
+	// Subtract 2 from the parsed value
+
+
+
+
+	gr_initall()
+
 }
