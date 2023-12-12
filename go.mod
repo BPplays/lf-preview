@@ -9,6 +9,6 @@ require (
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/minio/highwayhash v1.0.2 // indirect
 	github.com/nwaples/rardecode v1.1.3 // indirect
-	golang.org/x/sys v0.0.0-20190130150945-aca44879d564 // indirect
+	golang.org/x/sys v0.15.0 // indirect
 	lukechampine.com/blake3 v1.2.1 // indirect
 )
