@@ -60,9 +60,9 @@ var hash string = ""
 
 
 func calculateHash(filePath string) string {
-	var start time.Time
+	var hashstart time.Time
 	if chafaPreviewDebugTime == "1" {
-		start = time.Now()
+		hashstart = time.Now()
 	}
 
 	file, err := os.Open(filePath)
@@ -78,12 +78,13 @@ func calculateHash(filePath string) string {
 		os.Exit(1)
 	}
 
-	if chafaPreviewDebugTime == "1" {
-		time_output = time_output + fmt.Sprintln("hash time: ",time.Since(start))
-		// time_output = time_output + fmt.Sprintln("hash: ", fmt.Sprintf("%x", hash.Sum(nil)))
-	}
 
 	output := limitStringToBytes(fmt.Sprintf("%x", hash.Sum(nil)), cache_byte_limit)
+
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
+		// time_output = time_output + fmt.Sprintln("hash: ", fmt.Sprintf("%x", hash.Sum(nil)))
+	}
 
 	return output
 }
