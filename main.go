@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -242,17 +243,17 @@ func get_exif(file string) ([]exiftool.FileMetadata) {
 }
 
 
-func exif_fmt(file string, tags [][]string) (string) {
-	var start time.Time
-	if chafaPreviewDebugTime == "1" {
-		start = time.Now()
-	}
+func exif_fmt(fileInfos []exiftool.FileMetadata, tags [][]string) (string) {
+	// var start time.Time
+	// if chafaPreviewDebugTime == "1" {
+	// 	start = time.Now()
+	// }
 
-	fileInfos := get_exif(file)
+	// fileInfos := get_exif(file)
 
-	if chafaPreviewDebugTime == "1" {
-		time_output = time_output + fmt.Sprintln("get_exif time: ",time.Since(start))
-	}
+	// if chafaPreviewDebugTime == "1" {
+	// 	time_output = time_output + fmt.Sprintln("get_exif time: ",time.Since(start))
+	// }
 	output := ""
 	// cur := ""
 	// if chafaPreviewDebugTime == "1" {
@@ -305,33 +306,36 @@ func get_metadata(file string, tags [][]string) (string) {
 			log.Fatal(err)
 		}
 
-		output = string(cache_data)
+		var exif []exiftool.FileMetadata
+
+		err = json.Unmarshal(cache_data, &exif)
+		if err != nil {
+			fmt.Println("Error unmarshalling JSON:", err)
+			log.Fatal()
+		}
+
+		output = exif_fmt(exif, tags)
 	} else {
-		output = exif_fmt(file, tags)
+		exif := get_exif(file)
 
-		// f, err := os.Create(cache)
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
-
-		// defer f.Close()
-
-		// os.Chmod(file, 0600)
-
-		
-
-		// _, err = f.WriteString(output)
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
+		jsonData, err := json.Marshal(exif)
+		if err != nil {
+			fmt.Println("Error marshalling to JSON:", err)
+			log.Fatal(err)
+		}
 
 
-
-		err := os.WriteFile(cache, []byte(output), 0600)
+		err = os.WriteFile(cache, jsonData, 0600)
 		if err != nil {
 			fmt.Println("Error writing to file:", err)
 			log.Fatal(err)
 		}
+
+
+		output = exif_fmt(exif, tags)
+
+
+
 	}
 
 
