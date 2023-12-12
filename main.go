@@ -254,9 +254,9 @@ func exif_fmt(file string, tags [][]string) (string) {
 	}
 	output := ""
 	// cur := ""
-	if chafaPreviewDebugTime == "1" {
-		start = time.Now()
-	}
+	// if chafaPreviewDebugTime == "1" {
+	// 	start = time.Now()
+	// }
 	for i, tag_small := range tags {
 		for _, tag := range tag_small {
 			for _, fileInfo := range fileInfos {
@@ -282,9 +282,9 @@ func exif_fmt(file string, tags [][]string) (string) {
 
 	}
 
-	if chafaPreviewDebugTime == "1" {
-		time_output = time_output + fmt.Sprintln("exif_fmt_loop time: ",time.Since(start))
-	}
+	// if chafaPreviewDebugTime == "1" {
+	// 	time_output = time_output + fmt.Sprintln("exif_fmt_loop time: ",time.Since(start))
+	// }
 
 	return output
 }
