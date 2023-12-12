@@ -297,6 +297,8 @@ func exif_fmt(fileInfos []exiftool.FileMetadata, tags [][]string) (string) {
 func get_metadata(file string, tags [][]string) (string) {
 	var output string
 
+	var get_metadata_start time.Time
+	
 	if chafaPreviewDebugTime == "1" {
 		get_metadata_start = time.Now()
 	}
