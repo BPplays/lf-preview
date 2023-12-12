@@ -455,8 +455,17 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	var output = order_string{order, ""}
 
 	var image []byte
+
+	var err error
+
 	if thumbnail_type == "audio" {
 		image = thumbnail_music(filename)
+	} else if thumbnail_type == "" {
+		image, err = os.ReadFile(filename)
+		if err != nil {
+			fmt.Println("Error reading file:", err)
+			log.Fatal(err)
+		}
 	}
 
 	// output.content = output.content + "test"
