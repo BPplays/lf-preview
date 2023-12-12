@@ -144,20 +144,17 @@ func init9(wg *sync.WaitGroup) {
 			return
 		}
 	}
-}
-
-func init10(wg *sync.WaitGroup) {
-	defer wg.Done()
 
 	cache_byte_limit = get_folder_max_len(thumbnail_cache_dir)
 }
 
 
 
+
 func gr_initall() {
 	var wg sync.WaitGroup
 
-	wg.Add(10)
+	wg.Add(9)
 	go init1(&wg)
 	go init2(&wg)
 	go init3(&wg)
@@ -167,7 +164,7 @@ func gr_initall() {
 	go init7(&wg)
 	go init8(&wg)
 	go init9(&wg)
-	go init10(&wg)
+
 
 
 	go func() {
