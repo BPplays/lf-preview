@@ -290,6 +290,41 @@ func exif_fmt(file string, tags [][]string) (string) {
 }
 
 
+
+
+func get_metadata(file string, tags [][]string) (string) {
+	var output string
+
+	cache := add_ext(get_hash(), ".dat", cache_byte_limit)
+
+	if fileExists(cache) {
+		cache_data, err := os.ReadFile(cache)
+		if err != nil {
+			fmt.Println("Error reading file:", err)
+			log.Fatal(err)
+		}
+
+		output = string(cache_data)
+	} else {
+		output = exif_fmt(file, tags)
+
+		err := os.WriteFile(cache, []byte(output), 0600)
+		if err != nil {
+			fmt.Println("Error writing to file:", err)
+			log.Fatal(err)
+		}
+	}
+
+
+
+	return output
+}
+
+
+
+
+
+
 func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	var start time.Time
@@ -303,7 +338,7 @@ func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int
 	// ch <- fmt.Sprint(exif_fmt(file, tags))
 	output.content = output.content + fmt.Sprintln(sep1)
 	// output.content = output.content + "test"
-	output.content = output.content + exif_fmt(file, tags)
+	output.content = output.content + get_metadata(file, tags)
 	output.content = output.content + fmt.Sprintln(sep1)
 	ch <- output
 	if chafaPreviewDebugTime == "1" {
@@ -683,6 +718,8 @@ var chafaColors []string
 // var start time.Time
 
 // var thumbnail_cache string
+var metadata_cache_dir string
+
 var thumbnail_cache_dir string
 var chafaPreviewDebugTime string
 

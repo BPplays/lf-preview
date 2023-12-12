@@ -145,6 +145,18 @@ func init9(wg *sync.WaitGroup) {
 		}
 	}
 
+
+
+	metadata_cache_dir = filepath.Join(lfCacheDir, "metadata")
+	if _, err := os.Stat(thumbnail_cache_dir); os.IsNotExist(err) {
+		err := os.MkdirAll(thumbnail_cache_dir, os.ModePerm)
+		if err != nil {
+			fmt.Println("Error creating directory:", err)
+			return
+		}
+	}
+
+
 	cache_byte_limit = get_folder_max_len(thumbnail_cache_dir)
 }
 
