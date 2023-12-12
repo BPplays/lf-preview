@@ -295,7 +295,7 @@ func exif_fmt(file string, tags [][]string) (string) {
 func get_metadata(file string, tags [][]string) (string) {
 	var output string
 
-	cache := filepath.Join(metadata_cache_dir, add_ext(get_hash(), ".dat", cache_byte_limit - 5))
+	cache := filepath.Join(metadata_cache_dir, add_ext(get_hash(), ".dat", cache_byte_limit))
 
 	if fileExists(cache) {
 		cache_data, err := os.ReadFile(cache)
@@ -308,11 +308,29 @@ func get_metadata(file string, tags [][]string) (string) {
 	} else {
 		output = exif_fmt(file, tags)
 
-		err := os.WriteFile(cache, []byte(output), 0600)
+		f, err := os.Create(cache)
 		if err != nil {
-			fmt.Println("Error writing to file:", err)
 			log.Fatal(err)
 		}
+
+		defer f.Close()
+
+		os.Chmod(file, 0600)
+
+		
+
+		_, err = f.WriteString(output)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+
+
+		// err := os.WriteFile(cache, []byte(output), 0600)
+		// if err != nil {
+		// 	fmt.Println("Error writing to file:", err)
+		// 	log.Fatal(err)
+		// }
 	}
 
 
