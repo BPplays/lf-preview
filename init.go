@@ -149,45 +149,62 @@ func init9(wg *sync.WaitGroup) {
 }
 
 
-
+var init_functions = []func(wg *sync.WaitGroup){
+	init1,
+	init2,
+	init3,
+	init4,
+	init5,
+	init6,
+	init7,
+	init8,
+	init9,
+}
 
 func gr_initall() {
 	var wg sync.WaitGroup
 
+	for _, fn := range init_functions {
+		wg.Add(1)
+		fn(&wg)
+	}
 
+	go func() {
+		wg.Wait()
+	}()
 
-	wg.Add(7)
-	go init1(&wg)
-	go init2(&wg)
-	go init3(&wg)
-	go init4(&wg)
-	go init5(&wg)
-	go init6(&wg)
-	go init7(&wg)
+	// wg.Add(7)
+	// go init1(&wg)
+	// go init2(&wg)
+	// go init3(&wg)
+	// go init4(&wg)
+	// go init5(&wg)
+	// go init6(&wg)
+	// go init7(&wg)
 	
 
-	go func() {
-		wg.Wait()
-	}()
+	// go func() {
+	// 	wg.Wait()
+	// }()
 
 
 
-	wg.Add(1)
-	go init8(&wg)
-	go func() {
-		wg.Wait()
-	}()
+	// wg.Add(1)
+	// go init8(&wg)
+	// go func() {
+	// 	wg.Wait()
+	// }()
 
 
 
-	wg.Add(1)
-	go init9(&wg)
+	// wg.Add(1)
+	// go init9(&wg)
 
 
 
-	go func() {
-		wg.Wait()
-	}()
+	// go func() {
+	// 	wg.Wait()
+	// }()
 
 }
 
