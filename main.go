@@ -156,18 +156,40 @@ func add_ext(file string, ext string, limit int) string {
 	return file_limit+ext
 }
 
+
+
+
+func commandExists(command string) bool {
+	cmd := exec.Command("which", command)
+	err := cmd.Run()
+	return err == nil
+}
+
+
+
+
+
+
+
+
 func get_folder_max_len(folder string) int {
-	cmd := exec.Command("getconf", "NAME_MAX", folder)
-	output, err := cmd.CombinedOutput()
-	if err != nil {
-		fmt.Println(string(output), err)
-		log.Fatal(string(output), err)
+	var i int
+	if commandExists("getconf") {
+		cmd := exec.Command("getconf", "NAME_MAX", folder)
+		output, err := cmd.CombinedOutput()
+		if err != nil {
+			fmt.Println(string(output), err)
+			log.Fatal(string(output), err)
+		}
+		cleanedString := strings.ReplaceAll(strings.ReplaceAll(string(output), " ", ""), "\n", "")
+		i, err = strconv.Atoi(cleanedString)
+		if err != nil {
+			panic(err)
+		}
+	} else {
+		i = 255
 	}
-	cleanedString := strings.ReplaceAll(strings.ReplaceAll(string(output), " ", ""), "\n", "")
-	i, err := strconv.Atoi(cleanedString)
-	if err != nil {
-		panic(err)
-	}
+
 	return i
 }
 
