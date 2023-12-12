@@ -62,6 +62,7 @@ var hash string = ""
 
 
 func calculateHash(filePath string) string {
+	var start time.Time
 	if chafaPreviewDebugTime == "1" {
 		start = time.Now()
 	}
@@ -220,6 +221,7 @@ func get_exif(file string) ([]exiftool.FileMetadata) {
 
 
 func exif_fmt(file string, tags [][]string) (string) {
+	var start time.Time
 	if chafaPreviewDebugTime == "1" {
 		start = time.Now()
 	}
@@ -269,6 +271,7 @@ func exif_fmt(file string, tags [][]string) (string) {
 
 func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int, wg *sync.WaitGroup) {
 	defer wg.Done()
+	var start time.Time
 	if chafaPreviewDebugTime == "1" {
 		start = time.Now()
 	}
@@ -403,6 +406,7 @@ func image(filename string, width, height int) (string) {
 
 func image_gr(filename string, width, height int, ch chan<- order_string, order int, wg *sync.WaitGroup, thumbnail_type string) {
 	defer wg.Done()
+	var start time.Time
 	if chafaPreviewDebugTime == "1" {
 		start = time.Now()
 	}
@@ -491,15 +495,15 @@ func get_thumbnail_cache_file(ext string) string {
 
 
 
-var prgstart time.Time
+
 
 
 func thumbnail_music(file string) string {
 	cache := get_thumbnail_cache_file(".bmp")
 
-
+	var start time.Time
 	if chafaPreviewDebugTime == "1" {
-		prgstart = time.Now()
+		start = time.Now()
 	}
 	// cache := filepath.Join(cacheFile, ".bmp")
 	// cache := thumbnail_cache + ".bmp"
@@ -532,7 +536,7 @@ var chafaColors []string
 
 
 
-var start time.Time
+// var start time.Time
 
 // var thumbnail_cache string
 var thumbnail_cache_dir string
@@ -546,9 +550,9 @@ var file string
 
 func main() {
 	chafaPreviewDebugTime = os.Getenv("LF_CHAFA_PREVIEW_DEBUG_TIME")
-
+	var prgstart time.Time
 	if chafaPreviewDebugTime == "1" {
-		start = time.Now()
+		prgstart = time.Now()
 	}
 
 	arg2, err := strconv.Atoi(os.Args[2])
