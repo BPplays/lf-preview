@@ -2,6 +2,8 @@ github.com/bakape/thumbnailer/v2 v2.7.1/go.mod h1:+yOYrfZmQ3VO7uqVHxTr3p5J74WRjP
 github.com/barasher/go-exiftool v1.10.0 h1:f5JY5jc42M7tzR6tbL9508S2IXdIcG9QyieEXNMpIhs=
 github.com/barasher/go-exiftool v1.10.0/go.mod h1:F9s/a3uHSM8YniVfwF+sbQUtP8Gmh9nyzigNF+8vsWo=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dhowden/tag v0.0.0-20230630033851-978a0926ee25 h1:simG0vMYFvNriGhaaat7QVVkaVkXzvqcohaBoLZl9Hg=
+github.com/dhowden/tag v0.0.0-20230630033851-978a0926ee25/go.mod h1:Z3Lomva4pyMWYezjMAU5QWRh0p1VvO4199OHlFnyKkM=
 github.com/klauspost/cpuid/v2 v2.0.9 h1:lgaqFMSdTdQYdZ04uHyN2d/eKdOMyi2YLSvlQIBFYa4=
 github.com/klauspost/cpuid/v2 v2.0.9/go.mod h1:FInQzS24/EEf25PyTYn52gqo7WaD8xa0213Md/qVLRg=
 github.com/minio/highwayhash v1.0.2 h1:Aak5U0nElisjDCfPSG79Tgzkn2gl66NxOMspRrKnA/g=

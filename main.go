@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -16,6 +15,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/barasher/go-exiftool"
+	"github.com/dhowden/tag"
 	"lukechampine.com/blake3"
 )
 
@@ -405,14 +405,32 @@ var exif_key_map = map[string]string{
 
 
 
-func image(filename string, width, height int) (string) {
+func chafa_image(image []byte, width, height int) (string) {
 	geometry := fmt.Sprintf("%dx%d", width, height)
 
-	cmd := exec.Command("chafa", filename, fmt.Sprintf("--font-ratio=%s", userOpenFontRatio))
+	cmd := exec.Command("chafa", fmt.Sprintf("--font-ratio=%s", userOpenFontRatio))
 	cmd.Args = append(cmd.Args, chafaFmt...)
 	cmd.Args = append(cmd.Args, chafaDither...)
 	cmd.Args = append(cmd.Args, chafaColors...)
 	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", geometry, "--animate", "false")
+
+	pipe, err := cmd.StdinPipe()
+	if err != nil {
+		fmt.Println("Error creating pipe:", err)
+		os.Exit(1)
+	}
+
+	go func() {
+		defer pipe.Close() // Close the pipe when done
+
+		// Write data to the command's standard input
+		_, err := pipe.Write(image)
+		if err != nil {
+			fmt.Println("Error writing to pipe:", err)
+			os.Exit(1)
+		}
+	}()
+	
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -436,8 +454,9 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	// ch <- fmt.Sprint(image(filename, width, height))
 	var output = order_string{order, ""}
 
+	var image []byte
 	if thumbnail_type == "audio" {
-		filename = thumbnail_music(filename)
+		image = thumbnail_music(filename)
 	}
 
 	// output.content = output.content + "test"
@@ -446,7 +465,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 		chafa_start = time.Now()
 	}
 
-	output.content = output.content + image(filename, width, height)
+	output.content = output.content + chafa_image(image, width, height)
 
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("chafa time: ",time.Since(chafa_start))
@@ -529,8 +548,40 @@ func get_thumbnail_cache_file(ext string) string {
 
 
 
-func thumbnail_music(file string) string {
-	cache := get_thumbnail_cache_file(".bmp")
+// func thumbnail_music(file string) string {
+// 	cache := get_thumbnail_cache_file(".bmp")
+
+// 	var start time.Time
+// 	if chafaPreviewDebugTime == "1" {
+// 		start = time.Now()
+// 	}
+// 	// cache := filepath.Join(cacheFile, ".bmp")
+// 	// cache := thumbnail_cache + ".bmp"
+// 	if !fileExists(cache) {
+// 		// ffmpeg -i "$1" -an -c:v copy "${CACHE}.bmp"
+// 		cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
+
+// 		output, err := cmd.CombinedOutput()
+// 		if err != nil {
+// 			fmt.Println(string(output), err)
+// 			log.Fatal(err)
+// 		}
+// 	}
+
+
+
+// 	// fmt.Println(string(output))
+// 	if chafaPreviewDebugTime == "1" {
+// 		time_output = time_output + fmt.Sprintln("thumbnail_music time: ",time.Since(start))
+// 	}
+// 	return cache
+// }
+
+
+
+
+func thumbnail_music(file string) []byte {
+	// cache := get_thumbnail_cache_file(".bmp")
 
 	var start time.Time
 	if chafaPreviewDebugTime == "1" {
@@ -538,30 +589,38 @@ func thumbnail_music(file string) string {
 	}
 	// cache := filepath.Join(cacheFile, ".bmp")
 	// cache := thumbnail_cache + ".bmp"
-	if !fileExists(cache) {
-		// ffmpeg -i "$1" -an -c:v copy "${CACHE}.bmp"
-		cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-nostats", "-i", file, "-an", "-c:v", "copy", cache)
-
-		output, err := cmd.CombinedOutput()
-		if err != nil {
-			fmt.Println(string(output), err)
-			log.Fatal(err)
-		}
+	f, err := os.Open(file)
+	if err != nil {
+		log.Fatal(err)
 	}
 
+	defer f.Close()
+	// if !fileExists(cache) {
 
+	// }
+
+	m, err := tag.ReadFrom(f)
+	if err != nil {
+		log.Fatal(err)
+	}
+	
 
 	// fmt.Println(string(output))
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("thumbnail_music time: ",time.Since(start))
 	}
-	return cache
+	return m.Picture().Data
 }
 
 
 
+
+
+
+
+
 func read_file(file string) string {
-	content, err := ioutil.ReadFile(file)
+	content, err := os.ReadFile(file)
 	if err != nil {
 		log.Fatal(err)
 	}
