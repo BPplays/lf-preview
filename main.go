@@ -308,29 +308,29 @@ func get_metadata(file string, tags [][]string) (string) {
 	} else {
 		output = exif_fmt(file, tags)
 
-		f, err := os.Create(cache)
-		if err != nil {
-			log.Fatal(err)
-		}
+		// f, err := os.Create(cache)
+		// if err != nil {
+		// 	log.Fatal(err)
+		// }
 
-		defer f.Close()
+		// defer f.Close()
 
-		os.Chmod(file, 0600)
+		// os.Chmod(file, 0600)
 
 		
 
-		_, err = f.WriteString(output)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-
-
-		// err := os.WriteFile(cache, []byte(output), 0600)
+		// _, err = f.WriteString(output)
 		// if err != nil {
-		// 	fmt.Println("Error writing to file:", err)
 		// 	log.Fatal(err)
 		// }
+
+
+
+		err := os.WriteFile(cache, []byte(output), 0600)
+		if err != nil {
+			fmt.Println("Error writing to file:", err)
+			log.Fatal(err)
+		}
 	}
 
 
