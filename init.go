@@ -154,11 +154,7 @@ func init9(wg *sync.WaitGroup) {
 func gr_initall() {
 	var wg sync.WaitGroup
 
-	wg.Add(1)
-	go init8(&wg)
-	go func() {
-		wg.Wait()
-	}()
+
 
 	wg.Add(7)
 	go init1(&wg)
@@ -173,6 +169,17 @@ func gr_initall() {
 	go func() {
 		wg.Wait()
 	}()
+
+
+
+	wg.Add(1)
+	go init8(&wg)
+	go func() {
+		wg.Wait()
+	}()
+
+
+
 	wg.Add(1)
 	go init9(&wg)
 
