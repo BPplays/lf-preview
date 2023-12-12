@@ -295,7 +295,7 @@ func exif_fmt(file string, tags [][]string) (string) {
 func get_metadata(file string, tags [][]string) (string) {
 	var output string
 
-	cache := filepath.Join(metadata_cache_dir, add_ext(get_hash(), ".dat", cache_byte_limit))
+	cache := filepath.Join(metadata_cache_dir, add_ext(get_hash(), ".dat", cache_byte_limit - 5))
 
 	if fileExists(cache) {
 		cache_data, err := os.ReadFile(cache)
