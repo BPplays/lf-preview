@@ -54,7 +54,7 @@ func init5(wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	lfChafaPreviewFormatOverrideSixelRatio = os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_SIXEL_RATIO")
-	lfChafaPreviewFormatOverrideKittyRatio := os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_KITTY_RATIO")
+	lfChafaPreviewFormatOverrideKittyRatio = os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_KITTY_RATIO")
 
 	fontRatio = os.Getenv("FONT_RATIO")
 	defaultUserOpenFontRatio := "1/2"
@@ -173,39 +173,6 @@ func gr_initall() {
 		wg.Wait()
 	}()
 
-	// wg.Add(7)
-	// go init1(&wg)
-	// go init2(&wg)
-	// go init3(&wg)
-	// go init4(&wg)
-	// go init5(&wg)
-	// go init6(&wg)
-	// go init7(&wg)
-	
-
-	// go func() {
-	// 	wg.Wait()
-	// }()
-
-
-
-	// wg.Add(1)
-	// go init8(&wg)
-	// go func() {
-	// 	wg.Wait()
-	// }()
-
-
-
-	// wg.Add(1)
-	// go init9(&wg)
-
-
-
-	// go func() {
-	// 	wg.Wait()
-	// }()
-
 }
 
 
@@ -215,13 +182,6 @@ func gr_initall() {
 
 
 func Init() {
-
-
-
-	// Subtract 2 from the parsed value
-
-
-
 
 	gr_initall()
 
