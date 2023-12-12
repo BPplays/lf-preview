@@ -187,7 +187,7 @@ func get_folder_max_len(folder string) int {
 			panic(err)
 		}
 	} else {
-		i = 255
+		i = 128
 	}
 
 	return i
