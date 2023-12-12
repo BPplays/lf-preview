@@ -428,6 +428,7 @@ func image(filename string, width, height int) (string) {
 func image_gr(filename string, width, height int, ch chan<- order_string, order int, wg *sync.WaitGroup, thumbnail_type string) {
 	defer wg.Done()
 	var start time.Time
+	var chafa_start time.Time
 	if chafaPreviewDebugTime == "1" {
 		start = time.Now()
 	}
@@ -440,7 +441,16 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	}
 
 	// output.content = output.content + "test"
+
+	if chafaPreviewDebugTime == "1" {
+		chafa_start = time.Now()
+	}
+
 	output.content = output.content + image(filename, width, height)
+
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("chafa time: ",time.Since(chafa_start))
+	}
 	ch <- output
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("image_gr time: ",time.Since(start))
