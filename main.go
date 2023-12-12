@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"hash/fnv"
 	"io"
 	"log"
 	"os"
@@ -17,7 +18,6 @@ import (
 
 	"github.com/barasher/go-exiftool"
 	"github.com/dhowden/tag"
-	"github.com/minio/highwayhash"
 )
 
 // type thumbnail func(string, int) int
@@ -103,6 +103,46 @@ func get_hash() string {
 
 
 
+// func calculateHash(filePath string) string {
+// 	var hashstart time.Time
+// 	if chafaPreviewDebugTime == "1" {
+// 		hashstart = time.Now()
+// 	}
+
+// 	file, err := os.Open(filePath)
+// 	if err != nil {
+// 		fmt.Println("Error opening file:", err)
+// 		os.Exit(1)
+// 	}
+// 	defer file.Close()
+
+// 	key := make([]byte, 32)
+
+// 	hash, err := highwayhash.New(key)
+
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		log.Fatal(err)
+// 	}
+
+// 	if _, err := io.Copy(hash, file); err != nil {
+// 		fmt.Println("Error calculating hash:", err)
+// 		os.Exit(1)
+// 	}
+
+// 	if chafaPreviewDebugTime == "1" {
+// 		time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
+// 	}
+
+// 	output := limitStringToBytes(fmt.Sprintf("%x", hash.Sum(nil)), cache_byte_limit)
+
+// 	return output
+// }
+
+
+
+
+
 func calculateHash(filePath string) string {
 	var hashstart time.Time
 	if chafaPreviewDebugTime == "1" {
@@ -116,14 +156,25 @@ func calculateHash(filePath string) string {
 	}
 	defer file.Close()
 
-	key := make([]byte, 32)
+	// key := make([]byte, 32)
 
-	hash, err := highwayhash.New(key)
+	hash := fnv.New128()
 
+	hash2 := fnv.New128()
+
+	file_data, err := os.ReadFile(filePath)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Error reading file:", err)
 		log.Fatal(err)
 	}
+
+	hash.Write(file_data)
+	hash2.Write(append(file_data, []byte("a")...))
+
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	log.Fatal(err)
+	// }
 
 	if _, err := io.Copy(hash, file); err != nil {
 		fmt.Println("Error calculating hash:", err)
@@ -134,10 +185,13 @@ func calculateHash(filePath string) string {
 		time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
 	}
 
-	output := limitStringToBytes(fmt.Sprintf("%x", hash.Sum(nil)), cache_byte_limit)
+	output := limitStringToBytes(fmt.Sprintf("%x", append(hash.Sum(nil), hash2.Sum(nil)...)), cache_byte_limit)
 
 	return output
 }
+
+
+
 
 
 
