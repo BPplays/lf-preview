@@ -555,7 +555,7 @@ func chafa_image(image []byte, width, height int) (string) {
 	cmd.Args = append(cmd.Args, chafaFmt...)
 	cmd.Args = append(cmd.Args, chafaDither...)
 	cmd.Args = append(cmd.Args, chafaColors...)
-	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", geometry, "--animate", "false", "--symbols", "block+border+space-wide+inverted+quad+extra+half+hhalf+wedge+vhalf")
+	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", geometry, "--animate", "false", "--symbols", "block+border+space-wide+inverted+quad+extra+half+hhalf+vhalf")
 
 	pipe, err := cmd.StdinPipe()
 	if err != nil {
