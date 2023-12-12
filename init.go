@@ -6,38 +6,57 @@ import (
 	"path"
 	"path/filepath"
 	"strconv"
+	"sync"
 )
 
-
-func Init() {
+func init1(wg *sync.WaitGroup) {
+	defer wg.Done()
 	arg2, err := strconv.Atoi(os.Args[2])
 	if err != nil {
 		fmt.Println("Error parsing argument:", err)
 		return
 	}
+	width = arg2 - 2
+}
 
+func init2(wg *sync.WaitGroup) {
+	defer wg.Done()
 	arg3, err := strconv.Atoi(os.Args[3])
 	if err != nil {
 		fmt.Println("Error parsing argument:", err)
 		return
 	}
+	hight = arg3
+}
+
+
+func init3(wg *sync.WaitGroup) {
+	defer wg.Done()
 
 	file = os.Args[1]
 	ext = path.Ext(file)
-	// Subtract 2 from the parsed value
-	width = arg2 - 2
-	hight = arg3
+}
 
+
+func init4(wg *sync.WaitGroup) {
+	defer wg.Done()
 
 	lfChafaPreviewFormat = os.Getenv("LF_CHAFA_PREVIEW_FORMAT")
+
+	chafaFmt = []string{}
+	if lfChafaPreviewFormat != "" {
+		chafaFmt = append(chafaFmt, "-f", lfChafaPreviewFormat)
+	}
+}
+
+
+func init5(wg *sync.WaitGroup) {
+	defer wg.Done()
+
 	lfChafaPreviewFormatOverrideSixelRatio = os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_SIXEL_RATIO")
-	lfChafaPreviewFormatOverrideKittyRatio = os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_KITTY_RATIO")
+	lfChafaPreviewFormatOverrideKittyRatio := os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_KITTY_RATIO")
+
 	fontRatio = os.Getenv("FONT_RATIO")
-	chafaPreviewDither = os.Getenv("LF_CHAFA_PREVIEW_DITHER")
-	chafaPreviewColors = os.Getenv("LF_CHAFA_PREVIEW_COLORS")
-
-
-
 	defaultUserOpenFontRatio := "1/2"
 
 	if lfChafaPreviewFormat == "sixel" {
@@ -58,21 +77,79 @@ func Init() {
 	if userOpenFontRatio == "" {
 		userOpenFontRatio = defaultUserOpenFontRatio
 	}
+}
 
-	chafaFmt = []string{}
-	if lfChafaPreviewFormat != "" {
-		chafaFmt = append(chafaFmt, "-f", lfChafaPreviewFormat)
-	}
+
+func init6(wg *sync.WaitGroup) {
+	defer wg.Done()
+
+	chafaPreviewDither = os.Getenv("LF_CHAFA_PREVIEW_DITHER")
 
 	chafaDither = []string{}
 	if chafaPreviewDither != "" {
 		chafaDither = append(chafaDither, fmt.Sprintf("--dither=%s", chafaPreviewDither))
 	}
+}
+
+
+func init7(wg *sync.WaitGroup) {
+	defer wg.Done()
+
+	chafaPreviewColors = os.Getenv("LF_CHAFA_PREVIEW_COLORS")
 
 	chafaColors = []string{"--colors=full"}
 	if chafaPreviewColors != "" {
 		chafaColors[0] = fmt.Sprintf("--colors=%s", chafaPreviewColors)
 	}
+}
+
+
+// func init4(wg *sync.WaitGroup) {
+// 	defer wg.Done()
+
+// 	lfChafaPreviewFormatOverrideSixelRatio = os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_SIXEL_RATIO")
+// }
+
+func gr_initall() {
+	var wg sync.WaitGroup
+
+	wg.Add(7)
+	go init1(&wg)
+	go init2(&wg)
+	go init3(&wg)
+	go init4(&wg)
+	go init5(&wg)
+	go init6(&wg)
+	go init7(&wg)
+
+
+	go func() {
+		wg.Wait()
+	}()
+
+}
+
+
+
+
+
+
+
+func Init() {
+
+
+
+	// Subtract 2 from the parsed value
+
+
+
+
+	gr_initall()
+	
+	
+	
+	
+
 
 
 	for len(sep1) < width {
