@@ -749,18 +749,16 @@ func main() {
 
     switch ext {
     case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico":
-        // fmt.Println("It's an image file.")
-		// fmt.Println(image(file, width, hight))
-		// fmt.Println(width, hight)
-		// fmt.Println(exif_fmt(file, image_tags))
-		fmt.Print(image_exif(file, width, hight, file, image_tags, ""))
-		// fmt.Println(exif_fmt(file))
-    // case "Wednesday", "Thursday":
-    //     fmt.Println("It's the middle of the week.")
-    // case "Friday", "Saturday", "Sunday":
-    //     fmt.Println("It's the end of the week.")
+
+		
+		if get_file_mb() > 100 {
+			fmt.Print("file to big to preview")
+		} else {
+			fmt.Print(image_exif(file, width, hight, file, image_tags, ""))
+		}
 	case ".mp3", ".flac":
 		// fmt.Println(exif_fmt(file, music_tags))
+		
 		fmt.Print(image_exif(file, width, hight, file, music_tags, "audio"))
 		
     default:
