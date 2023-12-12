@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -548,6 +549,42 @@ func thumbnail_music(file string) string {
 
 
 
+func read_file(file string) string {
+	content, err := ioutil.ReadFile(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return string(content)
+}
+
+
+func file_size_mb(file_path string) float64 {
+	// Open the file
+	file, err := os.Open(file_path)
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	// Get file information
+	fileInfo, err := file.Stat()
+	if err != nil {
+		fmt.Println("Error getting file information:", err)
+		log.Fatal(err)
+	}
+
+	// Calculate file size in megabytes
+	fileSizeInMB := float64(fileInfo.Size()) / (1 << 20) // 1 MB = 1 << 20 bytes
+
+	return fileSizeInMB
+}
+
+
+
+
+
 var userOpenFontRatio string
 var chafaFmt []string
 var chafaDither []string
@@ -582,6 +619,9 @@ var lfChafaPreviewFormatOverrideKittyRatio string
 var fontRatio string
 var chafaPreviewDither string
 var chafaPreviewColors string
+
+
+
 
 
 func main() {
@@ -637,7 +677,12 @@ func main() {
 		
     default:
         // fmt.Println("sdf")
-		fmt.Print(file)
+		if file_size_mb(file) > 1 {
+			fmt.Print("file to big to preview")
+		} else {
+			fmt.Print(read_file(file))
+		}
+		
     }
 
 
