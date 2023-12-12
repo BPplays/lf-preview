@@ -764,7 +764,7 @@ func main() {
 		
     default:
         // fmt.Println("sdf")
-		if get_file_mb() > 1 {
+		if get_file_mb() > 0.1 {
 			fmt.Print("file to big to preview")
 		} else {
 			fmt.Print(read_file(file))
