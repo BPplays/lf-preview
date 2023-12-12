@@ -297,12 +297,6 @@ func exif_fmt(fileInfos []exiftool.FileMetadata, tags [][]string) (string) {
 func get_metadata(file string, tags [][]string) (string) {
 	var output string
 
-	var get_metadata_start time.Time
-	
-	if chafaPreviewDebugTime == "1" {
-		get_metadata_start = time.Now()
-	}
-
 	cache := filepath.Join(metadata_cache_dir, add_ext(get_hash(), ".json", cache_byte_limit))
 
 	if fileExists(cache) {
@@ -344,9 +338,6 @@ func get_metadata(file string, tags [][]string) (string) {
 
 	}
 
-	if chafaPreviewDebugTime == "1" {
-		time_output = time_output + fmt.Sprintln("get_metadata time: ",time.Since(get_metadata_start))
-	}
 
 	return output
 }
