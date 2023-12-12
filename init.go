@@ -149,7 +149,7 @@ func init9(wg *sync.WaitGroup) {
 
 	metadata_cache_dir = filepath.Join(lfCacheDir, "metadata")
 	if _, err := os.Stat(metadata_cache_dir); os.IsNotExist(err) {
-		err := os.MkdirAll(metadata_cache_dir, 0600)
+		err := os.MkdirAll(metadata_cache_dir, 0700)
 		if err != nil {
 			fmt.Println("Error creating directory:", err)
 			return
