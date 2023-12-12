@@ -220,9 +220,20 @@ func get_exif(file string) ([]exiftool.FileMetadata) {
 
 
 func exif_fmt(file string, tags [][]string) (string) {
+	if chafaPreviewDebugTime == "1" {
+		start = time.Now()
+	}
+
 	fileInfos := get_exif(file)
+
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("get_exif time: ",time.Since(start))
+	}
 	output := ""
 	// cur := ""
+	if chafaPreviewDebugTime == "1" {
+		start = time.Now()
+	}
 	for i, tag_small := range tags {
 		for _, tag := range tag_small {
 			for _, fileInfo := range fileInfos {
@@ -246,6 +257,10 @@ func exif_fmt(file string, tags [][]string) (string) {
 			output = output + "\n"
 		}
 
+	}
+
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("exif_fmt_loop time: ",time.Since(start))
 	}
 
 	return output
@@ -476,14 +491,15 @@ func get_thumbnail_cache_file(ext string) string {
 
 
 
-
+var prgstart time.Time
 
 
 func thumbnail_music(file string) string {
 	cache := get_thumbnail_cache_file(".bmp")
 
+
 	if chafaPreviewDebugTime == "1" {
-		start = time.Now()
+		prgstart = time.Now()
 	}
 	// cache := filepath.Join(cacheFile, ".bmp")
 	// cache := thumbnail_cache + ".bmp"
@@ -638,7 +654,7 @@ func main() {
 
 
 	if chafaPreviewDebugTime == "1" {
-		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
+		time_output = time_output + fmt.Sprintln("init time: ",time.Since(prgstart))
 	}
 
 
@@ -685,7 +701,7 @@ func main() {
 
 
 	if chafaPreviewDebugTime == "1" {
-		time_output = time_output + fmt.Sprintln("total time: ",time.Since(start))
+		time_output = time_output + fmt.Sprintln("total time: ",time.Since(prgstart))
 		fmt.Println(sep1)
 		fmt.Println(time_output)
 	}
