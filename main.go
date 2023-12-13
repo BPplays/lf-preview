@@ -548,14 +548,16 @@ var exif_key_map = map[string]string{
 
 
 
-func chafa_image(image []byte, width, height int) (string) {
+func chafa_image(image *[]byte, width, height int) (string) {
 	geometry := fmt.Sprintf("%dx%d", width, height)
 
 	cmd := exec.Command("chafa", fmt.Sprintf("--font-ratio=%s", userOpenFontRatio))
 	cmd.Args = append(cmd.Args, chafaFmt...)
 	cmd.Args = append(cmd.Args, chafaDither...)
 	cmd.Args = append(cmd.Args, chafaColors...)
-	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", geometry, "--animate", "false", "--symbols", "block+border+space-wide+inverted+quad+extra+half+hhalf+vhalf")
+	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", geometry, "--animate", "false")
+	cmd.Args = append(cmd.Args, "--symbols", "block+border+space-wide+inverted+quad+extra+half+hhalf+vhalf")
+
 
 	pipe, err := cmd.StdinPipe()
 	if err != nil {
@@ -567,7 +569,7 @@ func chafa_image(image []byte, width, height int) (string) {
 		defer pipe.Close() // Close the pipe when done
 
 		// Write data to the command's standard input
-		_, err := pipe.Write(image)
+		_, err := pipe.Write(*image)
 		if err != nil {
 			fmt.Println("Error writing to pipe:", err)
 			os.Exit(1)
@@ -597,18 +599,19 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	// ch <- fmt.Sprint(image(filename, width, height))
 	var output = order_string{order, ""}
 
-	var image []byte
+	var image *[]byte
 
-	var err error
+	// var err error
 
 	if thumbnail_type == "audio" {
 		image = thumbnail_music(filename)
 	} else if thumbnail_type == "" {
-		image, err = os.ReadFile(filename)
+		image_data, err := os.ReadFile(filename)
 		if err != nil {
 			fmt.Println("Error reading file:", err)
 			log.Fatal(err)
 		}
+		image = &image_data
 	}
 
 	// output.content = output.content + "test"
@@ -732,7 +735,7 @@ func get_thumbnail_cache_file(ext string) string {
 
 
 
-func thumbnail_music(file string) []byte {
+func thumbnail_music(file string) *[]byte {
 	// cache := get_thumbnail_cache_file(".bmp")
 
 	var start time.Time
@@ -761,7 +764,7 @@ func thumbnail_music(file string) []byte {
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("thumbnail_music time: ",time.Since(start))
 	}
-	return m.Picture().Data
+	return &m.Picture().Data
 }
 
 
