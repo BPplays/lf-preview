@@ -243,3 +243,25 @@ func get_geometry() string {
 	return geometry
 }
 
+var preview_print_output bool
+var set_preview_print_output bool
+
+func get_print_output() bool {
+	if !set_preview_print_output {
+		if os.Getenv("LF_CHAFA_PREVIEW_PRINT_OUTPUT") != "0" {
+			preview_print_output = true
+			set_preview_print_output = true
+		} else {
+			preview_print_output = false
+		}
+	}
+
+
+	return preview_print_output
+}
+
+
+
+
+
+

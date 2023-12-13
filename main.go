@@ -951,7 +951,7 @@ func main() {
 
 
 
-
+	preview_output := ""
 	
 
 
@@ -973,23 +973,23 @@ func main() {
 
 		
 		if get_file_mb() > 100 {
-			fmt.Print("file to big to preview")
+			preview_output = "file to big to preview"
 		} else {
-			fmt.Print(image_exif(file, width, hight, file, image_tags, ""))
+			preview_output = image_exif(file, width, hight, file, image_tags, "")
 		}
 	// case ".mp3", ".flac", ".ogg":
 	case ".wav", ".mp3", ".flac", ".m4a", ".wma", ".ape", ".ac3", ".ogg", ".spx", ".opus", ".mka":
 		// fmt.Println(exif_fmt(file, music_tags))
 		// get_hash()
 
-		fmt.Print(image_exif(file, width, hight, file, music_tags, "audio"))
+		preview_output = image_exif(file, width, hight, file, music_tags, "audio")
 		
     default:
         // fmt.Println("sdf")
 		if get_file_mb() > 0.1 {
-			fmt.Print("file to big to preview")
+			preview_output = "file to big to preview"
 		} else {
-			fmt.Print(read_file(file))
+			preview_output = read_file(file)
 		}
 		
     }
@@ -1003,6 +1003,13 @@ func main() {
 		fmt.Println(sep1)
 		fmt.Println(time_output)
 	}
+
+
+
+	if get_print_output() {
+		fmt.Print(preview_output)
+	}
+	
 
 	
 
