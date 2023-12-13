@@ -630,7 +630,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	}
 
 
-	cache := filepath.Join(get_thumbnail_cache_dir(), get_geometry(), limitStringToBytes(file, cache_byte_limit))
+	cache := filepath.Join(get_thumbnail_cache_dir(), get_geometry(), limitStringToBytes(get_hash(), cache_byte_limit))
 	// gr_array[ar_index] = fmt.Sprintln(image(filename, width, height))
 	// ch <- fmt.Sprint(image(filename, width, height))
 	var output = order_string{order, ""}
