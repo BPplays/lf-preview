@@ -93,7 +93,7 @@ var hash string = ""
 func get_hash() string {
 	if hash == "" {
 		var hashstart time.Time
-		
+
 		if chafaPreviewDebugTime == "1" {
 			hashstart = time.Now()
 		}
@@ -969,6 +969,7 @@ func main() {
 	// case ".mp3", ".flac", ".ogg":
 	case ".wav", ".mp3", ".flac", ".m4a", ".wma", ".ape", ".ac3", ".ogg", ".spx", ".opus", ".mka":
 		// fmt.Println(exif_fmt(file, music_tags))
+		get_hash()
 		
 		fmt.Print(image_exif(file, width, hight, file, music_tags, "audio"))
 		
