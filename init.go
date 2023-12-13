@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path"
 	"path/filepath"
@@ -198,3 +199,47 @@ func Init() {
 	gr_initall()
 
 }
+
+
+
+
+
+
+
+
+
+var geometry string = ""
+
+
+
+
+func get_thumbnail_cache_dir() string {
+
+	if thumbnail_cache_dir == "" {
+		thumbnail_cache_dir = filepath.Join(lfCacheDir, "thumbnails")
+		if _, err := os.Stat(thumbnail_cache_dir); os.IsNotExist(err) {
+			err := os.MkdirAll(thumbnail_cache_dir, os.ModePerm)
+			if err != nil {
+				fmt.Println("Error creating directory:", err)
+				log.Fatal(err)
+			}
+		}
+	}
+
+
+
+	return thumbnail_cache_dir
+}
+
+
+func get_geometry() string {
+
+	if geometry == "" {
+		geometry = fmt.Sprintf("%dx%d", width, hight)
+	}
+
+
+
+	return geometry
+}
+

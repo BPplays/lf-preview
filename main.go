@@ -549,7 +549,7 @@ var exif_key_map = map[string]string{
 
 
 func chafa_image(image *[]byte, width, height int) (string) {
-	geometry := fmt.Sprintf("%dx%d", width, height)
+	
 
 	cmd := exec.Command("chafa", fmt.Sprintf("--font-ratio=%s", userOpenFontRatio))
 	cmd.Args = append(cmd.Args, chafaFmt...)
@@ -588,6 +588,23 @@ func chafa_image(image *[]byte, width, height int) (string) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 func image_gr(filename string, width, height int, ch chan<- order_string, order int, wg *sync.WaitGroup, thumbnail_type string) {
 	defer wg.Done()
 	var start time.Time
@@ -595,6 +612,9 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	if chafaPreviewDebugTime == "1" {
 		start = time.Now()
 	}
+
+
+	cache := filepath.Join(get_thumbnail_cache_dir(), add_ext(get_hash(), get_geometry(), cache_byte_limit))
 	// gr_array[ar_index] = fmt.Sprintln(image(filename, width, height))
 	// ch <- fmt.Sprint(image(filename, width, height))
 	var output = order_string{order, ""}
@@ -603,28 +623,65 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 
 	// var err error
 
-	if thumbnail_type == "audio" {
-		image = thumbnail_music(filename)
-	} else if thumbnail_type == "" {
-		image_data, err := os.ReadFile(filename)
+	var chafa_output string
+
+	if fileExists(cache) {
+		cache_data, err := os.ReadFile(cache)
 		if err != nil {
 			fmt.Println("Error reading file:", err)
 			log.Fatal(err)
 		}
-		image = &image_data
+
+		chafa_output = string(cache_data)
+	} else {
+
+
+		if thumbnail_type == "audio" {
+			image = thumbnail_music(filename)
+		} else if thumbnail_type == "" {
+			image_data, err := os.ReadFile(filename)
+			if err != nil {
+				fmt.Println("Error reading file:", err)
+				log.Fatal(err)
+			}
+			image = &image_data
+		}
+
+
+
+
+		if chafaPreviewDebugTime == "1" {
+			chafa_start = time.Now()
+		}
+
+		chafa_output = chafa_image(image, width, height)
+
+		if chafaPreviewDebugTime == "1" {
+			time_output = time_output + fmt.Sprintln("chafa time: ",time.Since(chafa_start))
+		}
+
+		err := os.WriteFile(cache, []byte(chafa_output), 0600)
+		if err != nil {
+			fmt.Println("Error writing to file:", err)
+			log.Fatal(err)
+		}
+
 	}
+
+
+
+
+
+
+
 
 	// output.content = output.content + "test"
 
-	if chafaPreviewDebugTime == "1" {
-		chafa_start = time.Now()
-	}
 
-	output.content = output.content + chafa_image(image, width, height)
 
-	if chafaPreviewDebugTime == "1" {
-		time_output = time_output + fmt.Sprintln("chafa time: ",time.Since(chafa_start))
-	}
+	output.content = output.content + chafa_output
+
+
 	ch <- output
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("image_gr time: ",time.Since(start))
@@ -831,7 +888,7 @@ var chafaColors []string
 // var thumbnail_cache string
 var metadata_cache_dir string
 
-var thumbnail_cache_dir string
+var thumbnail_cache_dir string = ""
 var chafaPreviewDebugTime string
 
 
