@@ -571,7 +571,7 @@ func chafa_image(image *[]byte, width, height int) (string) {
 	cmd.Args = append(cmd.Args, chafaFmt...)
 	cmd.Args = append(cmd.Args, chafaDither...)
 	cmd.Args = append(cmd.Args, chafaColors...)
-	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", geometry, "--animate", "false")
+	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", get_geometry(), "--animate", "false")
 	cmd.Args = append(cmd.Args, "--symbols", "block+border+space-wide+inverted+quad+extra+half+hhalf+vhalf")
 
 
@@ -630,7 +630,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	}
 
 
-	cache := filepath.Join(get_thumbnail_cache_dir(), add_ext(get_hash(), get_geometry(), cache_byte_limit))
+	cache := filepath.Join(get_thumbnail_cache_dir(), get_geometry(), limitStringToBytes(file, cache_byte_limit))
 	// gr_array[ar_index] = fmt.Sprintln(image(filename, width, height))
 	// ch <- fmt.Sprint(image(filename, width, height))
 	var output = order_string{order, ""}
