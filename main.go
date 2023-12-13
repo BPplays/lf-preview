@@ -88,21 +88,30 @@ var hash string = ""
 
 // 	return output
 // }
-
+var hash_started bool = false
 
 func get_hash() string {
 	if hash == "" {
-		var hashstart time.Time
+		if hash_started == false {
+			var hashstart time.Time
 
-		if chafaPreviewDebugTime == "1" {
-			hashstart = time.Now()
+			hash_started = true
+	
+			if chafaPreviewDebugTime == "1" {
+				hashstart = time.Now()
+			}
+	
+			hash = calculateHash(file)
+	
+			if chafaPreviewDebugTime == "1" {
+				time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
+			}
+		} else {
+			for hash == "" {
+				time.Sleep(80 * time.Microsecond)
+			}
 		}
 
-		hash = calculateHash(file)
-
-		if chafaPreviewDebugTime == "1" {
-			time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
-		}
 	}
 
 	return hash
@@ -969,8 +978,8 @@ func main() {
 	// case ".mp3", ".flac", ".ogg":
 	case ".wav", ".mp3", ".flac", ".m4a", ".wma", ".ape", ".ac3", ".ogg", ".spx", ".opus", ".mka":
 		// fmt.Println(exif_fmt(file, music_tags))
-		get_hash()
-		
+		// get_hash()
+
 		fmt.Print(image_exif(file, width, hight, file, music_tags, "audio"))
 		
     default:
