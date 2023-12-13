@@ -92,11 +92,13 @@ var hash_started bool = false
 
 func get_hash() string {
 	if hash == "" {
-		if hash_started == false {
+		if !hash_started {
+			hash_started = true
+
+
 			var hashstart time.Time
 
-			hash_started = true
-	
+
 			if chafaPreviewDebugTime == "1" {
 				hashstart = time.Now()
 			}
