@@ -183,7 +183,7 @@ var geometry string = ""
 func get_thumbnail_cache_dir() string {
 
 	if thumbnail_cache_dir == "" {
-		thumbnail_cache_dir = filepath.Join(lfCacheDir, "thumbnails")
+		thumbnail_cache_dir = filepath.Join(get_lfCacheDir(), "thumbnails")
 		if _, err := os.Stat(thumbnail_cache_dir); os.IsNotExist(err) {
 			err := os.MkdirAll(thumbnail_cache_dir, os.ModePerm)
 			if err != nil {
