@@ -177,9 +177,16 @@ var init_functions = []func(wg *sync.WaitGroup){
 func gr_initall() {
 	var wg sync.WaitGroup
 
+	// var start [64]time.Time
+
+
+
 	for _, fn := range init_functions {
+		// if chafaPreviewDebugTime == "1" {
+		// 	start[i] = time.Now()
+		// }
 		wg.Add(1)
-		fn(&wg)
+		go fn(&wg)
 	}
 
 	go func() {
