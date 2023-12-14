@@ -187,6 +187,7 @@ func gr_initall() {
 		// }
 		wg.Add(1)
 		go fn(&wg)
+		wg.Add(1)
 		init9(&wg)
 	}
 
