@@ -186,7 +186,7 @@ func gr_initall() {
 		// 	start[i] = time.Now()
 		// }
 		wg.Add(1)
-		go fn(&wg)
+		fn(&wg)
 		wg.Add(1)
 		init9(&wg)
 	}
