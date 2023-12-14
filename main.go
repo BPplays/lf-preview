@@ -1006,7 +1006,7 @@ func main() {
 
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("total time: ",time.Since(prgstart))
-		preview_output = preview_output + sep1
+		preview_output = preview_output + sep1 + "\n"
 		preview_output = preview_output + time_output
 	}
 
