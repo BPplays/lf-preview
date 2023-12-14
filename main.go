@@ -234,7 +234,7 @@ func calculateHash(filePath string) string {
 
 
 
-	output := limitStringToBytes(fmt.Sprintf("%x", sum), cache_byte_limit)
+	output := limitStringToBytes(fmt.Sprintf("%x", sum), get_cache_byte_limit())
 
 	return output
 }
@@ -399,7 +399,7 @@ func exif_fmt(fileInfos []exiftool.FileMetadata, tags [][]string) (string) {
 func get_metadata(file string, tags [][]string) (string) {
 	var output string
 
-	cache := filepath.Join(metadata_cache_dir, add_ext(get_hash(), ".json", cache_byte_limit))
+	cache := filepath.Join(get_metadata_cache_dir(), add_ext(get_hash(), ".json", get_cache_byte_limit()))
 
 	if fileExists(cache) {
 		cache_data, err := os.ReadFile(cache)
@@ -630,7 +630,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	}
 
 
-	cache := filepath.Join(get_thumbnail_cache_dir(), get_geometry(), limitStringToBytes(get_hash(), cache_byte_limit))
+	cache := filepath.Join(get_thumbnail_cache_dir(), get_geometry(), limitStringToBytes(get_hash(), get_cache_byte_limit()))
 
 	if !fileExists(filepath.Dir(cache)) {
 		os.Mkdir(filepath.Dir(cache), 0700)
@@ -774,7 +774,7 @@ func fileExists(filename string) bool {
 
 
 func get_thumbnail_cache_file(ext string) string {
-	return filepath.Join(thumbnail_cache_dir, add_ext(get_hash(), ext, cache_byte_limit))
+	return filepath.Join(get_thumbnail_cache_dir(), add_ext(get_hash(), ext, get_cache_byte_limit()))
 }
 
 
@@ -908,14 +908,14 @@ var chafaColors []string
 // var start time.Time
 
 // var thumbnail_cache string
-var metadata_cache_dir string
+var metadata_cache_dir string = ""
 
 var thumbnail_cache_dir string = ""
 var chafaPreviewDebugTime string
 
 
 
-var cache_byte_limit int
+var cache_byte_limit int = -1
 var file string
 
 var ext string
@@ -924,16 +924,16 @@ var width int
 var hight int
 
 
-var configDir string
+var configDir string = ""
 var cacheBase string
-var lfCacheDir string
+var lfCacheDir string = ""
 
-var lfChafaPreviewFormat string
-var lfChafaPreviewFormatOverrideSixelRatio string
-var lfChafaPreviewFormatOverrideKittyRatio string
-var fontRatio string
-var chafaPreviewDither string
-var chafaPreviewColors string
+var lfChafaPreviewFormat string = ""
+var lfChafaPreviewFormatOverrideSixelRatio string = ""
+var lfChafaPreviewFormatOverrideKittyRatio string = ""
+var fontRatio string = ""
+var chafaPreviewDither string = ""
+var chafaPreviewColors string = ""
 
 
 

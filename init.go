@@ -119,47 +119,7 @@ func init8(wg *sync.WaitGroup) {
 	}
 }
 
-func init9(wg *sync.WaitGroup) {
-	defer wg.Done()
 
-	defaultConfigBase := filepath.Join(getHomeDir(), ".config")
-	configDir = getEnvOrFallback("XDG_CONFIG_HOME", defaultConfigBase)
-
-	defaultCacheBase := filepath.Join(getHomeDir(), ".cache")
-	cacheBase = getEnvOrFallback("XDG_CACHE_HOME", defaultCacheBase)
-
-	lfCacheDir := filepath.Join(cacheBase, "lf")
-	if _, err := os.Stat(lfCacheDir); os.IsNotExist(err) {
-		err := os.MkdirAll(lfCacheDir, os.ModePerm)
-		if err != nil {
-			fmt.Println("Error creating directory:", err)
-			return
-		}
-	}
-
-	thumbnail_cache_dir = filepath.Join(lfCacheDir, "thumbnails")
-	if _, err := os.Stat(thumbnail_cache_dir); os.IsNotExist(err) {
-		err := os.MkdirAll(thumbnail_cache_dir, os.ModePerm)
-		if err != nil {
-			fmt.Println("Error creating directory:", err)
-			return
-		}
-	}
-
-
-
-	metadata_cache_dir = filepath.Join(lfCacheDir, "metadata", "v2")
-	if _, err := os.Stat(metadata_cache_dir); os.IsNotExist(err) {
-		err := os.MkdirAll(metadata_cache_dir, 0700)
-		if err != nil {
-			fmt.Println("Error creating directory:", err)
-			return
-		}
-	}
-
-
-	cache_byte_limit = get_folder_max_len(thumbnail_cache_dir)
-}
 
 
 var init_functions = []func(wg *sync.WaitGroup){
@@ -171,7 +131,6 @@ var init_functions = []func(wg *sync.WaitGroup){
 	init6,
 	init7,
 	init8,
-	// init9,
 }
 
 func gr_initall() {
@@ -187,8 +146,6 @@ func gr_initall() {
 		// }
 		wg.Add(1)
 		fn(&wg)
-		wg.Add(1)
-		init9(&wg)
 	}
 
 	go func() {
@@ -270,6 +227,72 @@ func get_print_output() bool {
 	return preview_print_output
 }
 
+
+
+
+
+func get_lfCacheDir() string {
+	if lfCacheDir == "" {
+		defaultCacheBase := filepath.Join(getHomeDir(), ".cache")
+		cacheBase = getEnvOrFallback("XDG_CACHE_HOME", defaultCacheBase)
+	
+		lfCacheDir = filepath.Join(cacheBase, "lf")
+		if _, err := os.Stat(lfCacheDir); os.IsNotExist(err) {
+			err := os.MkdirAll(lfCacheDir, os.ModePerm)
+			if err != nil {
+				fmt.Println("Error creating directory:", err)
+				log.Fatal(err)
+			}
+		}
+	}
+
+
+	return lfCacheDir
+}
+
+
+
+
+
+func get_metadata_cache_dir() string {
+	if metadata_cache_dir == "" {
+		metadata_cache_dir = filepath.Join(get_lfCacheDir(), "metadata", "v2")
+		if _, err := os.Stat(metadata_cache_dir); os.IsNotExist(err) {
+			err := os.MkdirAll(metadata_cache_dir, 0700)
+			if err != nil {
+				fmt.Println("Error creating directory:", err)
+				log.Fatal()
+			}
+		}
+	}
+
+
+	return metadata_cache_dir
+}
+
+
+
+
+
+
+func get_cache_byte_limit() int {
+	if cache_byte_limit == -1 {
+		cache_byte_limit = get_folder_max_len(get_thumbnail_cache_dir())
+	}
+
+
+	return cache_byte_limit
+}
+
+func get_configDir() string {
+	if configDir == "" {
+		defaultConfigBase := filepath.Join(getHomeDir(), ".config")
+		configDir = getEnvOrFallback("XDG_CONFIG_HOME", defaultConfigBase)
+	}
+
+
+	return configDir
+}
 
 
 
