@@ -953,7 +953,6 @@ func main() {
 
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("init time: ",time.Since(prgstart))
-		time_output = time_output + fmt.Sprintln("init time: ",time.Since(prgstart))
 	}
 
 

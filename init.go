@@ -171,7 +171,7 @@ var init_functions = []func(wg *sync.WaitGroup){
 	init6,
 	init7,
 	init8,
-	init9,
+	// init9,
 }
 
 func gr_initall() {
@@ -187,11 +187,13 @@ func gr_initall() {
 		// }
 		wg.Add(1)
 		go fn(&wg)
+		init9(&wg)
 	}
 
 	go func() {
 		wg.Wait()
 	}()
+	
 
 }
 
