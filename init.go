@@ -277,19 +277,24 @@ func get_metadata_cache_dir() string {
 
 
 func get_cache_byte_limit() int {
-	var start time.Time
-	if chafaPreviewDebugTime == "1" {
-		start = time.Now()
-	}
+
 
 	if cache_byte_limit == -1 {
+		var start time.Time
+		if chafaPreviewDebugTime == "1" {
+			start = time.Now()
+		}
+		
 		// cache_byte_limit = get_folder_max_len(get_thumbnail_cache_dir())
 		cache_byte_limit = 200
+
+		if chafaPreviewDebugTime == "1" {
+			time_output = time_output + fmt.Sprintln("get_cache_byte_limit time: ",time.Since(start))
+		}
+
 	}
 
-	if chafaPreviewDebugTime == "1" {
-		time_output = time_output + fmt.Sprintln("get_cache_byte_limit time: ",time.Since(start))
-	}
+
 
 	return cache_byte_limit
 }
