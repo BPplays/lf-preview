@@ -283,7 +283,8 @@ func get_cache_byte_limit() int {
 	}
 
 	if cache_byte_limit == -1 {
-		cache_byte_limit = get_folder_max_len(get_thumbnail_cache_dir())
+		// cache_byte_limit = get_folder_max_len(get_thumbnail_cache_dir())
+		cache_byte_limit = 200
 	}
 
 	if chafaPreviewDebugTime == "1" {
