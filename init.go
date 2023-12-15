@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"sync"
+	"time"
 )
 
 func init1(wg *sync.WaitGroup) {
@@ -276,10 +277,18 @@ func get_metadata_cache_dir() string {
 
 
 func get_cache_byte_limit() int {
+	var start time.Time
+	if chafaPreviewDebugTime == "1" {
+		start = time.Now()
+	}
+	
 	if cache_byte_limit == -1 {
 		cache_byte_limit = get_folder_max_len(get_thumbnail_cache_dir())
 	}
 
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("thumbnail_music time: ",time.Since(start))
+	}
 
 	return cache_byte_limit
 }
