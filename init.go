@@ -200,7 +200,7 @@ func hw_test() {
     }
 	output += "\n"
     for i := 2; i <= hight; i++ {
-        output += fmt.Sprint(intToBase(int64(i), 64), "\n")
+        output += fmt.Sprint(intToBase(int64(i), 64), "width: ", width, "hight: ", hight, "\n")
     }
 	for i := hight; i <= hight+50; i++ {
         output += fmt.Sprint(intToBase(int64(i+1-hight), 64), "\n")
