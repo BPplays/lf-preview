@@ -197,7 +197,6 @@ func intToBase(n int64, base int64) string {
 	var rune_sl []rune
 
 	var minLimit int64 = 1
-	var maxLimit int64 = 100
 
 
 
@@ -209,7 +208,7 @@ func intToBase(n int64, base int64) string {
 		base = int64(len(rune_sl))
 	}
 
-	if base < minLimit || base > maxLimit {
+	if base < minLimit {
 		log.Fatal("fuck")
 	}
 
