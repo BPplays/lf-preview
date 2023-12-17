@@ -191,8 +191,10 @@ const (
 
 
 func intToBase(n int64, base int64) string {
-	// var result strings.Builder
-	var result string = ""
+	var result strings.Builder
+	// var result string = ""
+
+	var rune_sl []rune
 
 	var minLimit int64 = 1
 	var maxLimit int64 = 100
@@ -201,20 +203,24 @@ func intToBase(n int64, base int64) string {
 		log.Fatal("fuck")
 	}
 
+	for _, char := range baseChars {
+		rune_sl = append(rune_sl, char)
+	}
+
 
 	for n > 0 {
 		remainder := n % base
-		result += string(baseChars[remainder])
+		result.WriteRune(rune_sl[remainder])
 		n /= base
 	}
 
 	// Reverse the result string
-	runes := []rune(result)
+	runes := []rune(result.String())
 	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
 		runes[i], runes[j] = runes[j], runes[i]
 	}
 
-	return string(result)
+	return string(runes)
 }
 
 // func intToBase(n int64, base int64) string {
