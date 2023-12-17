@@ -227,6 +227,7 @@ func Init() {
 
 	term_width, term_height, err = terminal.GetSize(int(os.Stdin.Fd()))
 	if err != nil {
+		fmt.Print(err)
 		log.Fatal(err)
 	}
 
