@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"math/big"
 	"os"
 	"path"
 	"path/filepath"
@@ -161,22 +162,20 @@ func gr_initall() {
 const (
 	baseChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#い@"
 )
-func intToBase(n int64, base int64) string {
+
+
+
+
+func intToBase(n *big.Int, base *big.Int) string {
 	var result strings.Builder
+	// base := big.NewInt(62)
 
-
-	var minLimit int64 = 1
-	var maxLimit int64 = 100
-
-	if base < minLimit || base > maxLimit {
-		log.Fatal("fuck")
-	}
-
-
-	for n > 0 {
-		remainder := n % base
-		result.WriteRune(rune(baseChars[remainder]))
-		n /= base
+	zero := big.NewInt(0)
+	for n.Cmp(zero) > 0 {
+		remainder := new(big.Int)
+		remainder.Mod(n, base)
+		result.WriteByte(baseChars[remainder.Int64()])
+		n.Div(n, base)
 	}
 
 	// Reverse the result string
@@ -187,6 +186,37 @@ func intToBase(n int64, base int64) string {
 
 	return string(runes)
 }
+
+
+
+
+
+// func intToBase(n int64, base int64) string {
+// 	var result strings.Builder
+
+
+// 	var minLimit int64 = 1
+// 	var maxLimit int64 = 100
+
+// 	if base < minLimit || base > maxLimit {
+// 		log.Fatal("fuck")
+// 	}
+
+
+// 	for n > 0 {
+// 		remainder := n % base
+// 		result.WriteRune(rune(baseChars[remainder]))
+// 		n /= base
+// 	}
+
+// 	// Reverse the result string
+// 	runes := []rune(result.String())
+// 	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+// 		runes[i], runes[j] = runes[j], runes[i]
+// 	}
+
+// 	return string(runes)
+// }
 
 // func intToBase(n int64, base int64) string {
 
@@ -219,18 +249,18 @@ func hw_test() {
 	output := ""
     for i := 1; i <= width; i++ {
         // output += fmt.Sprint(i)
-		output += fmt.Sprint(intToBase(int64(i), 64))
+		output += fmt.Sprint(intToBase(new(big.Int).SetInt64(int64(i)), big.NewInt(64)))
     }
 	for i := width; i <= width+50; i++ {
         // output += fmt.Sprint("+", i-width)
-		output += fmt.Sprint(intToBase(int64(i-width), 64))
+		output += fmt.Sprint(intToBase(new(big.Int).SetInt64(int64(i-width)), big.NewInt(64)))
     }
 	output += "\n"
     for i := 2; i <= hight; i++ {
-        output += fmt.Sprint(intToBase(int64(i), 64), "   |   width: ", width, " hight: ", hight, "\n")
+        output += fmt.Sprint(intToBase(new(big.Int).SetInt64(int64(i)), big.NewInt(64)), "   |   width: ", width, " hight: ", hight, "\n")
     }
 	for i := hight; i <= hight+50; i++ {
-        output += fmt.Sprint(intToBase(int64(i+1-hight), 64), "\n")
+        output += fmt.Sprint(intToBase(new(big.Int).SetInt64(int64(i+1-hight)), big.NewInt(64)), "\n")
     }
 	fmt.Print(output)
 	os.Exit(0)
