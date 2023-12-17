@@ -159,7 +159,7 @@ func gr_initall() {
 }
 
 const (
-	baseChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#い@"
+	baseChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzあい@"
 )
 
 
@@ -191,8 +191,8 @@ const (
 
 
 func intToBase(n int64, base int64) string {
-	var result strings.Builder
-
+	// var result strings.Builder
+	var result string = ""
 
 	var minLimit int64 = 1
 	var maxLimit int64 = 100
@@ -204,17 +204,17 @@ func intToBase(n int64, base int64) string {
 
 	for n > 0 {
 		remainder := n % base
-		result.WriteString(string(baseChars[remainder]))
+		result += string(baseChars[remainder])
 		n /= base
 	}
 
 	// Reverse the result string
-	runes := []rune(result.String())
+	runes := []rune(result)
 	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
 		runes[i], runes[j] = runes[j], runes[i]
 	}
 
-	return string(result.String())
+	return string(runes)
 }
 
 // func intToBase(n int64, base int64) string {
