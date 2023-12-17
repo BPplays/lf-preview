@@ -199,12 +199,18 @@ func intToBase(n int64, base int64) string {
 	var minLimit int64 = 1
 	var maxLimit int64 = 100
 
-	if base < minLimit || base > maxLimit {
-		log.Fatal("fuck")
-	}
+
 
 	for _, char := range baseChars {
 		rune_sl = append(rune_sl, char)
+	}
+
+	if base > int64(len(rune_sl)) {
+		base = int64(len(rune_sl))
+	}
+
+	if base < minLimit || base > maxLimit {
+		log.Fatal("fuck")
 	}
 
 
@@ -254,18 +260,18 @@ func hw_test() {
 	output := ""
     for i := 1; i <= width; i++ {
         // output += fmt.Sprint(i)
-		output += fmt.Sprint(intToBase(int64(i), 64))
+		output += fmt.Sprint(intToBase(int64(i), 99964))
     }
 	for i := width; i <= width+50; i++ {
         // output += fmt.Sprint("+", i-width)
-		output += fmt.Sprint(intToBase(int64(i-width), 64))
+		output += fmt.Sprint(intToBase(int64(i-width), 99964))
     }
 	output += "\n"
     for i := 2; i <= hight; i++ {
-        output += fmt.Sprint(intToBase(int64(i), 64), "   |   width: ", width, " hight: ", hight, "\n")
+        output += fmt.Sprint(intToBase(int64(i), 99964), "   |   width: ", width, " hight: ", hight, "\n")
     }
 	for i := hight; i <= hight+50; i++ {
-        output += fmt.Sprint(intToBase(int64(i+1-hight), 64), "\n")
+        output += fmt.Sprint(intToBase(int64(i+1-hight), 99964), "\n")
     }
 	fmt.Print(output)
 	os.Exit(0)
