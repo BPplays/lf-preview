@@ -214,7 +214,7 @@ func intToBase(n int64, base int64) string {
 		runes[i], runes[j] = runes[j], runes[i]
 	}
 
-	return string(runes)
+	return string(result)
 }
 
 // func intToBase(n int64, base int64) string {
