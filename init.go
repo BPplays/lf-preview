@@ -161,8 +161,9 @@ func gr_initall() {
 const (
 	baseChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzあい"
 )
-
 func intToBase(n int64, base int64) string {
+	var result strings.Builder
+
 
 	var minLimit int64 = 1
 	var maxLimit int64 = 100
@@ -170,12 +171,11 @@ func intToBase(n int64, base int64) string {
 	if base < minLimit || base > maxLimit {
 		log.Fatal("fuck")
 	}
-	var result strings.Builder
-	// base := int64(62)
+
 
 	for n > 0 {
 		remainder := n % base
-		result.WriteByte(baseChars[remainder])
+		result.WriteRune(rune(baseChars[remainder]))
 		n /= base
 	}
 
@@ -187,6 +187,33 @@ func intToBase(n int64, base int64) string {
 
 	return string(runes)
 }
+
+// func intToBase(n int64, base int64) string {
+
+// 	var minLimit int64 = 1
+// 	var maxLimit int64 = 100
+
+// 	if base < minLimit || base > maxLimit {
+// 		log.Fatal("fuck")
+// 	}
+// 	var result strings.Builder
+// 	// base := int64(62)
+
+// 	for n > 0 {
+// 		remainder := n % base
+// 		result.WriteByte(baseChars[remainder])
+// 		n /= base
+// 	}
+
+// 	// Reverse the result string
+// 	runes := []rune(result.String())
+// 	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+// 		runes[i], runes[j] = runes[j], runes[i]
+// 	}
+
+// 	return string(runes)
+	
+// }
 
 func hw_test() {
 	output := ""
