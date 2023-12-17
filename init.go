@@ -10,6 +10,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 func init1(wg *sync.WaitGroup) {
@@ -200,7 +202,7 @@ func hw_test() {
     }
 	output += "\n"
     for i := 2; i <= hight; i++ {
-        output += fmt.Sprint(intToBase(int64(i), 64), "   |   width: ", width, " hight: ", hight, "\n")
+        output += fmt.Sprint(intToBase(int64(i), 64), "   |   width: ", width, " hight: ", hight,              " term_width: ", term_width, " term_height: ", term_height, "\n")
     }
 	for i := hight; i <= hight+50; i++ {
         output += fmt.Sprint(intToBase(int64(i+1-hight), 64), "\n")
@@ -210,7 +212,8 @@ func hw_test() {
 }
 
 
-
+var term_height int
+var term_width int
 
 func Init() {
 	var start time.Time
@@ -220,7 +223,12 @@ func Init() {
 
 	debug_hw_test := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_HW_TEST")
 
+	var err error
 
+	term_width, term_height, err = terminal.GetSize(int(os.Stdin.Fd()))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	gr_initall()
 
