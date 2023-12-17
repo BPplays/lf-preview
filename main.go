@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/exec"
 	"os/user"
-	"path"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -949,7 +948,7 @@ func main() {
 	}
 
 
-
+	Init()
 
 
 	// if chafaPreviewDebugTime == "1" {
@@ -973,8 +972,7 @@ func main() {
 	fmt.Print(tmp)
 
 
-	file = os.Args[1]
-	ext = path.Ext(file)
+	
 
     switch ext {
     case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico":
@@ -983,14 +981,13 @@ func main() {
 		if get_file_mb() > 100 {
 			preview_output = "file to big to preview"
 		} else {
-			Init()
 			preview_output = image_exif(file, width, hight, file, image_tags, "")
 		}
 	// case ".mp3", ".flac", ".ogg":
 	case ".wav", ".mp3", ".flac", ".m4a", ".wma", ".ape", ".ac3", ".ogg", ".spx", ".opus", ".mka":
 		// fmt.Println(exif_fmt(file, music_tags))
 		// get_hash()
-		Init()
+
 		preview_output = image_exif(file, width, hight, file, music_tags, "audio")
 		
     default:
