@@ -159,7 +159,7 @@ func gr_initall() {
 }
 
 const (
-	baseChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzあい@"
+	baseChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvw日本あい@"
 )
 
 
