@@ -220,11 +220,13 @@ func Init() {
 
 	debug_hw_test := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_HW_TEST")
 
+
+
+	gr_initall()
+
 	if debug_hw_test == "1" {
 		hw_test()
 	}
-
-	gr_initall()
 
 	if chafaPreviewDebugTime == "1" {
 		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
