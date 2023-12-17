@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"os/user"
+	"path"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -972,7 +973,8 @@ func main() {
 	fmt.Print(tmp)
 
 
-	
+	file = os.Args[1]
+	ext = path.Ext(file)
 
     switch ext {
     case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico":
