@@ -17,6 +17,7 @@ import (
 	"github.com/barasher/go-exiftool"
 	"github.com/dhowden/tag"
 	"github.com/kalafut/imohash"
+	"github.com/mitchellh/go-wordwrap"
 )
 
 // type thumbnail func(string, int) int
@@ -478,7 +479,7 @@ func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int
 
 
 
-var sep1 = "=================================================================="
+var sep1 = ""
 
 
 // music_tags=(
@@ -996,6 +997,7 @@ func main() {
 			preview_output = "file to big to preview"
 		} else {
 			preview_output = read_file(file)
+			preview_output = wordwrap.WrapString(preview_output, uint(width))
 		}
 		
     }

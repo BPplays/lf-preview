@@ -7,6 +7,7 @@ import (
 	"path"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -115,9 +116,10 @@ func init7(wg *sync.WaitGroup) {
 func init8(wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	for len(sep1) < width {
-		sep1 = sep1 + sep1
-	}
+	// for len(sep1) < width {
+	// 	sep1 = sep1 + sep1
+	// }
+	sep1 = strings.Repeat("=", width) 
 }
 
 
