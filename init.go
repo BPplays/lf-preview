@@ -204,15 +204,15 @@ func intToBase(n int64, base int64) string {
 
 	for n > 0 {
 		remainder := n % base
-		result.WriteRune(rune(baseChars[remainder]))
+		result.WriteString(string(baseChars[remainder]))
 		n /= base
 	}
 
 	// Reverse the result string
-	// runes := []rune(result.String())
-	// for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-	// 	runes[i], runes[j] = runes[j], runes[i]
-	// }
+	runes := []rune(result.String())
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
 
 	return string(result.String())
 }
