@@ -159,7 +159,24 @@ func gr_initall() {
 }
 
 
-
+func hw_test() {
+	output := ""
+    for i := 1; i <= width; i++ {
+        output += fmt.Sprint(i)
+    }
+	for i := width; i <= width+50; i++ {
+        output += fmt.Sprint("+", i-width)
+    }
+	output += "\n"
+    for i := 2; i <= hight; i++ {
+        output += fmt.Sprint(i, "\n")
+    }
+	for i := hight; i <= hight+50; i++ {
+        output += fmt.Sprint("+", i-hight)
+    }
+	fmt.Print(output)
+	os.Exit(0)
+}
 
 
 
@@ -168,6 +185,12 @@ func Init() {
 	var start time.Time
 	if chafaPreviewDebugTime == "1" {
 		start = time.Now()
+	}
+
+	debug_hw_test := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_HW_TEST")
+
+	if debug_hw_test == "1" {
+		hw_test()
 	}
 
 	gr_initall()
