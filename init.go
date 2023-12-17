@@ -159,7 +159,7 @@ func gr_initall() {
 }
 
 const (
-	baseChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzあい"
+	baseChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzあ@"
 )
 func intToBase(n int64, base int64) string {
 	var result strings.Builder
