@@ -948,12 +948,12 @@ func main() {
 	}
 
 
-	Init()
 
 
-	if chafaPreviewDebugTime == "1" {
-		time_output = time_output + fmt.Sprintln("init time: ",time.Since(prgstart))
-	}
+
+	// if chafaPreviewDebugTime == "1" {
+	// 	time_output = time_output + fmt.Sprintln("init time: ",time.Since(prgstart))
+	// }
 
 
 
@@ -981,13 +981,14 @@ func main() {
 		if get_file_mb() > 100 {
 			preview_output = "file to big to preview"
 		} else {
+			Init()
 			preview_output = image_exif(file, width, hight, file, image_tags, "")
 		}
 	// case ".mp3", ".flac", ".ogg":
 	case ".wav", ".mp3", ".flac", ".m4a", ".wma", ".ape", ".ac3", ".ogg", ".spx", ".opus", ".mka":
 		// fmt.Println(exif_fmt(file, music_tags))
 		// get_hash()
-
+		Init()
 		preview_output = image_exif(file, width, hight, file, music_tags, "audio")
 		
     default:

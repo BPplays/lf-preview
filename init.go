@@ -163,9 +163,16 @@ func gr_initall() {
 
 
 func Init() {
+	var start time.Time
+	if chafaPreviewDebugTime == "1" {
+		start = time.Now()
+	}
 
 	gr_initall()
 
+	if chafaPreviewDebugTime == "1" {
+		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
+	}
 }
 
 
@@ -278,13 +285,12 @@ func get_metadata_cache_dir() string {
 
 func get_cache_byte_limit() int {
 
-
 	if cache_byte_limit == -1 {
 		var start time.Time
 		if chafaPreviewDebugTime == "1" {
 			start = time.Now()
 		}
-		
+
 		// cache_byte_limit = get_folder_max_len(get_thumbnail_cache_dir())
 		cache_byte_limit = 200
 
