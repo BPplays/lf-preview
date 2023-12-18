@@ -948,6 +948,7 @@ func main() {
 		prgstart = time.Now()
 	}
 
+	disable_wordwrap := os.Getenv("LF_CHAFA_PREVIEW_DISABLE_WORDWRAP")
 
 	Init()
 
@@ -997,7 +998,10 @@ func main() {
 			preview_output = "file to big to preview"
 		} else {
 			preview_output = read_file(file)
-			preview_output = wordwrap.WrapString(preview_output, uint(width))
+			
+			if disable_wordwrap != "1" {
+				preview_output = wordwrap.WrapString(preview_output, uint(width))
+			}
 		}
 		
     }
