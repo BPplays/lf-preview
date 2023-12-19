@@ -998,9 +998,9 @@ func main() {
 			preview_output = "file to big to preview"
 		} else {
 			preview_output = read_file(file)
-			
+
 			if disable_wordwrap != "1" {
-				preview_output = wordwrap.WrapString(preview_output, uint(width))
+				preview_output = wordwrap.WrapString(preview_output, uint(width-10))
 			}
 		}
 		
