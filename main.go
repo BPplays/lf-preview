@@ -912,6 +912,16 @@ func word_wrap(s string, limit int) string {
 	var result string = ""
 
 	for len(strSlice) >= 1 {
+
+			// change the limit
+			// to cater for the last few words in
+			//
+			if len(strSlice) < limit {
+				limit = len(strSlice)
+			}
+
+
+
 			// convert slice/array back to string
 			// but insert \r\n at specified limit
 
@@ -920,12 +930,7 @@ func word_wrap(s string, limit int) string {
 			// discard the elements that were copied over to result
 			strSlice = strSlice[limit:]
 
-			// change the limit
-			// to cater for the last few words in
-			//
-			if len(strSlice) < limit {
-					limit = len(strSlice)
-			}
+
 
 	}
 
