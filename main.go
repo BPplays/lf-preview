@@ -899,6 +899,51 @@ func get_file_mb() float64 {
 
 
 
+
+func word_wrap(s string, limit int) string {
+
+	if strings.TrimSpace(s) == "" {
+			return s
+	}
+
+	// convert string to slice
+	strSlice := strings.Fields(s)
+
+	var result string = ""
+
+	for len(strSlice) >= 1 {
+			// convert slice/array back to string
+			// but insert \r\n at specified limit
+
+			result = result + strings.Join(strSlice[:limit], " ") + "\n"
+
+			// discard the elements that were copied over to result
+			strSlice = strSlice[limit:]
+
+			// change the limit
+			// to cater for the last few words in
+			//
+			if len(strSlice) < limit {
+					limit = len(strSlice)
+			}
+
+	}
+
+	return result
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 var userOpenFontRatio string
 var chafaFmt []string
 var chafaDither []string
@@ -1000,7 +1045,8 @@ func main() {
 			preview_output = read_file(file)
 
 			if disable_wordwrap != "1" {
-				preview_output = wordwrap.WrapString(preview_output, uint(width-10))
+				preview_output = wordwrap.WrapString(preview_output, uint(width))
+				preview_output = word_wrap(preview_output, width)
 			}
 		}
 		
