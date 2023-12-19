@@ -922,7 +922,9 @@ func word_wrap(s string, limit int) string {
 			// to cater for the last few words in
 			//
 			if len(rune_sl) < limit {
-				limit = len(rune_sl)
+				// limit = len(rune_sl)
+				result.WriteString(string(rune_sl))
+				break
 			}
 
 
@@ -937,9 +939,9 @@ func word_wrap(s string, limit int) string {
 			// discard the elements that were copied over to result
 			rune_sl = rune_sl[limit:]
 
-			if len(rune_sl) < limit {
-				limit = len(rune_sl)
-			}
+			// if len(rune_sl) < limit {
+			// 	limit = len(rune_sl)
+			// }
 
 
 
