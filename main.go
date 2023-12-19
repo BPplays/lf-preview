@@ -901,40 +901,51 @@ func get_file_mb() float64 {
 
 
 func word_wrap(s string, limit int) string {
+	var result strings.Builder
 
 	if strings.TrimSpace(s) == "" {
 			return s
 	}
 
-	// convert string to slice
-	strSlice := strings.Fields(s)
+	var rune_sl []rune
 
-	var result string = ""
 
-	for len(strSlice) >= 1 {
+	// for _, char := range baseChars {
+	// 	rune_sl = append(rune_sl, char)
+	// }
+
+	rune_sl = []rune(s)
+
+	for len(rune_sl) >= 1 {
 
 			// change the limit
 			// to cater for the last few words in
 			//
-			if len(strSlice) < limit {
-				limit = len(strSlice)
+			if len(rune_sl) < limit {
+				limit = len(rune_sl)
 			}
 
 
 
 			// convert slice/array back to string
 			// but insert \r\n at specified limit
+			result.WriteString(string(rune_sl[:limit-1]))
+			result.WriteString("⏎\n")
 
-			result = result + strings.Join(strSlice[:limit], " ") + "\n"
+			// result = result + strings.Join(rune_sl[:limit], " ") + "\n"
 
 			// discard the elements that were copied over to result
-			strSlice = strSlice[limit:]
+			rune_sl = rune_sl[limit-1:]
+
+			if len(rune_sl) < limit {
+				limit = len(rune_sl)
+			}
 
 
 
 	}
 
-	return result
+	return result.String()
 
 }
 

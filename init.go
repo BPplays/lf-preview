@@ -200,9 +200,11 @@ func intToBase(n int64, base int64) string {
 
 
 
-	for _, char := range baseChars {
-		rune_sl = append(rune_sl, char)
-	}
+	// for _, char := range baseChars {
+	// 	rune_sl = append(rune_sl, char)
+	// }
+
+	rune_sl = []rune(baseChars)
 
 	if base > int64(len(rune_sl)) {
 		base = int64(len(rune_sl))
