@@ -929,13 +929,13 @@ func word_wrap(s string, limit int) string {
 
 			// convert slice/array back to string
 			// but insert \r\n at specified limit
-			result.WriteString(string(rune_sl[:limit-1]))
+			result.WriteString(string(rune_sl[:limit]))
 			result.WriteString("⏎\n")
 
 			// result = result + strings.Join(rune_sl[:limit], " ") + "\n"
 
 			// discard the elements that were copied over to result
-			rune_sl = rune_sl[limit-1:]
+			rune_sl = rune_sl[limit:]
 
 			if len(rune_sl) < limit {
 				limit = len(rune_sl)
