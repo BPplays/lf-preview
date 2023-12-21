@@ -288,6 +288,8 @@ func len_test() {
 
 	fmt.Printf("Length of the string: %v\n", str)
 
+	fmt.Println("12345678")
+
 	fmt.Printf("Length of the string: %d\n", length)
 
 	os.Exit(0)
