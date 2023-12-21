@@ -920,7 +920,7 @@ func word_wrap(s string, limit int) string {
 
 
 		for {
-				if len(rune_sl) < limit {
+				if len(rune_sl) <= limit {
 					result.WriteString(string(rune_sl))
 					result.WriteString("\n")
 					break
