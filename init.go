@@ -281,7 +281,7 @@ func hw_test() {
 
 func len_test() {
 
-	str := "test にっぽん"
+	str := "にっぽん"
 
 	// Calculate the length of the string in terminal characters
 	length := utf8.RuneCountInString(str)
