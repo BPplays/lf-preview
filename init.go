@@ -286,7 +286,7 @@ func len_test() {
 	// Calculate the length of the string in terminal characters
 	length := utf8.RuneCountInString(str)
 
-	fmt.Printf("Length of the string: %v\n", str)
+	fmt.Println(str)
 
 	fmt.Println("12345678")
 
