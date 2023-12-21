@@ -103,9 +103,9 @@ func get_hash() string {
 			if chafaPreviewDebugTime == "1" {
 				hashstart = time.Now()
 			}
-	
+
 			hash = calculateHash(file)
-	
+
 			if chafaPreviewDebugTime == "1" {
 				time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
 			}
@@ -377,7 +377,7 @@ func exif_fmt(fileInfos []exiftool.FileMetadata, tags [][]string) (string) {
 					}
 					output = output + fmt.Sprintf("%v: %v\n", tag_name, val)
 				}
-					
+
 			}
 
 		}
@@ -566,7 +566,7 @@ var exif_key_map = map[string]string{
 
 
 func chafa_image(image *[]byte, width, height int) (string) {
-	
+
 
 	cmd := exec.Command("chafa", fmt.Sprintf("--font-ratio=%s", userOpenFontRatio))
 	cmd.Args = append(cmd.Args, chafaFmt...)
@@ -592,7 +592,7 @@ func chafa_image(image *[]byte, width, height int) (string) {
 			os.Exit(1)
 		}
 	}()
-	
+
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -838,7 +838,7 @@ func thumbnail_music(file string) *[]byte {
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+
 
 	// fmt.Println(string(output))
 	if chafaPreviewDebugTime == "1" {
@@ -902,36 +902,41 @@ func get_file_mb() float64 {
 
 func word_wrap(s string, limit int) string {
 	var result strings.Builder
-
-	if strings.TrimSpace(s) == "" {
-			return s
-	}
-
-	var rune_sl []rune
+	// var rune_sl []rune
 
 
-	// for _, char := range baseChars {
-	// 	rune_sl = append(rune_sl, char)
+	// rune_sl := []rune(s)
+
+
+	// if len(rune_sl) < limit {
+	// 	return s
 	// }
 
-	rune_sl = []rune(s)
-
-	for {
-			if len(rune_sl) < limit {
-				result.WriteString(string(rune_sl))
-				break
-			}
+	string_split := strings.Split(s, "\n")
 
 
-			result.WriteString(string(rune_sl[:limit-1]))
-			result.WriteString("⏎\n")
+	for _, str := range string_split {
+		rune_sl := []rune(str)
 
-			rune_sl = rune_sl[limit-1:]
+
+		for {
+				if len(rune_sl) < limit {
+					result.WriteString(string(rune_sl))
+					break
+				}
+	
+	
+				result.WriteString(string(rune_sl[:limit-1]))
+				result.WriteString("⏎\n")
+	
+				rune_sl = rune_sl[limit-1:]
+		}
+	
+		return result.String()
+	
+	}
 	}
 
-	return result.String()
-
-}
 
 
 
@@ -1005,7 +1010,7 @@ func main() {
 
 
 	preview_output := ""
-	
+
 
 
 	// thumbnail_cache = filepath.Join(thumbnail_cache_dir, fmt.Sprintf("thumbnail.%s", hash))
@@ -1019,12 +1024,12 @@ func main() {
 	fmt.Print(tmp)
 
 
-	
+
 
     switch ext {
     case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico":
 
-		
+
 		if get_file_mb() > 100 {
 			preview_output = "file to big to preview"
 		} else {
@@ -1036,7 +1041,7 @@ func main() {
 		// get_hash()
 
 		preview_output = image_exif(file, width, hight, file, music_tags, "audio")
-		
+
     default:
         // fmt.Println("sdf")
 		if get_file_mb() > 0.1 {
@@ -1049,7 +1054,7 @@ func main() {
 				preview_output = word_wrap(preview_output, width)
 			}
 		}
-		
+
     }
 
 
@@ -1067,10 +1072,10 @@ func main() {
 	if get_print_output() {
 		fmt.Print(preview_output)
 	}
-	
-
-	
 
 
-	
+
+
+
+
 }
