@@ -17,6 +17,7 @@ import (
 	"github.com/barasher/go-exiftool"
 	"github.com/dhowden/tag"
 	"github.com/kalafut/imohash"
+	"github.com/mattn/go-runewidth"
 	"github.com/mitchellh/go-wordwrap"
 )
 
@@ -905,8 +906,8 @@ func word_wrap(s string, limit int) string {
 	// var rune_sl []rune
 
 
-	// rune_sl := []rune(s)
-
+	var rune_sl = []rune
+	var diff = int
 
 	// if len(rune_sl) < limit {
 	// 	return s
@@ -915,8 +916,12 @@ func word_wrap(s string, limit int) string {
 	string_split := strings.Split(s, "\n")
 
 
+
+
 	for _, str := range string_split {
-		rune_sl := []rune(str)
+		rune_sl = []rune(str)
+
+		diff = len(rune_sl) - runewidth.StringWidth(str)
 
 
 		for {
@@ -927,10 +932,10 @@ func word_wrap(s string, limit int) string {
 				}
 	
 	
-				result.WriteString(string(rune_sl[:limit-1]))
+				result.WriteString(string(rune_sl[:limit-diff-1]))
 				result.WriteString("⏎\n")
 	
-				rune_sl = rune_sl[limit-1:]
+				rune_sl = rune_sl[limit-diff-1:]
 		}
 	
 		
