@@ -927,13 +927,14 @@ func word_wrap(s string, limit int) string {
 		for {
 				inc += 1
 				fmt.Println(inc)
+				diff = runewidth.StringWidth(str) - len(rune_sl)
 				if len(rune_sl) <= limit-diff {
 					result.WriteString(string(rune_sl))
 					result.WriteString("\n")
 					break
 				}
 
-				diff = runewidth.StringWidth(str) - len(rune_sl)
+				// diff = runewidth.StringWidth(str) - len(rune_sl)
 				fmt.Printf("len: %v\n", len(rune_sl))
 				fmt.Println(diff)
 	
