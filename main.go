@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"os/exec"
 	"os/user"
@@ -905,7 +906,13 @@ func word_wrap(s string, limit int) string {
 	var result strings.Builder
 
 	var rune_sl []rune
-	var diff int
+	var diff float64
+
+	var aj_limit float64
+
+	var fl_len float64
+
+	var int_aj_limit int
 
 
 
@@ -921,14 +928,17 @@ func word_wrap(s string, limit int) string {
 	for _, str := range string_split {
 		rune_sl = []rune(str)
 
-		
-
-
 		for {
 				inc += 1
 				fmt.Println(inc)
-				diff = runewidth.StringWidth(str) - len(rune_sl)
-				if len(rune_sl) <= limit-diff {
+
+				fl_len = float64(len(rune_sl))
+
+				diff = float64(runewidth.StringWidth(str)) / fl_len
+
+				aj_limit = float64(limit) / diff
+
+				if fl_len <= aj_limit {
 					result.WriteString(string(rune_sl))
 					result.WriteString("\n")
 					break
@@ -937,12 +947,13 @@ func word_wrap(s string, limit int) string {
 				// diff = runewidth.StringWidth(str) - len(rune_sl)
 				fmt.Printf("len: %v\n", len(rune_sl))
 				fmt.Println(diff)
+				
+				int_aj_limit = int(math.Floor(aj_limit))
 	
-	
-				result.WriteString(string(rune_sl[:limit-diff-1]))
+				result.WriteString(string(rune_sl[:int(int_aj_limit-1]))
 				result.WriteString("⏎\n")
 	
-				rune_sl = rune_sl[limit-diff-1:]
+				rune_sl = rune_sl[int_aj_limit-1:]
 		}
 	
 		
