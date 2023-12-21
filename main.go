@@ -932,9 +932,11 @@ func word_wrap(s string, limit int) string {
 				rune_sl = rune_sl[limit-1:]
 		}
 	
-		return result.String()
+		
 	
 	}
+	
+	return result.String()
 	}
 
 
