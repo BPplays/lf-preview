@@ -949,11 +949,11 @@ func char_wrap(s string, limit int) string {
 				}
 
 				// diff = runewidth.StringWidth(str) - len(rune_sl)
-				fmt.Printf("len: %v\n", len(rune_sl))
-				fmt.Printf("fl_len: %v\n", fl_len)
-				fmt.Printf("aj_limit: %v\n", aj_limit)
-				fmt.Printf("int_aj_limit: %v\n", int_aj_limit)
-				fmt.Printf("diff: %v\n", diff)
+				// fmt.Printf("len: %v\n", len(rune_sl))
+				// fmt.Printf("fl_len: %v\n", fl_len)
+				// fmt.Printf("aj_limit: %v\n", aj_limit)
+				// fmt.Printf("int_aj_limit: %v\n", int_aj_limit)
+				// fmt.Printf("diff: %v\n", diff)
 				
 				
 	
