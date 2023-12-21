@@ -950,7 +950,7 @@ func word_wrap(s string, limit int) string {
 				
 				int_aj_limit = int(math.Floor(aj_limit))
 	
-				result.WriteString(string(rune_sl[:int(int_aj_limit-1]))
+				result.WriteString(string(rune_sl[:int_aj_limit-1]))
 				result.WriteString("⏎\n")
 	
 				rune_sl = rune_sl[int_aj_limit-1:]
