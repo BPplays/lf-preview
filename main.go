@@ -902,7 +902,7 @@ func get_file_mb() float64 {
 
 
 
-func word_wrap(s string, limit int) string {
+func char_wrap(s string, limit int) string {
 	var result strings.Builder
 
 	var rune_sl []rune
@@ -1084,7 +1084,7 @@ func main() {
 
 			if disable_wordwrap != "1" {
 				preview_output = wordwrap.WrapString(preview_output, uint(width))
-				preview_output = word_wrap(preview_output, width)
+				preview_output = char_wrap(preview_output, width)
 			}
 		}
 
