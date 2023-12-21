@@ -10,6 +10,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"unicode/utf8"
 )
 
 func init1(wg *sync.WaitGroup) {
@@ -278,9 +279,23 @@ func hw_test() {
 	os.Exit(0)
 }
 
+func len_test() {
 
-var term_height int
-var term_width int
+	str := "test にっぽん"
+
+	// Calculate the length of the string in terminal characters
+	length := utf8.RuneCountInString(str)
+
+	fmt.Printf("Length of the string: %v\n", str)
+
+	fmt.Printf("Length of the string: %d\n", length)
+
+	os.Exit(0)
+}
+
+
+// var term_height int
+// var term_width int
 
 func Init() {
 	var start time.Time
@@ -289,6 +304,7 @@ func Init() {
 	}
 
 	debug_hw_test := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_HW_TEST")
+	debug_len_test := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_LEN_TEST")
 
 	// var err error
 
@@ -302,6 +318,10 @@ func Init() {
 
 	if debug_hw_test == "1" {
 		hw_test()
+	}
+
+	if debug_len_test == "1" {
+		len_test()
 	}
 
 	if chafaPreviewDebugTime == "1" {
