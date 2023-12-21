@@ -938,7 +938,7 @@ func char_wrap(s string, limit int) string {
 
 				if diff > 0 {
 					aj_limit = float64(limit) / diff
-					int_aj_limit = int(math.Ceil(aj_limit))
+					int_aj_limit = int(math.Ceil(aj_limit+1))
 				}
 
 
