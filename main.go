@@ -921,7 +921,7 @@ func word_wrap(s string, limit int) string {
 	for _, str := range string_split {
 		rune_sl = []rune(str)
 
-		diff = runewidth.StringWidth(str) - len(rune_sl)
+		
 
 
 		for {
@@ -930,6 +930,8 @@ func word_wrap(s string, limit int) string {
 					result.WriteString("\n")
 					break
 				}
+
+				diff = runewidth.StringWidth(str) - len(rune_sl)
 	
 	
 				result.WriteString(string(rune_sl[:limit-diff-1]))
