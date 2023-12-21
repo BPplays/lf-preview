@@ -10,7 +10,8 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"unicode/utf8"
+
+	"github.com/mattn/go-runewidth"
 )
 
 func init1(wg *sync.WaitGroup) {
@@ -284,13 +285,14 @@ func len_test() {
 	str := "にっぽん"
 
 	// Calculate the length of the string in terminal characters
-	length := utf8.RuneCountInString(str)
+	// length := utf8.RuneCountInString(str)
+	width := runewidth.StringWidth(str)
 
 	fmt.Println(str)
 
 	fmt.Println("12345678")
 
-	fmt.Printf("Length of the string: %d\n", length)
+	fmt.Printf("Length of the string: %d\n", width)
 
 	os.Exit(0)
 }
