@@ -934,9 +934,9 @@ func word_wrap(s string, limit int) string {
 
 				fl_len = float64(len(rune_sl))
 
-				diff = float64(runewidth.StringWidth(string(rune_sl))) - fl_len
+				diff = (float64(runewidth.StringWidth(string(rune_sl))) - fl_len) / 2
 
-				aj_limit = float64(limit) - (diff / 2)
+				aj_limit = float64(limit) - diff
 				int_aj_limit = int(math.Floor(aj_limit))
 
 				if len(rune_sl) <= int_aj_limit {
