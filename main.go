@@ -923,14 +923,14 @@ func word_wrap(s string, limit int) string {
 	string_split := strings.Split(s, "\n")
 
 
-	var inc int64 = 0
+	// var inc int64 = 0
 
 	for _, str := range string_split {
 		rune_sl = []rune(str)
 
 		for {
-				inc += 1
-				fmt.Println(inc)
+				// inc += 1
+				// fmt.Println(inc)
 
 				fl_len = float64(len(rune_sl))
 
@@ -949,11 +949,11 @@ func word_wrap(s string, limit int) string {
 				}
 
 				// diff = runewidth.StringWidth(str) - len(rune_sl)
-				fmt.Printf("len: %v\n", len(rune_sl))
-				fmt.Printf("fl_len: %v\n", fl_len)
-				fmt.Printf("aj_limit: %v\n", aj_limit)
-				fmt.Printf("int_aj_limit: %v\n", int_aj_limit)
-				fmt.Printf("diff: %v\n", diff)
+				// fmt.Printf("len: %v\n", len(rune_sl))
+				// fmt.Printf("fl_len: %v\n", fl_len)
+				// fmt.Printf("aj_limit: %v\n", aj_limit)
+				// fmt.Printf("int_aj_limit: %v\n", int_aj_limit)
+				// fmt.Printf("diff: %v\n", diff)
 				
 				
 	
