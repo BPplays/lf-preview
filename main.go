@@ -903,11 +903,11 @@ func get_file_mb() float64 {
 
 func word_wrap(s string, limit int) string {
 	var result strings.Builder
-	// var rune_sl []rune
+
+	var rune_sl []rune
+	var diff int
 
 
-	var rune_sl = []rune
-	var diff = int
 
 	// if len(rune_sl) < limit {
 	// 	return s
