@@ -20,6 +20,7 @@ import (
 	"github.com/kalafut/imohash"
 	"github.com/mattn/go-runewidth"
 	"github.com/mitchellh/go-wordwrap"
+	"lukechampine.com/blake3"
 )
 
 // type thumbnail func(string, int) int
@@ -61,36 +62,28 @@ func getEnvOrFallback(key, fallback string) string {
 var hash string = ""
 
 
+func blake3Hash(data []byte) string {
+	var hashstartblake3 time.Time
+	if debug_time {
+		hashstartblake3 = time.Now()
+	}
 
-// func calculateHash(filePath string) string {
-// 	var hashstart time.Time
-// 	if chafaPreviewDebugTime == "1" {
-// 		hashstart = time.Now()
-// 	}
+	hasher := blake3.New(256, nil)
 
-// 	file, err := os.Open(filePath)
-// 	if err != nil {
-// 		fmt.Println("Error opening file:", err)
-// 		os.Exit(1)
-// 	}
-// 	defer file.Close()
-
-// 	hash := blake3.New(256, nil)
-// 	if _, err := io.Copy(hash, file); err != nil {
-// 		fmt.Println("Error calculating hash:", err)
-// 		os.Exit(1)
-// 	}
+	hasher.Write(data)
 
 
-// 	output := limitStringToBytes(fmt.Sprintf("%x", hash.Sum(nil)), cache_byte_limit)
+	output := limitStringToBytes(fmt.Sprintf("%x", hasher.Sum(nil)), get_cache_byte_limit())
 
-// 	if chafaPreviewDebugTime == "1" {
-// 		time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
-// 		// time_output = time_output + fmt.Sprintln("hash: ", fmt.Sprintf("%x", hash.Sum(nil)))
-// 	}
+	if debug_time {
+		time_output = time_output + fmt.Sprintln("blake3 hash time: ",time.Since(hashstartblake3))
+		// time_output = time_output + fmt.Sprintln("hash: ", fmt.Sprintf("%x", hash.Sum(nil)))
+	}
 
-// 	return output
-// }
+	return output
+}
+
+
 var hash_started bool = false
 
 func get_hash() string {
@@ -106,7 +99,7 @@ func get_hash() string {
 				hashstart = time.Now()
 			}
 
-			hash = calculateHash(file)
+			hash = limitStringToBytes(calculateHash(file)+blake3Hash([]byte(filepath.Base(file))), get_cache_byte_limit())
 
 			if debug_time {
 				time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
