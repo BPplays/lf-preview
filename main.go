@@ -220,7 +220,7 @@ func calculateHash(filePath string) string {
 
 
 	// hash := imohash.New()
-	hash := imohash.NewCustom(1, 64)
+	hash := imohash.NewCustom(10000, 64)
 
 
 	sum, err := hash.SumFile(filePath)
