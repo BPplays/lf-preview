@@ -402,7 +402,7 @@ func get_lfCacheDir() string {
 		defaultCacheBase := filepath.Join(getHomeDir(), ".cache")
 		cacheBase = getEnvOrFallback("XDG_CACHE_HOME", defaultCacheBase)
 	
-		lfCacheDir = filepath.Join(cacheBase, "lf")
+		lfCacheDir = filepath.Join(cacheBase, "lf-preview")
 		if _, err := os.Stat(lfCacheDir); os.IsNotExist(err) {
 			err := os.MkdirAll(lfCacheDir, os.ModePerm)
 			if err != nil {
