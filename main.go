@@ -219,7 +219,8 @@ func calculateHash(filePath string) string {
 	defer file.Close()
 
 
-	hash := imohash.New()
+	// hash := imohash.New()
+	hash := imohash.NewCustom(8, 64)
 
 
 	sum, err := hash.SumFile(filePath)
