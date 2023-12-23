@@ -1,8 +1,10 @@
 package main
 
 import (
+	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"math"
 	"os"
@@ -20,7 +22,7 @@ import (
 	"github.com/mattn/go-runewidth"
 	"github.com/mitchellh/go-wordwrap"
 	"github.com/oliverpool/sparsehash"
-	"lukechampine.com/blake3"
+	"github.com/zeebo/blake3"
 )
 
 // type thumbnail func(string, int) int
@@ -42,22 +44,22 @@ func getEnvOrFallback(key, fallback string) string {
 	return value
 }
 
-// func calculateHash(filePath string) string {
-// 	file, err := os.Open(filePath)
-// 	if err != nil {
-// 		fmt.Println("Error opening file:", err)
-// 		os.Exit(1)
-// 	}
-// 	defer file.Close()
+func calculatesha256Hash(filePath string) string {
+	file, err := os.Open(filePath)
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		os.Exit(1)
+	}
+	defer file.Close()
 
-// 	hash := sha256.New()
-// 	if _, err := io.Copy(hash, file); err != nil {
-// 		fmt.Println("Error calculating hash:", err)
-// 		os.Exit(1)
-// 	}
+	hash := sha256.New()
+	if _, err := io.Copy(hash, file); err != nil {
+		fmt.Println("Error calculating hash:", err)
+		os.Exit(1)
+	}
 
-// 	return fmt.Sprintf("%x", hash.Sum(nil))
-// }
+	return fmt.Sprintf("%x", hash.Sum(nil))
+}
 
 var hash string = ""
 
@@ -68,7 +70,7 @@ func blake3Hash(data []byte) string {
 		hashstartblake3 = time.Now()
 	}
 
-	hasher := blake3.New(256, nil)
+	hasher := blake3.New()
 
 	hasher.Write(data)
 
@@ -82,6 +84,7 @@ func blake3Hash(data []byte) string {
 
 	return output
 }
+
 
 
 var hash_started bool = false
@@ -219,7 +222,7 @@ func calculateHash(filePath string) string {
 	defer file.Close()
 
 
-	hash := sparsehash.New()
+	hash := sparsehash.New(sha256.New)
 	// hash := imohash.NewCustom(10000, 64)
 
 
