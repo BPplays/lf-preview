@@ -1,6 +1,7 @@
 package main
 
 import (
+	"hash"
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
@@ -159,7 +160,7 @@ func get_hash() string {
 // 	return output
 // }
 
-func highwayhash_hh() hash.Hash {
+func highwayhash_hh()  (hash.Hash) {
 
 	key := make([]byte, 32)
 
@@ -172,9 +173,6 @@ func highwayhash_hh() hash.Hash {
 
 	return hash
 }
-
-
-
 
 
 // func calculateHash(filePath string) string {
@@ -967,17 +965,17 @@ func char_wrap(s string, limit int) string {
 				// fmt.Printf("aj_limit: %v\n", aj_limit)
 				// fmt.Printf("int_aj_limit: %v\n", int_aj_limit)
 				// fmt.Printf("diff: %v\n", diff)
-				
-				
-	
+
+
+
 				result.WriteString(string(rune_sl[:int_aj_limit-1]))
 				result.WriteString("⏎\n")
-	
+
 				rune_sl = rune_sl[int_aj_limit-1:]
 		}
-	
-		
-	
+
+
+
 	}
 
 	return result.String()
