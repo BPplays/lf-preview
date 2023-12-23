@@ -303,7 +303,7 @@ func len_test() {
 
 func Init() {
 	var start time.Time
-	if chafaPreviewDebugTime == "1" {
+	if debug_time {
 		start = time.Now()
 	}
 
@@ -328,7 +328,7 @@ func Init() {
 		len_test()
 	}
 
-	if chafaPreviewDebugTime == "1" {
+	if debug_time {
 		time_output = time_output + fmt.Sprintln("init time: ",time.Since(start))
 	}
 }
@@ -445,14 +445,14 @@ func get_cache_byte_limit() int {
 
 	if cache_byte_limit == -1 {
 		var start time.Time
-		if chafaPreviewDebugTime == "1" {
+		if debug_time {
 			start = time.Now()
 		}
 
 		// cache_byte_limit = get_folder_max_len(get_thumbnail_cache_dir())
 		cache_byte_limit = 200
 
-		if chafaPreviewDebugTime == "1" {
+		if debug_time {
 			time_output = time_output + fmt.Sprintln("get_cache_byte_limit time: ",time.Since(start))
 		}
 

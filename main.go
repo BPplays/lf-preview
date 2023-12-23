@@ -102,13 +102,13 @@ func get_hash() string {
 			var hashstart time.Time
 
 
-			if chafaPreviewDebugTime == "1" {
+			if debug_time {
 				hashstart = time.Now()
 			}
 
 			hash = calculateHash(file)
 
-			if chafaPreviewDebugTime == "1" {
+			if debug_time {
 				time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
 			}
 		} else {
@@ -455,7 +455,7 @@ func get_metadata(file string, tags [][]string) (string) {
 func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	var start time.Time
-	if chafaPreviewDebugTime == "1" {
+	if debug_time {
 		start = time.Now()
 	}
 	var output = order_string{order, ""}
@@ -468,7 +468,7 @@ func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int
 	output.content = output.content + get_metadata(file, tags)
 	output.content = output.content + fmt.Sprintln(sep1)
 	ch <- output
-	if chafaPreviewDebugTime == "1" {
+	if debug_time {
 		time_output = time_output + fmt.Sprintln("exif_fmt_gr time: ",time.Since(start))
 	}
 	// output := exif_fmt(file, tags)
@@ -628,7 +628,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	defer wg.Done()
 	var start time.Time
 	var chafa_start time.Time
-	if chafaPreviewDebugTime == "1" {
+	if debug_time {
 		start = time.Now()
 	}
 
@@ -675,13 +675,13 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 
 
 
-		if chafaPreviewDebugTime == "1" {
+		if debug_time {
 			chafa_start = time.Now()
 		}
 
 		chafa_output = chafa_image(image, width, height)
 
-		if chafaPreviewDebugTime == "1" {
+		if debug_time {
 			time_output = time_output + fmt.Sprintln("chafa time: ",time.Since(chafa_start))
 		}
 
@@ -708,7 +708,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 
 
 	ch <- output
-	if chafaPreviewDebugTime == "1" {
+	if debug_time {
 		time_output = time_output + fmt.Sprintln("image_gr time: ",time.Since(start))
 	}
 }
@@ -821,7 +821,7 @@ func thumbnail_music(file string) *[]byte {
 	// cache := get_thumbnail_cache_file(".bmp")
 
 	var start time.Time
-	if chafaPreviewDebugTime == "1" {
+	if debug_time {
 		start = time.Now()
 	}
 	// cache := filepath.Join(cacheFile, ".bmp")
@@ -843,7 +843,7 @@ func thumbnail_music(file string) *[]byte {
 
 
 	// fmt.Println(string(output))
-	if chafaPreviewDebugTime == "1" {
+	if debug_time {
 		time_output = time_output + fmt.Sprintln("thumbnail_music time: ",time.Since(start))
 	}
 	return &m.Picture().Data
@@ -995,7 +995,7 @@ var chafaColors []string
 var metadata_cache_dir string = ""
 
 var thumbnail_cache_dir string = ""
-var chafaPreviewDebugTime string
+var debug_time bool
 
 
 
@@ -1020,14 +1020,25 @@ var chafaPreviewDither string = ""
 var chafaPreviewColors string = ""
 
 
+func stringNumberToBool(strNumber string) bool {
+	// Parse the string to an integer
+	intValue, err := strconv.Atoi(strNumber)
+	if err != nil {
+		// Handle the error (e.g., invalid string format)
+		fmt.Println("Error:", err)
+		return false
+	}
 
+	// Convert the integer to a boolean
+	return intValue != 0
+}
 
 
 func main() {
 
-	chafaPreviewDebugTime = os.Getenv("LF_CHAFA_PREVIEW_DEBUG_TIME")
+	debug_time = stringNumberToBool(os.Getenv("LF_CHAFA_PREVIEW_DEBUG_TIME"))
 	var prgstart time.Time
-	if chafaPreviewDebugTime == "1" {
+	if debug_time {
 		prgstart = time.Now()
 	}
 
@@ -1094,7 +1105,7 @@ func main() {
 
 
 
-	if chafaPreviewDebugTime == "1" {
+	if debug_time {
 		time_output = time_output + fmt.Sprintln("total time: ",time.Since(prgstart))
 		preview_output = preview_output + sep1 + "\n"
 		preview_output = preview_output + time_output
