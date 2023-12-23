@@ -1018,7 +1018,7 @@ func stringNumberToBool(strNumber string) bool {
 	intValue, err := strconv.Atoi(strNumber)
 	if err != nil {
 		// Handle the error (e.g., invalid string format)
-		fmt.Println("Error:", err)
+		// fmt.Println("Error:", err)
 		return false
 	}
 
