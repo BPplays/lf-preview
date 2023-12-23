@@ -19,9 +19,9 @@ import (
 
 	"github.com/barasher/go-exiftool"
 	"github.com/dhowden/tag"
+	"github.com/kalafut/imohash"
 	"github.com/mattn/go-runewidth"
 	"github.com/mitchellh/go-wordwrap"
-	"github.com/oliverpool/sparsehash"
 	"github.com/zeebo/blake3"
 )
 
@@ -220,10 +220,10 @@ func calculateHash(filePath string) string {
 	}
 	defer file.Close()
 
-	// hash := sparsehash.New(sha256.New)
-	hasher := sparsehash.New(highwayhash_hh)
-	// hash := imohash.New()
-	// hash := imohash.NewCustom(10000, 64)
+	// hasher := sparsehash.New(sha256.New)
+	// hasher := sparsehash.New(highwayhash_hh)
+	hasher := imohash.New()
+	// hasher := imohash.NewCustom(10000, 64)
 
 
 	sum, err := hasher.SumFile(filePath)
