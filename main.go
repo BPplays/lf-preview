@@ -1,7 +1,6 @@
 package main
 
 import (
-	"hash"
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
@@ -21,7 +20,6 @@ import (
 	"github.com/barasher/go-exiftool"
 	"github.com/dhowden/tag"
 	"github.com/mattn/go-runewidth"
-	"github.com/minio/highwayhash"
 	"github.com/mitchellh/go-wordwrap"
 	"github.com/oliverpool/sparsehash"
 	"github.com/zeebo/blake3"
@@ -54,16 +52,16 @@ func calculatesha256Hash(filePath string) string {
 	}
 	defer file.Close()
 
-	hash := sha256.New()
-	if _, err := io.Copy(hash, file); err != nil {
+	hasher := sha256.New()
+	if _, err := io.Copy(hasher, file); err != nil {
 		fmt.Println("Error calculating hash:", err)
 		os.Exit(1)
 	}
 
-	return fmt.Sprintf("%x", hash.Sum(nil))
+	return fmt.Sprintf("%x", hasher.Sum(nil))
 }
 
-var hash string = ""
+var hash_res string = ""
 
 
 func blake3Hash(data []byte) string {
@@ -92,7 +90,7 @@ func blake3Hash(data []byte) string {
 var hash_started bool = false
 
 func get_hash() string {
-	if hash == "" {
+	if hash_res == "" {
 		if !hash_started {
 			hash_started = true
 
@@ -104,20 +102,20 @@ func get_hash() string {
 				hashstart = time.Now()
 			}
 
-			hash = limitStringToBytes(calculateHash(file)+blake3Hash([]byte(filepath.Base(file))), get_cache_byte_limit())
+			hash_res = limitStringToBytes(calculateHash(file)+blake3Hash([]byte(filepath.Base(file))), get_cache_byte_limit())
 
 			if debug_time {
 				time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
 			}
 		} else {
-			for hash == "" {
+			for hash_res == "" {
 				time.Sleep(80 * time.Microsecond)
 			}
 		}
 
 	}
 
-	return hash
+	return hash_res
 
 }
 
@@ -160,19 +158,7 @@ func get_hash() string {
 // 	return output
 // }
 
-func highwayhash_hh()  (hash.Hash) {
 
-	key := make([]byte, 32)
-
-	hash, err := highwayhash.New(key)
-
-	if err != nil {
-		fmt.Println(err)
-		log.Fatal(err)
-	}
-
-	return hash
-}
 
 
 // func calculateHash(filePath string) string {
@@ -235,12 +221,12 @@ func calculateHash(filePath string) string {
 	defer file.Close()
 
 	// hash := sparsehash.New(sha256.New)
-	hash := sparsehash.New(highwayhash_hh)
+	hasher := sparsehash.New(highwayhash_hh)
 	// hash := imohash.New()
 	// hash := imohash.NewCustom(10000, 64)
 
 
-	sum, err := hash.SumFile(filePath)
+	sum, err := hasher.SumFile(filePath)
 	if err != nil {
 		fmt.Println("Error opening file:", err)
 		os.Exit(1)
@@ -965,17 +951,17 @@ func char_wrap(s string, limit int) string {
 				// fmt.Printf("aj_limit: %v\n", aj_limit)
 				// fmt.Printf("int_aj_limit: %v\n", int_aj_limit)
 				// fmt.Printf("diff: %v\n", diff)
-
-
-
+				
+				
+	
 				result.WriteString(string(rune_sl[:int_aj_limit-1]))
 				result.WriteString("⏎\n")
-
+	
 				rune_sl = rune_sl[int_aj_limit-1:]
 		}
-
-
-
+	
+		
+	
 	}
 
 	return result.String()
