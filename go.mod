@@ -12,7 +12,9 @@ require (
 	github.com/minio/highwayhash v1.0.2 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/nwaples/rardecode v1.1.3 // indirect
+	github.com/oliverpool/sparsehash v0.1.2 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
+	github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72 // indirect
 	github.com/twmb/murmur3 v1.1.5 // indirect
 	golang.org/x/sys v0.15.0 // indirect
 	lukechampine.com/blake3 v1.2.1 // indirect
