@@ -20,6 +20,7 @@ import (
 	"github.com/barasher/go-exiftool"
 	"github.com/dhowden/tag"
 	"github.com/mattn/go-runewidth"
+	"github.com/minio/highwayhash"
 	"github.com/mitchellh/go-wordwrap"
 	"github.com/oliverpool/sparsehash"
 	"github.com/zeebo/blake3"
@@ -158,6 +159,20 @@ func get_hash() string {
 // 	return output
 // }
 
+func highwayhash_hh() hash.Hash {
+
+	key := make([]byte, 32)
+
+	hash, err := highwayhash.New(key)
+
+	if err != nil {
+		fmt.Println(err)
+		log.Fatal(err)
+	}
+
+	return hash
+}
+
 
 
 
@@ -221,8 +236,9 @@ func calculateHash(filePath string) string {
 	}
 	defer file.Close()
 
-
-	hash := sparsehash.New(sha256.New)
+	// hash := sparsehash.New(sha256.New)
+	hash := sparsehash.New(highwayhash_hh)
+	// hash := imohash.New()
 	// hash := imohash.NewCustom(10000, 64)
 
 
