@@ -1039,9 +1039,12 @@ func stringNumberToBool(strNumber string) bool {
 
 func main() {
 
+	cpuprofile := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_CPUPROF")
+	memprofile := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_MEMPROF")
+
 	flag.Parse()
-    if *cpuprofile != "" {
-        f, err := os.Create(*cpuprofile)
+    if cpuprofile != "" {
+        f, err := os.Create(cpuprofile)
         if err != nil {
             log.Fatal("could not create CPU profile: ", err)
         }
@@ -1136,8 +1139,8 @@ func main() {
 	}
 
 
-    if *memprofile != "" {
-        f, err := os.Create(*memprofile)
+    if memprofile != "" {
+        f, err := os.Create(memprofile)
         if err != nil {
             log.Fatal("could not create memory profile: ", err)
         }
