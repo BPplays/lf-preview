@@ -1,6 +1,6 @@
 module github.com/BPplays/lf-preview
 
-go 1.19
+go 1.21.5
 
 require (
 	github.com/bakape/thumbnailer/v2 v2.7.1 // indirect
