@@ -574,7 +574,7 @@ func chafa_image(image *[]byte, width, height int) (string) {
 	cmd.Args = append(cmd.Args, chafaFmt...)
 	cmd.Args = append(cmd.Args, chafaDither...)
 	cmd.Args = append(cmd.Args, chafaColors...)
-	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", get_geometry(), "--animate", "false")
+	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", get_geometry(width, height), "--animate", "false")
 	cmd.Args = append(cmd.Args, "--symbols", "block+border+space-wide+inverted+quad+extra+half+hhalf+vhalf")
 
 
@@ -633,7 +633,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	}
 
 
-	cache := filepath.Join(get_thumbnail_cache_dir(), get_geometry(), limitStringToBytes(get_hash(), get_cache_byte_limit()))
+	cache := filepath.Join(get_thumbnail_cache_dir(), get_geometry(width, height), limitStringToBytes(get_hash(), get_cache_byte_limit()))
 
 	if !fileExists(filepath.Dir(cache)) {
 		os.Mkdir(filepath.Dir(cache), 0700)
