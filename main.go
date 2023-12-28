@@ -776,27 +776,31 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 	if lines > height {
 
-		ch2 := make(chan order_string)
+		
 
 
 		new_height := height-countRune(temp_slice[1], '\n')
 
 		if new_height < 2 {
-			new_height = 2
+			temp_slice[0] = ""
+		} else {
+			ch2 := make(chan order_string)
+
+			wg.Add(1)
+			go image_gr(image_file, width, new_height, ch2, 0, &wg, thumbnail_type)
+			go func() {
+				wg.Wait()
+				close(ch2)
+			}()
+	
+			for result := range ch2 {
+				temp_slice[result.order] = result.content
+			}
 		}
 		// fmt.Println(lines)
 		// fmt.Printf("h: %v, nh: %v\n", height, new_height)
 
-		wg.Add(1)
-		go image_gr(image_file, width, new_height, ch2, 0, &wg, thumbnail_type)
-		go func() {
-			wg.Wait()
-			close(ch2)
-		}()
 
-		for result := range ch2 {
-			temp_slice[result.order] = result.content
-		}
 	}
 
 
