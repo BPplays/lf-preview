@@ -786,7 +786,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 			close(ch2)
 		}()
 
-		for result := range ch {
+		for result := range ch2 {
 			temp_slice[result.order] = result.content
 		}
 	}
