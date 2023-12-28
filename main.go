@@ -720,6 +720,25 @@ type order_string struct {
 }
 // var gr_array [2]string
 
+
+
+func countRune(s string, r rune) int {
+    count := 0
+    for _, c := range s {
+        if c == r {
+            count++
+        }
+    }
+    return count
+}
+
+
+
+
+
+
+
+
 func image_exif(image_file string, width, height int, file string, tags [][]string, thumbnail_type string) (string) {
 	output := ""
 
@@ -747,8 +766,25 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 	// output = output + fmt.Sprintln(gr_array[0])
 	var temp_slice [20]string
 
+	lines := 0
 	for result := range ch {
+		lines += countRune(result.content, '\n')
 		temp_slice[result.order] = result.content
+	}
+
+	if lines > height {
+		ch2 := make(chan order_string)
+
+		wg.Add(2)
+		go image_gr(image_file, width, height-countRune(temp_slice[1], '\n'), ch, 0, &wg, thumbnail_type)
+		go func() {
+			wg.Wait()
+			close(ch2)
+		}()
+
+		for result := range ch {
+			temp_slice[result.order] = result.content
+		}
 	}
 
 
