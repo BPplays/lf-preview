@@ -366,7 +366,7 @@ func get_thumbnail_cache_dir() string {
 
 
 func get_geometry(width, height int) string {
-	return fmt.Sprintf("%dx%d", width, hight)
+	return fmt.Sprintf("%dx%d", width, height)
 }
 
 var preview_print_output bool
