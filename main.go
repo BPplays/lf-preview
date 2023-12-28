@@ -775,8 +775,8 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 
 	if lines > height {
-		// fmt.Println(lines)
-		// fmt.Println(height-countRune(temp_slice[1], '\n'))
+		fmt.Println(lines)
+		fmt.Printf("h: %v, nh: %v\n", height, height-countRune(temp_slice[1], '\n'))
 		ch2 := make(chan order_string)
 
 
