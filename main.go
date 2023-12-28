@@ -784,8 +784,8 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 		if new_height < 2 {
 			new_height = 2
 		}
-		fmt.Println(lines)
-		fmt.Printf("h: %v, nh: %v\n", height, new_height)
+		// fmt.Println(lines)
+		// fmt.Printf("h: %v, nh: %v\n", height, new_height)
 
 		wg.Add(1)
 		go image_gr(image_file, width, new_height, ch2, 0, &wg, thumbnail_type)
