@@ -366,14 +366,7 @@ func get_thumbnail_cache_dir() string {
 
 
 func get_geometry(width, height int) string {
-
-	if geometry == "" {
-		geometry = fmt.Sprintf("%dx%d", width, hight)
-	}
-
-
-
-	return geometry
+	return fmt.Sprintf("%dx%d", width, hight)
 }
 
 var preview_print_output bool
