@@ -575,7 +575,6 @@ func chafa_image(image *[]byte, width, height int) (string) {
 	cmd.Args = append(cmd.Args, chafaDither...)
 	cmd.Args = append(cmd.Args, chafaColors...)
 	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", get_geometry(width, height), "--animate", "false")
-	cmd.Args = append(cmd.Args, "--center=true")
 	cmd.Args = append(cmd.Args, "--symbols", "block+border+space-wide+inverted+quad+extra+half+hhalf+vhalf")
 
 
