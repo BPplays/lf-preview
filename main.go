@@ -779,16 +779,19 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 		// fmt.Println(height-countRune(temp_slice[1], '\n'))
 		ch2 := make(chan order_string)
 
+		var wg2 sync.WaitGroup
+
+
 		new_height := height-countRune(temp_slice[1], '\n')
 
 		if new_height < 2 {
 			new_height = 2
 		}
 
-		wg.Add(1)
-		go image_gr(image_file, width, new_height, ch, 0, &wg, thumbnail_type)
+		wg2.Add(1)
+		go image_gr(image_file, width, new_height, ch, 0, &wg2, thumbnail_type)
 		go func() {
-			wg.Wait()
+			wg2.Wait()
 			close(ch2)
 		}()
 
