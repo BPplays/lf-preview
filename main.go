@@ -772,6 +772,9 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 		temp_slice[result.order] = result.content
 	}
 
+	fmt.Println(lines)
+	fmt.Println(height)
+
 	if lines > height {
 		ch2 := make(chan order_string)
 
