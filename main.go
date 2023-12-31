@@ -366,7 +366,9 @@ func blocks_fmt(blocks []string) (string) {
 			builder.WriteString(block)
 
 			if blocks[clampToMax(i+1, len_blocks-1)] != "" {
-				builder.WriteString("\n")
+				if i < len_blocks {
+					builder.WriteString("\n")
+				}
 			}
 		}
 
