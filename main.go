@@ -352,10 +352,13 @@ func blocks_fmt(blocks []string) (string) {
 
 	var builder strings.Builder
 
-	for _, block := range blocks {
+	for i, block := range blocks {
 		if block != "" {
 			builder.WriteString(block)
-			builder.WriteString("\n")
+
+			if blocks[i+1] != "" {
+				builder.WriteString("\n")
+			}
 		}
 
 	}
