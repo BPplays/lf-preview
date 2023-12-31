@@ -383,7 +383,7 @@ func exif_fmt(fileInfos []exiftool.FileMetadata, tags [][]string) (string) {
 			}
 
 		}
-		if i != len(tags) - 1 {
+		if i < len(tags) - 1 {
 			output = output + "\n"
 		}
 
