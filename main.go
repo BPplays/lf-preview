@@ -349,43 +349,49 @@ func get_exif(file string) ([]exiftool.FileMetadata) {
 
 
 func exif_fmt(fileInfos []exiftool.FileMetadata, tags [][]string) (string) {
-	// var start time.Time
-	// if chafaPreviewDebugTime == "1" {
-	// 	start = time.Now()
-	// }
+	var output strings.Builder
+	tag_len := len(tags)
 
-	// fileInfos := get_exif(file)
 
-	// if chafaPreviewDebugTime == "1" {
-	// 	time_output = time_output + fmt.Sprintln("get_exif time: ",time.Since(start))
-	// }
-	output := ""
-	// cur := ""
-	// if chafaPreviewDebugTime == "1" {
-	// 	start = time.Now()
-	// }
+	var tag_group_exists bool
+
+
+	var tag_name string
+	var tag_val string
+
+
+	var ok bool
+	var val any
+
 	for i, tag_small := range tags {
 		for _, tag := range tag_small {
+			tag_group_exists = false
+
 			for _, fileInfo := range fileInfos {
 				// output = output + fmt.Sprintln("fileInfos")
-				val, ok := fileInfo.Fields[tag]
+				val, ok = fileInfo.Fields[tag]
 				// If the key exists
 				if ok {
-					tag_name := tag
-					tag_val, ok := exif_key_map[tag]
+					tag_group_exists = true
+
+					tag_name = tag
+					tag_val, ok = exif_key_map[tag]
 					// If the key exists
 					if ok {
 						tag_name = tag_val
 					}
-					output = output + fmt.Sprintf("%v: %v\n", tag_name, val)
+					output.WriteString(fmt.Sprintf("%v: %v\n", tag_name, val))
 				}
 
 			}
 
 		}
-		if i < len(tags) - 2 {
-			output = output + "\n"
+		if tag_group_exists {
+			if i < tag_len - 1 {
+				output.WriteString("\n")
+			}
 		}
+
 
 	}
 
@@ -393,7 +399,7 @@ func exif_fmt(fileInfos []exiftool.FileMetadata, tags [][]string) (string) {
 	// 	time_output = time_output + fmt.Sprintln("exif_fmt_loop time: ",time.Since(start))
 	// }
 
-	return output
+	return output.String()
 }
 
 
