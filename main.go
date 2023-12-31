@@ -348,15 +348,24 @@ func get_exif(file string) ([]exiftool.FileMetadata) {
 }
 
 
+func clampToMax(value, max int) int {
+    if value > max {
+        return max
+    }
+    return value
+}
+
+
 func blocks_fmt(blocks []string) (string) {
 
 	var builder strings.Builder
+	len_blocks := len(blocks)
 
 	for i, block := range blocks {
 		if block != "" {
 			builder.WriteString(block)
 
-			if blocks[i+1] != "" {
+			if blocks[clampToMax(i+1, len_blocks)] != "" {
 				builder.WriteString("\n")
 			}
 		}
