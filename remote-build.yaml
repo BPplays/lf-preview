@@ -5,3 +5,7 @@ build:
 info:
   id: "shAqGhCJGUTn2zzzqLDq6gvo92wPVTnppRVipxc75jTP6W5FsvFNapPnQwNZR85fvJPxhrP7VdUx6fVDzNpLmWDF8MVvUgRJdZ5sNzthxQ6M5ZPuEc4UsB74nw75dfh9"
   lang: "go"
+
+rsync:
+  exclude: 
+  - ".git"
