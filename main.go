@@ -669,7 +669,11 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	// if !fileExists(filepath.Dir(cache)) {
 	// 	os.Mkdir(filepath.Dir(cache), 0700)
 	// }
-	os.Mkdir(filepath.Dir(cache), 0700)
+	err := os.Mkdir(filepath.Dir(cache), 0700)
+	if err != nil {
+		fmt.Println("Error Mkdir file:", err)
+		log.Fatal(err)
+	}
 
 	os.Chmod(filepath.Dir(cache), 0700)
 	// gr_array[ar_index] = fmt.Sprintln(image(filename, width, height))
