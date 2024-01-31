@@ -82,6 +82,8 @@ func init5(wg *sync.WaitGroup) {
 	if userOpenFontRatio == "" {
 		userOpenFontRatio = defaultUserOpenFontRatio
 	}
+
+	file_font_ratio = strings.Replace(userOpenFontRatio, "/", "x", -1)
 }
 
 

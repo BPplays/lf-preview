@@ -664,7 +664,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	}
 
 
-	cache := filepath.Join(get_thumbnail_cache_dir(), userOpenFontRatio, get_geometry(width, height), limitStringToBytes(get_hash(), get_cache_byte_limit()))
+	cache := filepath.Join(get_thumbnail_cache_dir(), file_font_ratio, get_geometry(width, height), limitStringToBytes(get_hash(), get_cache_byte_limit()))
 
 	if !fileExists(filepath.Dir(cache)) {
 		os.Mkdir(filepath.Dir(cache), 0700)
@@ -1071,6 +1071,8 @@ var chafaDither []string
 var chafaColors []string
 
 
+
+var file_font_ratio string
 
 // var start time.Time
 
