@@ -664,7 +664,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	}
 
 
-	cache := filepath.Join(get_thumbnail_cache_dir(), get_geometry(width, height), limitStringToBytes(get_hash(), get_cache_byte_limit()))
+	cache := filepath.Join(get_thumbnail_cache_dir(), userOpenFontRatio, get_geometry(width, height), limitStringToBytes(get_hash(), get_cache_byte_limit()))
 
 	if !fileExists(filepath.Dir(cache)) {
 		os.Mkdir(filepath.Dir(cache), 0700)
@@ -807,7 +807,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 
 	if lines > height {
 
-		
+
 
 
 		new_height := height-countRune(temp_slice[1], '\n')
@@ -823,7 +823,7 @@ func image_exif(image_file string, width, height int, file string, tags [][]stri
 				wg.Wait()
 				close(ch2)
 			}()
-	
+
 			for result := range ch2 {
 				temp_slice[result.order] = result.content
 			}
@@ -1037,17 +1037,17 @@ func char_wrap(s string, limit int) string {
 				// fmt.Printf("aj_limit: %v\n", aj_limit)
 				// fmt.Printf("int_aj_limit: %v\n", int_aj_limit)
 				// fmt.Printf("diff: %v\n", diff)
-				
-				
-	
+
+
+
 				result.WriteString(string(rune_sl[:int_aj_limit-1]))
 				result.WriteString("⏎\n")
-	
+
 				rune_sl = rune_sl[int_aj_limit-1:]
 		}
-	
-		
-	
+
+
+
 	}
 
 	return result.String()
