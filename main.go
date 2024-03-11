@@ -467,7 +467,9 @@ func get_metadata(file string, tags [][]string) (string) {
 			log.Fatal(err)
 		}
 
-
+		if dbg_print_exif {
+			fmt.Println(exif)
+		}
 		output = exif_fmt(exif, tags)
 
 
@@ -1127,6 +1129,7 @@ func stringNumberToBool(strNumber string) bool {
 	return intValue != 0
 }
 
+var dbg_print_exif bool
 
 func main() {
 
@@ -1149,6 +1152,7 @@ func main() {
 
 
 	debug_time = stringNumberToBool(os.Getenv("LF_CHAFA_PREVIEW_DEBUG_TIME"))
+	dbg_print_exif = stringNumberToBool(os.Getenv("LF_CHAFA_PREVIEW_DEBUG_EXIF_PRINT"))
 	var prgstart time.Time
 	if debug_time {
 		prgstart = time.Now()
