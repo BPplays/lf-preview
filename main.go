@@ -743,7 +743,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 
 
 
-	output.content = output.content + chafa_output
+	output.content = output.content + strings.TrimSuffix(chafa_output, "[?25h")
 
 
 	ch <- output
