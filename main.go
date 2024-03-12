@@ -1059,7 +1059,7 @@ func char_wrap(s string, limit int) string {
 	}
 
 	return result.String()
-	}
+}
 
 
 
@@ -1067,7 +1067,11 @@ func char_wrap(s string, limit int) string {
 
 
 
-
+func unhideCursor() {
+	cmd := exec.Command("tput", "cnorm")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
+}
 
 
 
@@ -1246,6 +1250,6 @@ func main() {
         }
     }
 
-
+	unhideCursor()
 
 }
