@@ -17,7 +17,13 @@ import (
 
 func init1(wg *sync.WaitGroup) {
 	defer wg.Done()
-	arg2, err := strconv.Atoi(os.Args[2])
+	var arg2 int
+	var err error
+
+	if len(os.Args) > 2 {
+		arg2, err = strconv.Atoi(os.Args[2])
+	}
+	
 
 	if err == nil {
 		width = arg2 - 2
@@ -38,7 +44,13 @@ func init1(wg *sync.WaitGroup) {
 
 func init2(wg *sync.WaitGroup) {
 	defer wg.Done()
-	arg3, err := strconv.Atoi(os.Args[3])
+	var arg3 int
+	var err error
+
+	if len(os.Args) > 2 {
+		arg3, err = strconv.Atoi(os.Args[3])
+	}
+	
 
 	if err == nil {
 		hight = arg3
