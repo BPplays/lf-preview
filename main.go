@@ -550,7 +550,7 @@ var video_tags = [][]string{
 	{"Duration", "FileSize"},
 	{"ImageSize", "VideoFrameRate"},
 	{"VideoCodecID", "FileType"},
-	{"Megapixels", "FileType", "FileType"},
+	{"Megapixels"},
 }
 
 var music_tags = [][]string{
