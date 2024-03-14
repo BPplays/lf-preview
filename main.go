@@ -664,11 +664,7 @@ func isSVG(filename string) bool {
 func isSVGz(filename string) bool {
 	// Check if the file extension is SVG
 
-
-	if strings.HasSuffix(strings.ToLower(filename), ".svgz") {
-		return true
-	}
-	return false
+	return strings.HasSuffix(strings.ToLower(filename), ".svgz")
 }
 
 func svgz_to_svg(svgzData *[]byte) (*[]byte) {
@@ -697,12 +693,7 @@ func svgz_to_svg(svgzData *[]byte) (*[]byte) {
 
 func svg_to_png(input *[]byte) *[]byte {
     // Open the SVGZ file
-    svgzFile, err := os.Open("example.svgz")
-    if err != nil {
-        fmt.Println("Error opening SVGZ file:", err)
-		os.Exit(1)
-    }
-    defer svgzFile.Close()
+    svgzFile := bytes.NewReader(*input)
 
     // Create a gzip reader
     gzReader, err := gzip.NewReader(svgzFile)
