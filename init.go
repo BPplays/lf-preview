@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/mattn/go-runewidth"
+	"golang.org/x/term"
 )
 
 
@@ -68,20 +69,20 @@ func init1(wg *sync.WaitGroup) {
 		width = arg2 - 2
 
 	} else {
-	// 	// Get the file descriptor for standard output
-	// 	fd := int(os.Stdout.Fd())
+		// Get the file descriptor for standard output
+		fd := int(os.Stdout.Fd())
 
-	// 	// Get the terminal size
-	// 	fmt.Println(term.GetSize(fd))
-	// 	width, _, err = term.GetSize(fd)
-	// 	if err != nil {
-	// 		fmt.Println("Error:", err)
-	// 		return
-	// 	}
-	// }
-
-	_, width = get_termsize()
+		// Get the terminal size
+		fmt.Println(term.GetSize(fd))
+		width, _, err = term.GetSize(fd)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
 	}
+
+	// _, width = get_termsize()
+	// }
 	
 }
 
@@ -99,21 +100,21 @@ func init2(wg *sync.WaitGroup) {
 		hight = arg3
 
 	} else {
-	// 	// Get the file descriptor for standard output
-	// 	fd := int(os.Stdout.Fd())
+		// Get the file descriptor for standard output
+		fd := int(os.Stdout.Fd())
 
-	// 	// Get the terminal size
-	// 	_, hight, err = term.GetSize(fd)
-	// 	if err != nil {
-	// 		fmt.Println("Error:", err)
-	// 		return
-	// 	}
-	// }
-
-
-	hight, _ = get_termsize()
-
+		// Get the terminal size
+		_, hight, err = term.GetSize(fd)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
 	}
+
+
+	// hight, _ = get_termsize()
+
+	// }
 	
 }
 
