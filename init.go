@@ -12,26 +12,49 @@ import (
 	"time"
 
 	"github.com/mattn/go-runewidth"
+	"golang.org/x/term"
 )
 
 func init1(wg *sync.WaitGroup) {
 	defer wg.Done()
 	arg2, err := strconv.Atoi(os.Args[2])
-	if err != nil {
-		fmt.Println("Error parsing argument:", err)
-		return
+
+	if err == nil {
+		width = arg2 - 2
+
+	} else {
+		// Get the file descriptor for standard output
+		fd := int(os.Stdout.Fd())
+
+		// Get the terminal size
+		width, _, err = term.GetSize(fd)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
 	}
-	width = arg2 - 2
+	
 }
 
 func init2(wg *sync.WaitGroup) {
 	defer wg.Done()
 	arg3, err := strconv.Atoi(os.Args[3])
-	if err != nil {
-		fmt.Println("Error parsing argument:", err)
-		return
+
+	if err == nil {
+		hight = arg3
+
+	} else {
+		// Get the file descriptor for standard output
+		fd := int(os.Stdout.Fd())
+
+		// Get the terminal size
+		_, hight, err = term.GetSize(fd)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
 	}
-	hight = arg3
+	
 }
 
 
