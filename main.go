@@ -660,6 +660,18 @@ func isSVG(filename string) bool {
 }
 
 
+func findExecutableInPath(executable string, def string) (string) {
+    paths := strings.Split(os.Getenv("PATH"), string(os.PathListSeparator))
+    for _, path := range paths {
+        fullPath := path + string(os.PathSeparator) + executable
+        _, err := exec.LookPath(fullPath)
+        if err == nil {
+            return fullPath
+        }
+    }
+    return def
+}
+
 
 func isSVGz(filename string) bool {
 	// Check if the file extension is SVG
@@ -694,6 +706,7 @@ func svgz_to_svg(svgzData *[]byte) (*[]byte) {
 func svg_to_png(input *[]byte) *[]byte {
 
 	conv := svg2png.New()
+	conv.SetBinary(findExecutableInPath("inkscape", "/usr/bin/inkscape"))
 
 	output, err := conv.Convert(*input)
 	if err != nil {
