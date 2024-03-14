@@ -660,7 +660,7 @@ func isSVG(filename string) bool {
 }
 
 
-func findExecutableInPath(executable string, def string) (string) {
+func findExecutableInPath(executable string, default_path string) (string) {
     paths := strings.Split(os.Getenv("PATH"), string(os.PathListSeparator))
     for _, path := range paths {
         fullPath := path + string(os.PathSeparator) + executable
@@ -669,7 +669,7 @@ func findExecutableInPath(executable string, def string) (string) {
             return fullPath
         }
     }
-    return def
+    return default_path
 }
 
 
@@ -711,7 +711,7 @@ func svg_to_png(input *[]byte) *[]byte {
 	output, err := conv.Convert(*input)
 	if err != nil {
 		fmt.Println(err)
-		os.Exit(1)
+		// os.Exit(1)
 	}
 
 	return &output
