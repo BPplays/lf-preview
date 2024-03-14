@@ -766,6 +766,16 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 
 		if thumbnail_type == "audio" {
 			image = thumbnail_music(filename)
+
+		} else if  thumbnail_type == "video" {
+			vid_thumnr := vid_thm_new()
+
+			var err error
+			image, err = vid_thumnr.vid_thm_Convert(filename)
+			if err != nil {
+				fmt.Println(err)
+			}
+			
 		} else if thumbnail_type == "" {
 			image_data, err := os.ReadFile(filename)
 			if err != nil {
@@ -1280,6 +1290,10 @@ func main() {
 		// get_hash()
 
 		preview_output = image_exif(file, width, hight, file, music_tags, "audio")
+
+	
+	case ".mkv", ".mp4", ".webm", ".avi", ".mts", ".m2ts", ".mov", ".flv":
+		preview_output = image_exif(file, width, hight, file, music_tags, "video")
 
     default:
         // fmt.Println("sdf")
