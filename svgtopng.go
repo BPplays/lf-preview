@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"os/exec"
 )
 
@@ -44,10 +45,27 @@ func (c *Converter) SetBinary(b string) error {
 func (c *Converter) Convert(in []byte) (out []byte, err error) {
 	var stdout, stderr bytes.Buffer
 
-	cmd := exec.Command(c.bin, "-o", "-", "-f", "-")
-	cmd.Stdin = bytes.NewBuffer(in)
+	cmd := exec.Command(c.bin, "--export-type=png", "--export-filename=-", "--pipe")
+	// cmd.Stdin = bytes.NewBuffer(in)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
+
+	pipe, err := cmd.StdinPipe()
+	if err != nil {
+		fmt.Println("Error creating pipe:", err)
+		os.Exit(1)
+	}
+
+	go func() {
+		defer pipe.Close() // Close the pipe when done
+
+		// Write data to the command's standard input
+		_, err := pipe.Write(in)
+		if err != nil {
+			fmt.Println("Error writing to pipe:", err)
+			os.Exit(1)
+		}
+	}()
 
 	if e := cmd.Run(); e != nil {
 		err = fmt.Errorf("%s\nSTDERR:\n%s", e.Error(), stderr.String())
