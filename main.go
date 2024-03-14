@@ -531,12 +531,12 @@ var sep1 = ""
 //     "-SampleRate -Channels -FileType"
 // )
 
-// video_tags=(
-//     "-Duration"
-//     "-ImageSize -FileSize"
-//     "-VideoCodecID -FileType"
-// 	"-Megapixels"
-// )
+video_tags=(
+    "-Duration -FileSize"
+    "-ImageSize -VideoFrameRate"
+    "-VideoCodecID -FileType"
+	"-Megapixels"
+)
 
 // image_tags=(
 //     "-ImageSize -Megapixels -FileSize"
@@ -1310,7 +1310,7 @@ func main() {
 
 	
 	case ".mkv", ".mp4", ".webm", ".avi", ".mts", ".m2ts", ".mov", ".flv":
-		preview_output = image_exif(file, width, hight, file, music_tags, "video")
+		preview_output = image_exif(file, width, hight, file, video_tags, "video")
 
     default:
         // fmt.Println("sdf")
