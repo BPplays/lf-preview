@@ -692,16 +692,6 @@ func svgz_to_svg(svgzData *[]byte) (*[]byte) {
 
 
 func svg_to_png(input *[]byte) *[]byte {
-    // Open the SVGZ file
-    svgzFile := bytes.NewReader(*input)
-
-    // Create a gzip reader
-    gzReader, err := gzip.NewReader(svgzFile)
-    if err != nil {
-        fmt.Println("Error creating gzip reader:", err)
-		os.Exit(1)
-    }
-    defer gzReader.Close()
 
 	conv := svg2png.New()
 
@@ -772,9 +762,9 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 			}
 
 			if isSVG(filename) {
-				// if isSVGz(filename) {
-				// 	image_data = *(svgz_to_svg(&image_data))
-				// }
+				if isSVGz(filename) {
+					image_data = *(svgz_to_svg(&image_data))
+				}
 
 				image = svg_to_png(&image_data)
 			} else {
