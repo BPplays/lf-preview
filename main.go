@@ -772,9 +772,9 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 			}
 
 			if isSVG(filename) {
-				if isSVGz(filename) {
-					image_data = *(svgz_to_svg(&image_data))
-				}
+				// if isSVGz(filename) {
+				// 	image_data = *(svgz_to_svg(&image_data))
+				// }
 
 				image = svg_to_png(&image_data)
 			} else {
