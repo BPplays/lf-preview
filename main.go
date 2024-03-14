@@ -27,6 +27,7 @@ import (
 	"github.com/kalafut/imohash"
 	"github.com/mattn/go-runewidth"
 	"github.com/mitchellh/go-wordwrap"
+	"github.com/spf13/pflag"
 	"github.com/zeebo/blake3"
 )
 
@@ -489,6 +490,11 @@ func get_metadata(file string, tags [][]string) (string) {
 
 func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int, wg *sync.WaitGroup) {
 	defer wg.Done()
+
+	if no_info {
+		return
+	}
+
 	var start time.Time
 	if debug_time {
 		start = time.Now()
@@ -1222,6 +1228,8 @@ func stringNumberToBool(strNumber string) bool {
 
 var dbg_print_exif bool
 
+var no_info bool
+
 func main() {
 
 	cpuprofile := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_CPUPROF")
@@ -1239,6 +1247,13 @@ func main() {
         }
         defer pprof.StopCPUProfile()
     }
+
+	pflag.BoolVarP(&no_info, "no_info", "n", false, "no info section")
+
+	pflag.Parse()
+
+
+	
 
 
 

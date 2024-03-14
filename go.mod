@@ -21,6 +21,7 @@ require (
 	github.com/oliverpool/sparsehash v0.1.2 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/twmb/murmur3 v1.1.5 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/zeebo/blake3 v0.2.3 // indirect
