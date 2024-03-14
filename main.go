@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"compress/gzip"
 	"crypto/sha256"
 	"encoding/json"
 	"flag"
@@ -25,6 +27,7 @@ import (
 	"github.com/kalafut/imohash"
 	"github.com/mattn/go-runewidth"
 	"github.com/mitchellh/go-wordwrap"
+	"github.com/mskrha/svg2png"
 	"github.com/zeebo/blake3"
 )
 
@@ -643,15 +646,82 @@ func chafa_image(image *[]byte, width, height int) (string) {
 
 
 
+func isSVG(filename string) bool {
+	// Check if the file extension is SVG
+	if strings.HasSuffix(strings.ToLower(filename), ".svg") {
+		return true
+	}
+
+	if strings.HasSuffix(strings.ToLower(filename), ".svgz") {
+		return true
+	}
+
+	return false
+}
 
 
 
+func isSVGz(filename string) bool {
+	// Check if the file extension is SVG
+
+
+	if strings.HasSuffix(strings.ToLower(filename), ".svgz") {
+		return true
+	}
+	return false
+}
+
+func svgz_to_svg(svgzData *[]byte) (*[]byte) {
+	// Create a bytes reader from the input SVGZ data
+	svgzReader := bytes.NewReader(*svgzData)
+
+	// Create a gzip reader
+	gzReader, err := gzip.NewReader(svgzReader)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	defer gzReader.Close()
+
+	// Read the decompressed SVG data into a byte slice
+	svgData, err := io.ReadAll(gzReader)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	return &svgData
+}
 
 
 
+func svg_to_png(input *[]byte) *[]byte {
+    // Open the SVGZ file
+    svgzFile, err := os.Open("example.svgz")
+    if err != nil {
+        fmt.Println("Error opening SVGZ file:", err)
+		os.Exit(1)
+    }
+    defer svgzFile.Close()
 
+    // Create a gzip reader
+    gzReader, err := gzip.NewReader(svgzFile)
+    if err != nil {
+        fmt.Println("Error creating gzip reader:", err)
+		os.Exit(1)
+    }
+    defer gzReader.Close()
 
+	conv := svg2png.New()
 
+	output, err := conv.Convert(*input)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	return &output
+}
 
 
 
@@ -709,7 +779,17 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				fmt.Println("Error reading file:", err)
 				log.Fatal(err)
 			}
-			image = &image_data
+
+			if isSVG(filename) {
+				if isSVGz(filename) {
+					image_data = *(svgz_to_svg(&image_data))
+				}
+				
+				image = svg_to_png(&image_data)
+			} else {
+				image = &image_data
+			}
+			
 		}
 
 
@@ -1193,7 +1273,7 @@ func main() {
 
 
     switch ext {
-    case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico":
+    case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico", "svg", "svgz":
 
 
 		if get_file_mb() > 100 {
