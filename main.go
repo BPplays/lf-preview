@@ -27,7 +27,6 @@ import (
 	"github.com/kalafut/imohash"
 	"github.com/mattn/go-runewidth"
 	"github.com/mitchellh/go-wordwrap"
-	"github.com/mskrha/svg2png"
 	"github.com/zeebo/blake3"
 )
 
@@ -705,7 +704,7 @@ func svgz_to_svg(svgzData *[]byte) (*[]byte) {
 
 func svg_to_png(input *[]byte) *[]byte {
 
-	conv := svg2png.New()
+	conv := svg_to_png_new()
 	conv.SetBinary(findExecutableInPath("inkscape", "/usr/bin/inkscape"))
 
 	output, err := conv.Convert(*input)
