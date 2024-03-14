@@ -195,6 +195,7 @@ func gr_initall() {
 		wg.Wait()
 	}()
 
+	fmt.Println(width)
 	sep1 = strings.Repeat("=", width) 
 	
 
