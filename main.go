@@ -770,6 +770,8 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 		} else if  thumbnail_type == "video" {
 			vid_thumnr := vid_thm_new()
 
+			vid_thumnr.SetBinary(findExecutableInPath("ffmpegthumbnailer", "ffmpegthumbnailer"))
+
 			var err error
 			image, err = vid_thumnr.vid_thm_Convert(filename)
 			if err != nil {
