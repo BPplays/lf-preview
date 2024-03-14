@@ -153,14 +153,14 @@ func init7(wg *sync.WaitGroup) {
 // 	lfChafaPreviewFormatOverrideSixelRatio = os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_SIXEL_RATIO")
 // }
 
-func init8(wg *sync.WaitGroup) {
-	defer wg.Done()
+// func init8(wg *sync.WaitGroup) {
+// 	defer wg.Done()
 
-	// for len(sep1) < width {
-	// 	sep1 = sep1 + sep1
-	// }
-	sep1 = strings.Repeat("=", width) 
-}
+// 	// for len(sep1) < width {
+// 	// 	sep1 = sep1 + sep1
+// 	// }
+// 	sep1 = strings.Repeat("=", width) 
+// }
 
 
 
@@ -173,7 +173,7 @@ var init_functions = []func(wg *sync.WaitGroup){
 	init5,
 	init6,
 	init7,
-	init8,
+	// init8,
 }
 
 func gr_initall() {
@@ -194,6 +194,8 @@ func gr_initall() {
 	go func() {
 		wg.Wait()
 	}()
+
+	sep1 = strings.Repeat("=", width) 
 	
 
 }
