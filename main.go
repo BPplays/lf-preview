@@ -531,12 +531,12 @@ var sep1 = ""
 //     "-SampleRate -Channels -FileType"
 // )
 
-video_tags=(
-    "-Duration -FileSize"
-    "-ImageSize -VideoFrameRate"
-    "-VideoCodecID -FileType"
-	"-Megapixels"
-)
+// video_tags=(
+//     "-Duration -FileSize"
+//     "-ImageSize -VideoFrameRate"
+//     "-VideoCodecID -FileType"
+// 	"-Megapixels"
+// )
 
 // image_tags=(
 //     "-ImageSize -Megapixels -FileSize"
@@ -544,6 +544,14 @@ video_tags=(
 // 	# " "
 // 	"-BitsPerSample -YCbCrSubSampling"
 // )
+
+
+var video_tags = [][]string{
+	{"Duration", "FileSize"},
+	{"ImageSize", "VideoFrameRate"},
+	{"VideoCodecID", "FileType"},
+	{"Megapixels", "FileType", "FileType"},
+}
 
 var music_tags = [][]string{
 	{"Title", "Duration"},
