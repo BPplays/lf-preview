@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"compress/gzip"
 	"crypto/sha256"
 	"encoding/json"
 	"flag"
@@ -670,33 +672,33 @@ func findExecutableInPath(executable string, default_path string) (string) {
 }
 
 
-// func isSVGz(filename string) bool {
-// 	// Check if the file extension is SVG
+func isSVGz(filename string) bool {
+	// Check if the file extension is SVG
 
-// 	return strings.HasSuffix(strings.ToLower(filename), ".svgz")
-// }
+	return strings.HasSuffix(strings.ToLower(filename), ".svgz")
+}
 
-// func svgz_to_svg(svgzData *[]byte) (*[]byte) {
-// 	// Create a bytes reader from the input SVGZ data
-// 	svgzReader := bytes.NewReader(*svgzData)
+func svgz_to_svg(svgzData *[]byte) (*[]byte) {
+	// Create a bytes reader from the input SVGZ data
+	svgzReader := bytes.NewReader(*svgzData)
 
-// 	// Create a gzip reader
-// 	gzReader, err := gzip.NewReader(svgzReader)
-// 	if err != nil {
-// 		fmt.Println(err)
-// 		os.Exit(1)
-// 	}
-// 	defer gzReader.Close()
+	// Create a gzip reader
+	gzReader, err := gzip.NewReader(svgzReader)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	defer gzReader.Close()
 
-// 	// Read the decompressed SVG data into a byte slice
-// 	svgData, err := io.ReadAll(gzReader)
-// 	if err != nil {
-// 		fmt.Println(err)
-// 		os.Exit(1)
-// 	}
+	// Read the decompressed SVG data into a byte slice
+	svgData, err := io.ReadAll(gzReader)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
-// 	return &svgData
-// }
+	return &svgData
+}
 
 
 
@@ -772,9 +774,9 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 			}
 
 			if isSVG(filename) {
-				// if isSVGz(filename) {
-				// 	image_data = *(svgz_to_svg(&image_data))
-				// }
+				if isSVGz(filename) {
+					image_data = *(svgz_to_svg(&image_data))
+				}
 
 				image = svg_to_png(&image_data)
 			} else {
