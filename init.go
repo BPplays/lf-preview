@@ -33,6 +33,7 @@ func init1(wg *sync.WaitGroup) {
 		fd := int(os.Stdout.Fd())
 
 		// Get the terminal size
+		fmt.Println(term.GetSize(fd))
 		width, _, err = term.GetSize(fd)
 		if err != nil {
 			fmt.Println("Error:", err)
