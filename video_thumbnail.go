@@ -41,7 +41,7 @@ func (c *Converter) vid_thm_Convert(in string) (out *[]byte, err error) {
 
 
 
-	output, err := cmd.CombinedOutput()
+	output, err := cmd.Output()
 	if err != nil {
 		fmt.Println(string(output), err)
 		log.Fatal(string(output), err)
