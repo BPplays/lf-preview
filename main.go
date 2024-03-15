@@ -744,7 +744,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 	}
 
 
-	cache := filepath.Join(get_thumbnail_cache_dir(), file_font_ratio, get_geometry(width, height), limitStringToBytes(get_hash(), get_cache_byte_limit()))
+	cache := filepath.Join(get_thumbnail_cache_dir(), lfChafaPreviewFormat, file_font_ratio, get_geometry(width, height), limitStringToBytes(get_hash(), get_cache_byte_limit()))
 
 	if !fileExists(filepath.Dir(cache)) {
 		err := os.MkdirAll(filepath.Dir(cache), 0700)
