@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"os/exec"
@@ -31,12 +32,12 @@ func vid_thm_new() *Converter {
 	Try to convert the input SVG to the PNG image
 */
 func (c *Converter) vid_thm_Convert(in string) (out *[]byte, err error) {
-	// var stdout, stderr bytes.Buffer
+	var stderr bytes.Buffer
 
 	cmd := exec.Command(c.bin, "-q", "10", "-i", in, "-o", "/dev/stdout")
 	// cmd.Stdin = bytes.NewBuffer(in)
 	// cmd.Stdout = &stdout
-	// cmd.Stderr = &stderr
+	cmd.Stderr = &stderr
 
 
 
@@ -45,11 +46,13 @@ func (c *Converter) vid_thm_Convert(in string) (out *[]byte, err error) {
 		fmt.Println(string(output), err)
 		log.Fatal(string(output), err)
 	}
+	fmt.Println(stderr)
 
 	// if stdout.Len() == 0 {
 	// 	err = fmt.Errorf("got no data from ffmpegthumbnailer")
 	// 	return
 	// }
+
 
 	out = &output
 
