@@ -136,11 +136,9 @@ func init4(wg *sync.WaitGroup) {
 	if lfChafaPreviewFormat != "" {
 		chafaFmt = append(chafaFmt, "-f", lfChafaPreviewFormat)
 	}
-}
 
 
-func init5(wg *sync.WaitGroup) {
-	defer wg.Done()
+
 
 	lfChafaPreviewFormatOverrideSixelRatio = os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_SIXEL_RATIO")
 	lfChafaPreviewFormatOverrideKittyRatio = os.Getenv("LF_CHAFA_PREVIEW_FORMAT_OVERRIDE_KITTY_RATIO")
@@ -168,7 +166,13 @@ func init5(wg *sync.WaitGroup) {
 	}
 
 	file_font_ratio = strings.Replace(userOpenFontRatio, "/", "x", -1)
+
+
+
 }
+
+
+
 
 
 func init6(wg *sync.WaitGroup) {
@@ -218,7 +222,7 @@ var init_functions = []func(wg *sync.WaitGroup){
 	init2,
 	init3,
 	init4,
-	init5,
+	// init5,
 	init6,
 	init7,
 	// init8,
