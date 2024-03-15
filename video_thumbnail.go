@@ -46,7 +46,8 @@ func (c *Converter) vid_thm_Convert(in string) (out *[]byte, err error) {
 		fmt.Println(string(output), err)
 		log.Fatal(string(output), err)
 	}
-	fmt.Println(stderr)
+
+	// fmt.Println(stderr)
 
 	// if stdout.Len() == 0 {
 	// 	err = fmt.Errorf("got no data from ffmpegthumbnailer")
