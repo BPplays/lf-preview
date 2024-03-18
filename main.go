@@ -1358,7 +1358,7 @@ func main() {
 					sb.WriteString(i)
 					sb.WriteString(" ")
 				}
-				preview_output = fmt.Sprintln("file in ignored folders list", sb.String())
+				preview_output = fmt.Sprintln("file in ignored folders list:", sb.String())
 
 			} else {
 				preview_output = read_file(file)
