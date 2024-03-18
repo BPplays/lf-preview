@@ -1350,7 +1350,7 @@ func main() {
 		if get_file_mb() > 0.1 {
 			preview_output = "file to big to preview"
 		} else {
-			fmt.Println(getBaseFolder(file))
+			// fmt.Println(getBaseFolder(file))
 			if ignored_folders[getBaseFolder(file)] {
 				preview_output = read_file(file)
 
