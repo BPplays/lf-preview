@@ -39,6 +39,7 @@ import (
 
 var ignored_folders = map[string]bool{
 	".ssh": true,
+	"ssh": true,
 }
 
 func getHomeDir() string {
@@ -1351,7 +1352,13 @@ func main() {
 			preview_output = "file to big to preview"
 		} else {
 			// fmt.Println(getBaseFolder(file))
-			if !ignored_folders[getBaseFolder(file)] {
+			if ignored_folders[getBaseFolder(file)] {
+				var sb strings.Builder
+				for i := range ignored_folders {
+					sb.WriteString(i)
+				}
+				fmt.Println("file in ignored folders list", sb.String())
+			} else {
 				preview_output = read_file(file)
 
 				if disable_wordwrap != "1" {
