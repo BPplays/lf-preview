@@ -1084,7 +1084,8 @@ func file_size_mb(file_path string) float64 {
 	}
 
 	// Calculate file size in megabytes
-	fileSizeInMB := float64(fileInfo.Size()) / (1 << 20) // 1 MB = 1 << 20 bytes
+	// fileSizeInMB := float64(fileInfo.Size()) / (1 << 20) // 1 MB = 1 << 20 bytes
+	fileSizeInMB := float64(fileInfo.Size()) * math.Pow10(6)
 
 	return fileSizeInMB
 }
@@ -1348,8 +1349,9 @@ func main() {
 
     default:
         // fmt.Println("sdf")
+
 		if get_file_mb() > 0.1 {
-			preview_output = "file to big to preview"
+			preview_output = fmt.Sprintf("file to big to preview\n%v mb", get_file_mb())
 		} else {
 			// fmt.Println(getBaseFolder(file))
 			if ignored_folders[getBaseFolder(file)] {
