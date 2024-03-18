@@ -1355,7 +1355,9 @@ func main() {
 			if ignored_folders[getBaseFolder(file)] {
 				var sb strings.Builder
 				for i := range ignored_folders {
+					sb.WriteString("\"")
 					sb.WriteString(i)
+					sb.WriteString("\"")
 					sb.WriteString(" ")
 				}
 				preview_output = fmt.Sprintln("file in ignored folders list:", sb.String())
