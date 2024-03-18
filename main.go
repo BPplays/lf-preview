@@ -1238,6 +1238,23 @@ var dbg_print_exif bool
 
 var no_info bool
 
+
+
+
+
+
+func getBaseFolder(filePath string) string {
+    folder := filepath.Dir(filePath)
+    baseFolder := filepath.Base(folder)
+    return baseFolder
+}
+
+
+
+
+
+
+
 func main() {
 
 	cpuprofile := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_CPUPROF")
@@ -1325,7 +1342,7 @@ func main() {
 		if get_file_mb() > 0.1 {
 			preview_output = "file to big to preview"
 		} else {
-			fmt.Println(file)
+			fmt.Println(getBaseFolder(file))
 			preview_output = read_file(file)
 
 			if disable_wordwrap != "1" {
