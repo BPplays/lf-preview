@@ -1085,7 +1085,7 @@ func file_size_mb(file_path string) float64 {
 
 	// Calculate file size in megabytes
 	// fileSizeInMB := float64(fileInfo.Size()) / (1 << 20) // 1 MB = 1 << 20 bytes
-	fileSizeInMB := float64(fileInfo.Size()) * math.Pow10(6)
+	fileSizeInMB := float64(fileInfo.Size()) * math.Pow10(-6)
 
 	return fileSizeInMB
 }
