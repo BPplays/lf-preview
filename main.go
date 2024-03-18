@@ -1356,15 +1356,17 @@ func main() {
 				var sb strings.Builder
 				for i := range ignored_folders {
 					sb.WriteString(i)
+					sb.WriteString(" ")
 				}
-				fmt.Println("file in ignored folders list", sb.String())
+				preview_output = fmt.Sprintln("file in ignored folders list", sb.String())
+
 			} else {
 				preview_output = read_file(file)
+			}
 
-				if disable_wordwrap != "1" {
-					preview_output = wordwrap.WrapString(preview_output, uint(width))
-					preview_output = char_wrap(preview_output, width)
-				}
+			if disable_wordwrap != "1" {
+				preview_output = wordwrap.WrapString(preview_output, uint(width))
+				preview_output = char_wrap(preview_output, width)
 			}
 
 		}
