@@ -33,6 +33,14 @@ import (
 
 // type thumbnail func(string, int) int
 
+
+
+
+
+var ignored_folders = map[string]bool{
+	".ssh": true,
+}
+
 func getHomeDir() string {
 	usr, err := user.Current()
 	if err != nil {
@@ -1343,12 +1351,15 @@ func main() {
 			preview_output = "file to big to preview"
 		} else {
 			fmt.Println(getBaseFolder(file))
-			preview_output = read_file(file)
+			if ignored_folders[getBaseFolder(file)] {
+				preview_output = read_file(file)
 
-			if disable_wordwrap != "1" {
-				preview_output = wordwrap.WrapString(preview_output, uint(width))
-				preview_output = char_wrap(preview_output, width)
+				if disable_wordwrap != "1" {
+					preview_output = wordwrap.WrapString(preview_output, uint(width))
+					preview_output = char_wrap(preview_output, width)
+				}
 			}
+
 		}
 
     }
