@@ -34,7 +34,7 @@ func vid_thm_new() *Converter {
 func (c *Converter) vid_thm_Convert(in string) (out *[]byte, err error) {
 	var stderr bytes.Buffer
 
-	cmd := exec.Command(c.bin, "-s", "0", "-q", "10", "-i", in, "-o", "/dev/stdout")
+	cmd := exec.Command(c.bin, "-s", "1080", "-q", "10", "-i", in, "-o", "/dev/stdout")
 	// cmd.Stdin = bytes.NewBuffer(in)
 	// cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
