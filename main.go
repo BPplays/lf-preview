@@ -10,6 +10,7 @@ import (
 	"io"
 	"log"
 	"math"
+	"mime"
 	"os"
 	"os/exec"
 	"os/user"
@@ -634,7 +635,7 @@ func chafa_image(image *[]byte, width, height int) (string) {
 	cmd.Args = append(cmd.Args, chafaColors...)
 	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", get_geometry(width, height), "--animate", "false")
 	cmd.Args = append(cmd.Args, "--symbols", "block+border+space-wide+inverted+quad+extra+half+hhalf+vhalf")
-	cmd.Args = append(cmd.Args, "--polite", "on")
+	cmd.Args = append(cmd.Args, "--polite", "on", "--color-extractor=median")
 
 
 	pipe, err := cmd.StdinPipe()
@@ -1320,15 +1321,19 @@ func main() {
 
 	// thumbnail_cache = filepath.Join(lfCacheDir, fmt.Sprintf("thumbnail.%s", hash))
 
-	tmp := configDir
-	tmp = ""
-	fmt.Print(tmp)
+	// tmp := configDir
+	// tmp = ""
+	// fmt.Print(tmp)
 
 
+	mimetmp := mime.TypeByExtension(ext)
+	tmpt := strings.Split(mimetmp, ";")
+	mime_sl := strings.Split(tmpt[0], "/")
+	mime_top := mime_sl[0]
 
-
-    switch ext {
-    case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico", ".svg", ".svgz":
+    switch mime_top {
+    // case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico", ".svg", ".svgz":
+	case "image":
 
 
 		if get_file_mb() > 100 {
@@ -1337,14 +1342,16 @@ func main() {
 			preview_output = image_exif(file, width, hight, file, image_tags, "")
 		}
 	// case ".mp3", ".flac", ".ogg":
-	case ".wav", ".mp3", ".flac", ".m4a", ".wma", ".ape", ".ac3", ".ogg", ".spx", ".opus", ".mka":
+	// case ".wav", ".mp3", ".flac", ".m4a", ".wma", ".ape", ".ac3", ".ogg", ".spx", ".opus", ".mka":
+	case "audio":
 		// fmt.Println(exif_fmt(file, music_tags))
 		// get_hash()
 
 		preview_output = image_exif(file, width, hight, file, music_tags, "audio")
 
 	
-	case ".mkv", ".mp4", ".webm", ".avi", ".mts", ".m2ts", ".mov", ".flv":
+	// case ".mkv", ".mp4", ".webm", ".avi", ".mts", ".m2ts", ".mov", ".flv":
+	case "video":
 		preview_output = image_exif(file, width, hight, file, video_tags, "video")
 
     default:
