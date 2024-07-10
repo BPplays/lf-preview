@@ -13,7 +13,31 @@ import (
 	"github.com/barasher/go-exiftool"
 )
 
+func get_exif(file string) ([]exiftool.FileMetadata) {
+	et, err := exiftool.NewExiftool()
+	if err != nil {
+		// fmt.Printf("Error when intializing: %v\n", err)
+		// return "", err
+		fmt.Println("get_exif", err)
+		log.Fatal("get_exif", err)
+	}
+	defer et.Close()
 
+	fileInfos := et.ExtractMetadata(file)
+
+
+	// for _, fileInfo := range fileInfos {
+	// 	if fileInfo.Err != nil {
+	// 		fmt.Printf("Error concerning %v: %v\n", fileInfo.File, fileInfo.Err)
+	// 		continue
+	// 	}
+
+	// 	for k, v := range fileInfo.Fields {
+	// 		fmt.Printf("[%v] %v\n", k, v)
+	// 	}
+	// }
+	return fileInfos
+}
 
 func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int, wg *sync.WaitGroup) {
 	defer wg.Done()

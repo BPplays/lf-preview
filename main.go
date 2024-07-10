@@ -19,7 +19,6 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/barasher/go-exiftool"
 	"github.com/kalafut/imohash"
 	"github.com/mitchellh/go-wordwrap"
 	"github.com/spf13/pflag"
@@ -328,31 +327,7 @@ func limitStringToBytes(input string, maxBytes int) string {
 }
 
 
-func get_exif(file string) ([]exiftool.FileMetadata) {
-	et, err := exiftool.NewExiftool()
-	if err != nil {
-		// fmt.Printf("Error when intializing: %v\n", err)
-		// return "", err
-		fmt.Println("get_exif", err)
-		log.Fatal("get_exif", err)
-	}
-	defer et.Close()
 
-	fileInfos := et.ExtractMetadata(file)
-
-
-	// for _, fileInfo := range fileInfos {
-	// 	if fileInfo.Err != nil {
-	// 		fmt.Printf("Error concerning %v: %v\n", fileInfo.File, fileInfo.Err)
-	// 		continue
-	// 	}
-
-	// 	for k, v := range fileInfo.Fields {
-	// 		fmt.Printf("[%v] %v\n", k, v)
-	// 	}
-	// }
-	return fileInfos
-}
 
 
 func clampToMax(value, max int) int {
