@@ -2,7 +2,6 @@ package main
 
 import (
 	"crypto/sha256"
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
@@ -17,7 +16,6 @@ import (
 	"runtime/pprof"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 	"unicode/utf8"
 
@@ -390,141 +388,7 @@ func blocks_fmt(blocks []string) (string) {
 
 
 
-func exif_fmt(fileInfos []exiftool.FileMetadata, tags [][]string) (string) {
 
-	var blocks []string
-	var builder strings.Builder
-
-
-
-
-	var tag_name string
-	var tag_val string
-
-	var ok bool
-	var val any
-
-	for _, tag_block := range tags {
-		for _, tag := range tag_block {
-
-			for _, fileInfo := range fileInfos {
-				// output = output + fmt.Sprintln("fileInfos")
-				val, ok = fileInfo.Fields[tag]
-				// If the key exists
-				if ok {
-
-					tag_name = tag
-					tag_val, ok = exif_key_map[tag]
-					// If the key exists
-					if ok {
-						tag_name = tag_val
-					}
-					builder.WriteString(fmt.Sprintf("%v: %v\n", tag_name, val))
-				}
-
-			}
-
-		}
-
-
-		blocks = append(blocks, builder.String())
-		builder.Reset()
-
-	}
-
-
-	return blocks_fmt(blocks)
-}
-
-
-
-
-func get_metadata(file string, tags [][]string) (string) {
-	var output string
-
-	cache := filepath.Join(get_metadata_cache_dir(), add_ext(get_hash(), ".json", get_cache_byte_limit()))
-
-	if fileExists(cache) {
-		cache_data, err := os.ReadFile(cache)
-		if err != nil {
-			fmt.Println("Error reading file:", err)
-			log.Fatal(err)
-		}
-
-		var exif []exiftool.FileMetadata
-
-		err = json.Unmarshal(cache_data, &exif)
-		if err != nil {
-			fmt.Println("Error unmarshalling JSON:", err)
-			log.Fatal()
-		}
-
-		output = exif_fmt(exif, tags)
-	} else {
-		exif := get_exif(file)
-
-		jsonData, err := json.Marshal(exif)
-		if err != nil {
-			fmt.Println("Error marshalling to JSON:", err)
-			log.Fatal(err)
-		}
-
-
-		err = os.WriteFile(cache, jsonData, 0600)
-		if err != nil {
-			fmt.Println("Error writing to file:", err)
-			log.Fatal(err)
-		}
-
-		if dbg_print_exif {
-			fmt.Println(exif)
-		}
-		output = exif_fmt(exif, tags)
-
-
-
-	}
-
-
-	return output
-}
-
-
-
-
-
-
-func exif_fmt_gr(file string, tags [][]string, ch chan<- order_string, order int, wg *sync.WaitGroup) {
-	defer wg.Done()
-
-	if no_info {
-		return
-	}
-
-	var start time.Time
-	if debug_time {
-		start = time.Now()
-	}
-	var output = order_string{order, ""}
-	// output[1] = output[1] + fmt.Sprint("test")
-
-	// ch <- fmt.Sprint("test")
-	// ch <- fmt.Sprint(exif_fmt(file, tags))
-	output.content = output.content + fmt.Sprintln(sep1)
-	// output.content = output.content + "test"
-	output.content = output.content + get_metadata(file, tags)
-	output.content = output.content + fmt.Sprintln(sep1)
-	ch <- output
-	if debug_time {
-		time_output = time_output + fmt.Sprintln("exif_fmt_gr time: ",time.Since(start))
-	}
-	// output := exif_fmt(file, tags)
-	// gr_array[ar_index] = "test"
-	// gr_array[1] = "test"
-	// fmt.Println((*array)[ar_index])
-	// fmt.Println(ar_index)
-	// fmt.Println("testrgji")
-}
 
 
 
@@ -552,73 +416,7 @@ var sep1 = ""
 // )
 
 
-var video_tags = [][]string{
-	{"Duration", "FileSize"},
-	{"ImageSize", "VideoFrameRate"},
-	{"VideoCodecID", "FileType"},
-	{"Megapixels"},
-}
 
-var music_tags = [][]string{
-	{"Title", "Duration"},
-	{"Genre", "Album", "Artist", "Composer", "Date"},
-	{"SampleRate", "Channels", "FileType"},
-}
-
-
-
-
-var image_tags = [][]string{
-	{"ImageSize", "Megapixels", "FileSize"},
-	{"FileType", "ColorSpace", "Compression"},
-	{"BitsPerSample", "YCbCrSubSampling"},
-}
-
-
-
-var exif_key_map = map[string]string{
-	"Title":                "Title",
-	"Genre":                "Genre",
-	"Composer":                "Composer",
-	"PictureBitsPerPixel":                "Picture Bits Per Pixel",
-	"FileModifyDate":                "File Modify Date",
-	"FileAccessDate":                "File Access Date",
-	"PictureDescription":                "Picture Description",
-	"Directory":                "Directory",
-	"TrackNumber":                "TrackNumber",
-	"Duration":                "Duration",
-	"Date":                "Date",
-	"FileTypeExtension":                "File Type Extension",
-	"FileSize":                "File Size",
-	"SampleRate":                "Sample Rate",
-	"FileName":                "File Name",
-	"FileType":                "File Type",
-	"Album":                "Album",
-	"Artist":                "Artist",
-	"Comment":                "Comment",
-	"ImageSize":                "Image Size",
-	"YCbCrSubSampling": "Y Cb Cr Sub Sampling",
-	"BitsPerSample": "Bits Per Sample",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-	// "Genre":                "Genre",
-}
 
 
 func findExecutableInPath(executable string, default_path string) (string) {
