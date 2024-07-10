@@ -97,14 +97,14 @@ func init2(wg *sync.WaitGroup) {
 	
 
 	if err == nil {
-		hight = arg3
+		height = arg3
 
 	} else {
 		// Get the file descriptor for standard output
 		fd := int(os.Stdout.Fd())
 
 		// Get the terminal size
-		_, hight, err = term.GetSize(fd)
+		_, height, err = term.GetSize(fd)
 		if err != nil {
 			fmt.Println("Error:", err)
 			return
@@ -363,11 +363,11 @@ func hw_test() {
 		output += fmt.Sprint(intToBase(int64(i-width), 99964))
     }
 	output += "\n"
-    for i := 2; i <= hight; i++ {
-        output += fmt.Sprint(intToBase(int64(i), 99964), "   |   width: ", width, " hight: ", hight, "\n")
+    for i := 2; i <= height; i++ {
+        output += fmt.Sprint(intToBase(int64(i), 99964), "   |   width: ", width, " hight: ", height, "\n")
     }
-	for i := hight; i <= hight+50; i++ {
-        output += fmt.Sprint(intToBase(int64(i+1-hight), 99964), "\n")
+	for i := height; i <= height+50; i++ {
+        output += fmt.Sprint(intToBase(int64(i+1-height), 99964), "\n")
     }
 	fmt.Print(output)
 	os.Exit(0)

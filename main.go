@@ -595,7 +595,7 @@ var file string
 var ext string
 
 var width int
-var hight int
+var height int
 
 
 var configDir string = ""
@@ -720,7 +720,7 @@ func main() {
 		if get_file_mb() > 100 {
 			preview_output = "file to big to preview"
 		} else {
-			preview_output = image_exif(file, width, hight, file, image_tags, "")
+			preview_output = image_exif(file, width, height, file, image_tags, "")
 		}
 	// case ".mp3", ".flac", ".ogg":
 	// case ".wav", ".mp3", ".flac", ".m4a", ".wma", ".ape", ".ac3", ".ogg", ".spx", ".opus", ".mka":
@@ -728,12 +728,12 @@ func main() {
 		// fmt.Println(exif_fmt(file, music_tags))
 		// get_hash()
 
-		preview_output = image_exif(file, width, hight, file, music_tags, "audio")
+		preview_output = image_exif(file, width, height, file, music_tags, "audio")
 
 	
 	// case ".mkv", ".mp4", ".webm", ".avi", ".mts", ".m2ts", ".mov", ".flv":
 	case "video":
-		preview_output = image_exif(file, width, hight, file, video_tags, "video")
+		preview_output = image_exif(file, width, height, file, video_tags, "video")
 
     default:
         // fmt.Println("sdf")
