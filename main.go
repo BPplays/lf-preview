@@ -1,8 +1,6 @@
 package main
 
 import (
-	"bytes"
-	"compress/gzip"
 	"crypto/sha256"
 	"encoding/json"
 	"flag"
@@ -24,9 +22,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/barasher/go-exiftool"
-	"github.com/dhowden/tag"
 	"github.com/kalafut/imohash"
-	"github.com/mattn/go-runewidth"
 	"github.com/mitchellh/go-wordwrap"
 	"github.com/spf13/pflag"
 	"github.com/zeebo/blake3"
@@ -625,64 +621,6 @@ var exif_key_map = map[string]string{
 }
 
 
-
-func chafa_image(image *[]byte, width, height int) (string) {
-
-
-	cmd := exec.Command("chafa", fmt.Sprintf("--font-ratio=%s", userOpenFontRatio))
-	cmd.Args = append(cmd.Args, chafaFmt...)
-	cmd.Args = append(cmd.Args, chafaDither...)
-	cmd.Args = append(cmd.Args, chafaColors...)
-	cmd.Args = append(cmd.Args, "--color-space=din99d", "--scale=max", "-w", "9", "-O", "9", "-s", get_geometry(width, height), "--animate", "false")
-	cmd.Args = append(cmd.Args, "--symbols", "block+border+space-wide+inverted+quad+extra+half+hhalf+vhalf")
-	cmd.Args = append(cmd.Args, "--polite", "on", "--color-extractor=median")
-
-
-	pipe, err := cmd.StdinPipe()
-	if err != nil {
-		fmt.Println("Error creating pipe:", err)
-		os.Exit(1)
-	}
-
-	go func() {
-		defer pipe.Close() // Close the pipe when done
-
-		// Write data to the command's standard input
-		_, err := pipe.Write(*image)
-		if err != nil {
-			fmt.Println("Error writing to pipe:", err)
-			os.Exit(1)
-		}
-	}()
-
-
-	output, err := cmd.CombinedOutput()
-	if err != nil {
-		fmt.Println(string(output), err)
-		log.Fatal(string(output), err)
-	}
-
-	// fmt.Println(string(output))
-	return string(output)
-}
-
-
-
-
-func isSVG(filename string) bool {
-	// Check if the file extension is SVG
-	if strings.HasSuffix(strings.ToLower(filename), ".svg") {
-		return true
-	}
-
-	if strings.HasSuffix(strings.ToLower(filename), ".svgz") {
-		return true
-	}
-
-	return false
-}
-
-
 func findExecutableInPath(executable string, default_path string) (string) {
     paths := strings.Split(os.Getenv("PATH"), string(os.PathListSeparator))
     for _, path := range paths {
@@ -695,173 +633,6 @@ func findExecutableInPath(executable string, default_path string) (string) {
     return default_path
 }
 
-
-func isSVGz(filename string) bool {
-	// Check if the file extension is SVG
-
-	return strings.HasSuffix(strings.ToLower(filename), ".svgz")
-}
-
-func svgz_to_svg(svgzData *[]byte) (*[]byte) {
-	// Create a bytes reader from the input SVGZ data
-	svgzReader := bytes.NewReader(*svgzData)
-
-	// Create a gzip reader
-	gzReader, err := gzip.NewReader(svgzReader)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	defer gzReader.Close()
-
-	// Read the decompressed SVG data into a byte slice
-	svgData, err := io.ReadAll(gzReader)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	return &svgData
-}
-
-
-
-func svg_to_png(input *[]byte) *[]byte {
-
-	conv := svg_to_png_new()
-	conv.SetBinary(findExecutableInPath("inkscape", "/usr/bin/inkscape"))
-
-	output, err := conv.Convert(*input)
-	if err != nil {
-		fmt.Println(err)
-		// os.Exit(1)
-	}
-
-	return &output
-}
-
-
-
-
-
-
-func image_gr(filename string, width, height int, ch chan<- order_string, order int, wg *sync.WaitGroup, thumbnail_type string) {
-	defer wg.Done()
-	var start time.Time
-	var chafa_start time.Time
-	if debug_time {
-		start = time.Now()
-	}
-
-
-	cache := filepath.Join(get_thumbnail_cache_dir(), lfChafaPreviewFormat, file_font_ratio, get_geometry(width, height), limitStringToBytes(get_hash(), get_cache_byte_limit()))
-
-	if !fileExists(filepath.Dir(cache)) {
-		err := os.MkdirAll(filepath.Dir(cache), 0700)
-		if err != nil {
-			fmt.Println("Error Mkdir file:", err)
-			log.Fatal(err)
-		}
-	}
-
-
-
-	os.Chmod(filepath.Dir(cache), 0700)
-	// gr_array[ar_index] = fmt.Sprintln(image(filename, width, height))
-	// ch <- fmt.Sprint(image(filename, width, height))
-	var output = order_string{order, ""}
-
-	var image *[]byte
-
-	// var err error
-
-	var chafa_output string
-
-	if fileExists(cache) {
-		cache_data, err := os.ReadFile(cache)
-		if err != nil {
-			fmt.Println("Error reading file:", err)
-			log.Fatal(err)
-		}
-
-		chafa_output = string(cache_data)
-	} else {
-
-
-		if thumbnail_type == "audio" {
-			image = thumbnail_music(filename)
-
-		} else if  thumbnail_type == "video" {
-			vid_thumnr := vid_thm_new()
-
-			vid_thumnr.SetBinary(findExecutableInPath("ffmpegthumbnailer", "ffmpegthumbnailer"))
-
-			var err error
-			image, err = vid_thumnr.vid_thm_Convert(filename)
-			if err != nil {
-				fmt.Println(err)
-			}
-			
-		} else if thumbnail_type == "" {
-			image_data, err := os.ReadFile(filename)
-			if err != nil {
-				fmt.Println("Error reading file:", err)
-				log.Fatal(err)
-			}
-
-			if isSVG(filename) {
-				if isSVGz(filename) {
-					image_data = *(svgz_to_svg(&image_data))
-				}
-
-				image = svg_to_png(&image_data)
-			} else {
-				image = &image_data
-			}
-			
-		}
-
-
-
-
-		if debug_time {
-			chafa_start = time.Now()
-		}
-
-		chafa_output = chafa_image(image, width, height)
-
-		if debug_time {
-			time_output = time_output + fmt.Sprintln("chafa time: ",time.Since(chafa_start))
-		}
-
-		err := os.WriteFile(cache, []byte(chafa_output), 0600)
-		if err != nil {
-			fmt.Println("Error writing to file:", err)
-			log.Fatal(err)
-		}
-
-	}
-
-
-
-
-
-
-
-
-	// output.content = output.content + "test"
-
-
-
-	// output.content = output.content + strings.TrimSuffix(chafa_output, "[?25h")
-	output.content = output.content + chafa_output
-
-
-	ch <- output
-	if debug_time {
-		time_output = time_output + fmt.Sprintln("image_gr time: ",time.Since(start))
-	}
-}
 
 var time_output string
 type order_string struct {
@@ -886,88 +657,6 @@ func countRune(s string, r rune) int {
 
 
 
-
-
-
-func image_exif(image_file string, width, height int, file string, tags [][]string, thumbnail_type string) (string) {
-	output := ""
-
-	ch := make(chan order_string)
-	// ch2 := make(chan string)
-
-	// var gr_array [2]string
-
-
-	var wg sync.WaitGroup
-
-	wg.Add(2)
-	go image_gr(image_file, width, height, ch, 0, &wg, thumbnail_type)
-	go exif_fmt_gr(file, tags, ch, 1, &wg)
-
-
-	go func() {
-		wg.Wait()
-		close(ch)
-		// close(ch2)
-	}()
-
-	// gr_array[0] = "test0"
-	// gr_array[1] = "test1"
-	// output = output + fmt.Sprintln(gr_array[0])
-	var temp_slice [20]string
-
-	lines := 0
-	for result := range ch {
-		lines += countRune(result.content, '\n')
-		temp_slice[result.order] = result.content
-	}
-
-
-
-	if lines > height {
-
-
-
-
-		new_height := height-countRune(temp_slice[1], '\n')
-
-		if new_height < 2 {
-			temp_slice[0] = ""
-		} else {
-			ch2 := make(chan order_string)
-
-			wg.Add(1)
-			go image_gr(image_file, width, new_height, ch2, 0, &wg, thumbnail_type)
-			go func() {
-				wg.Wait()
-				close(ch2)
-			}()
-
-			for result := range ch2 {
-				temp_slice[result.order] = result.content
-			}
-		}
-		// fmt.Println(lines)
-		// fmt.Printf("h: %v, nh: %v\n", height, new_height)
-
-
-	}
-
-
-
-	for _, val := range temp_slice {
-		output = output + val
-	}
-
-	// output = output + fmt.Sprintln(sep1)
-	// output = output + fmt.Sprintln(sep1)
-	// output = output + fmt.Sprintln(gr_array[1])
-
-	// close(ch)
-	// close(ch2)
-
-	return output
-}
 
 func fileExists(filename string) bool {
 	_, err := os.Stat(filename)
@@ -1019,37 +708,7 @@ func get_thumbnail_cache_file(ext string) string {
 
 
 
-func thumbnail_music(file string) *[]byte {
-	// cache := get_thumbnail_cache_file(".bmp")
 
-	var start time.Time
-	if debug_time {
-		start = time.Now()
-	}
-	// cache := filepath.Join(cacheFile, ".bmp")
-	// cache := thumbnail_cache + ".bmp"
-	f, err := os.Open(file)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer f.Close()
-	// if !fileExists(cache) {
-
-	// }
-
-	m, err := tag.ReadFrom(f)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-
-	// fmt.Println(string(output))
-	if debug_time {
-		time_output = time_output + fmt.Sprintln("thumbnail_music time: ",time.Since(start))
-	}
-	return &m.Picture().Data
-}
 
 
 
@@ -1100,82 +759,6 @@ func get_file_mb() float64 {
 
 	return file_mb
 }
-
-
-
-
-
-func char_wrap(s string, limit int) string {
-	var result strings.Builder
-
-	var rune_sl []rune
-	var diff float64
-
-	var aj_limit float64
-
-	var fl_len float64
-
-	var int_aj_limit int
-
-
-
-	// if len(rune_sl) < limit {
-	// 	return s
-	// }
-
-	string_split := strings.Split(s, "\n")
-
-
-	// var inc int64 = 0
-
-	for _, str := range string_split {
-		rune_sl = []rune(str)
-
-		for {
-				// inc += 1
-				// fmt.Println(inc)
-
-				fl_len = float64(len(rune_sl))
-
-				diff = float64(runewidth.StringWidth(string(rune_sl))) / fl_len
-
-				if diff > 0 {
-					aj_limit = float64(limit) / diff
-					int_aj_limit = int(math.Floor(aj_limit))
-				}
-
-
-				if len(rune_sl) <= int_aj_limit {
-					result.WriteString(string(rune_sl))
-					result.WriteString("\n")
-					break
-				}
-
-				// diff = runewidth.StringWidth(str) - len(rune_sl)
-				// fmt.Printf("len: %v\n", len(rune_sl))
-				// fmt.Printf("fl_len: %v\n", fl_len)
-				// fmt.Printf("aj_limit: %v\n", aj_limit)
-				// fmt.Printf("int_aj_limit: %v\n", int_aj_limit)
-				// fmt.Printf("diff: %v\n", diff)
-
-
-
-				result.WriteString(string(rune_sl[:int_aj_limit-1]))
-				result.WriteString("⏎\n")
-
-				rune_sl = rune_sl[int_aj_limit-1:]
-		}
-
-
-
-	}
-
-	return result.String()
-}
-
-
-
-
 
 
 
