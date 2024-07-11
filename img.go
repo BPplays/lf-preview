@@ -6,12 +6,17 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"mime"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/gen2brain/avif"
+	"github.com/gen2brain/jpegxl"
+	"golang.org/x/image/bmp"
 )
 
 func chafa_image(image *[]byte, width, height int) (string) {
@@ -173,21 +178,71 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				fmt.Println(err)
 			}
 			
-		} else if thumbnail_type == "" {
+		} else if thumbnail_type == "image" {
+			mime_type := mime.TypeByExtension(ext)
 			image_data, err := os.ReadFile(filename)
 			if err != nil {
 				fmt.Println("Error reading file:", err)
 				log.Fatal(err)
 			}
+			switch mime_type {
+			case "image/avif":
+				var buf bytes.Buffer
 
-			if isSVG(filename) {
-				if isSVGz(filename) {
-					image_data = *(svgz_to_svg(&image_data))
+				err = avif.Dynamic()
+				if err != nil {
+					fmt.Println("NON-fatal error Dynamic lib file. decoding time will be slower:\n	", err)
+					// return
 				}
 
-				image = svg_to_png(&image_data)
-			} else {
+				reader := bytes.NewReader(image_data)
+				image_tmp, err := avif.Decode(reader)
+				if err != nil {
+					fmt.Println("Error decoding avif file:", err)
+					return
+				}
+
+				err = bmp.Encode(&buf, image_tmp)
+				if err != nil {
+					fmt.Println("Failed to encode image:", err)
+					return
+				}
+				image_data = buf.Bytes()
 				image = &image_data
+			case "image/jxl":
+				var buf bytes.Buffer
+
+				err = jpegxl.Dynamic()
+				if err != nil {
+					fmt.Println("NON-fatal error Dynamic lib file. decoding time will be slower:\n	", err)
+					// return
+				}
+
+				reader := bytes.NewReader(image_data)
+				image_tmp, err := jpegxl.Decode(reader)
+				if err != nil {
+					fmt.Println("Error decoding avif file:", err)
+					return
+				}
+
+				err = bmp.Encode(&buf, image_tmp)
+				if err != nil {
+					fmt.Println("Failed to encode image:", err)
+					return
+				}
+				image_data = buf.Bytes()
+				image = &image_data
+
+			default:
+				if isSVG(filename) {
+					if isSVGz(filename) {
+						image_data = *(svgz_to_svg(&image_data))
+					}
+
+					image = svg_to_png(&image_data)
+				} else {
+					image = &image_data
+				}
 			}
 			
 		}
