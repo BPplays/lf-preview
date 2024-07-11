@@ -67,6 +67,10 @@ func isSVG(filename string) bool {
 	return false
 }
 
+
+
+
+
 func isSVGz(filename string) bool {
 	// Check if the file extension is SVG
 

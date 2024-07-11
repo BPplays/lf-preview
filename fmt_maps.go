@@ -20,7 +20,7 @@ var music_tags = [][]string{
 var image_tags = [][]string{
 	{"ImageSize", "Megapixels", "FileSize"},
 	{"MIMEType", "ColorSpace", "Compression"},
-	{"BitsPerSample", "YCbCrSubSampling"},
+	{"BitDepth", "BitsPerSample", "YCbCrSubSampling"},
 }
 
 
@@ -56,6 +56,8 @@ var exif_key_map = map[string]string{
 	"ImageSize":                "Image Size",
 	"YCbCrSubSampling": "Y Cb Cr Sub Sampling",
 	"BitsPerSample": "Bits Per Sample",
+	"ColorSpace": "Color Space",
+	"BitDepth": "Bit Depth",
 }
 
 
