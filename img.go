@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"compress/gzip"
 	"fmt"
+	"image/png"
 	"io"
 	"log"
 	"mime"
@@ -16,7 +17,6 @@ import (
 
 	"github.com/gen2brain/avif"
 	"github.com/gen2brain/jpegxl"
-	"golang.org/x/image/bmp"
 )
 
 func chafa_image(image *[]byte, width, height int) (string) {
@@ -191,7 +191,8 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 
 				err = avif.Dynamic()
 				if err != nil {
-					fmt.Println("NON-fatal error Dynamic lib file. decoding time will be slower:\n	", err)
+					_ = 1
+					// fmt.Println("NON-fatal error Dynamic lib file. decoding time will be slower:\n	", err)
 					// return
 				}
 
@@ -202,7 +203,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 					return
 				}
 
-				err = bmp.Encode(&buf, image_tmp)
+				err = png.Encode(&buf, image_tmp)
 				if err != nil {
 					fmt.Println("Failed to encode image:", err)
 					return
@@ -214,8 +215,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 
 				err = jpegxl.Dynamic()
 				if err != nil {
-					fmt.Println("NON-fatal error Dynamic lib file. decoding time will be slower:\n	", err)
-					// return
+					_ = 1
 				}
 
 				reader := bytes.NewReader(image_data)
@@ -225,7 +225,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 					return
 				}
 
-				err = bmp.Encode(&buf, image_tmp)
+				err = png.Encode(&buf, image_tmp)
 				if err != nil {
 					fmt.Println("Failed to encode image:", err)
 					return
