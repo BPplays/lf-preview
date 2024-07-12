@@ -59,27 +59,12 @@ func chafa_image(image *[]byte, width, height int) (string) {
 	return string(output)
 }
 
-func isSVG(filename string) bool {
-	// Check if the file extension is SVG
-	if strings.HasSuffix(strings.ToLower(filename), ".svg") {
-		return true
-	}
-
-	if strings.HasSuffix(strings.ToLower(filename), ".svgz") {
-		return true
-	}
-
-	return false
-}
-
 
 
 
 
 func isSVGz(filename string) bool {
-	// Check if the file extension is SVG
-
-	return strings.HasSuffix(strings.ToLower(filename), ".svgz")
+	return strings.ToLower(filepath.Ext(filename)) == ".svgz"
 }
 
 func svgz_to_svg(svgzData *[]byte) (*[]byte) {
@@ -233,16 +218,14 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				image_data = buf.Bytes()
 				image = &image_data
 
-			default:
-				if isSVG(filename) {
-					if isSVGz(filename) {
-						image_data = *(svgz_to_svg(&image_data))
-					}
-
-					image = svg_to_png(&image_data)
-				} else {
-					image = &image_data
+			case "image/svg+xml":
+				if isSVGz(filename) {
+					image_data = *(svgz_to_svg(&image_data))
 				}
+
+				image = svg_to_png(&image_data)
+			default:
+				image = &image_data
 			}
 			
 		}
