@@ -198,6 +198,8 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				image = &image_data
 			case "image/jxl":
 				var buf bytes.Buffer
+
+				var webpdyn_err error
 				var jpegxldyn_err error
 
 				var jpegdecst time.Time
@@ -231,6 +233,10 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				// 	fmt.Println("Failed to encode image:", err)
 				// 	return
 				// }
+				err = jpegxl.Dynamic()
+				if err != nil {
+					webpdyn_err = err
+				}
 				err = webp.Encode(&buf, image_tmp, webp.Options{Lossless: true, Method: 0})
 				if err != nil {
 					fmt.Println("Failed to encode image:", err)
@@ -238,6 +244,9 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				}
 				if debug_time {
 					time_output += fmt.Sprintln("png enc time: ",time.Since(pngencst))
+					if webpdyn_err != nil {
+						time_output += fmt.Sprintln("webp dynamic lib load err:", webpdyn_err)
+					}
 				}
 				image_data = buf.Bytes()
 				image = &image_data
