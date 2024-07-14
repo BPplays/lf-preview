@@ -173,7 +173,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 
 			mime_type_compat := mime_type
 			cmpstr := "compat+;"
-			if disable_compat {
+			if !disable_compat {
 				switch mime_type {
 				case "image/avif":
 					mime_type_compat = cmpstr+mime_type
