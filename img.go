@@ -18,6 +18,7 @@ import (
 	"github.com/gen2brain/avif"
 	"github.com/gen2brain/jpegxl"
 	"github.com/gen2brain/webp"
+	jxldec "github.com/jiahuif/go-jpegxl"
 )
 
 func chafa_image(image *[]byte, width, height int) (string) {
@@ -212,7 +213,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				}
 
 				reader := bytes.NewReader(image_data)
-				image_tmp, err := jpegxl.Decode(reader)
+				image_tmp, err := jxldec.Decode(reader)
 				if err != nil {
 					fmt.Println("Error decoding jxl file:", err)
 					return
@@ -243,7 +244,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 					return
 				}
 				if debug_time {
-					time_output += fmt.Sprintln("png enc time: ",time.Since(pngencst))
+					time_output += fmt.Sprintln("webp enc time: ",time.Since(pngencst))
 					if webpdyn_err != nil {
 						time_output += fmt.Sprintln("webp dynamic lib load err:", webpdyn_err)
 					}

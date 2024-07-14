@@ -13,6 +13,8 @@ github.com/gen2brain/jpegxl v0.3.1 h1:QAcs68WXQUQRABPVu5p5MineuqfqnVd/JRiI+s7AEE
 github.com/gen2brain/jpegxl v0.3.1/go.mod h1:jLh4Fl9QaHkc1RsOJu4S2r20x+gSzjnuM+K8jOm4DEo=
 github.com/gen2brain/webp v0.4.5 h1:wolsWSKnYfnYaWUtGLx3EfXhLWVvVx9yZGof+JNGYgY=
 github.com/gen2brain/webp v0.4.5/go.mod h1:giUCZaJt7D8ae9AjSq4gC3QKUuA9SD8LZy0o2zcWxMI=
+github.com/jiahuif/go-jpegxl v0.0.0-20211118215623-013392e496db h1:bzHoMQLS2fnhvXGlyTjBxg8YF7wB/yj4yXPTwwtWGHM=
+github.com/jiahuif/go-jpegxl v0.0.0-20211118215623-013392e496db/go.mod h1:cd027/w60DlL72LqL6aJitSXwRtK7B8e1wQ2Zv2fTuw=
 github.com/kalafut/imohash v1.0.4 h1:3B5ecu2k6KhLnkXFvBJBgEtiOYzMw4oKXvflJe0JkPA=
 github.com/kalafut/imohash v1.0.4/go.mod h1:6cn9lU0Sj8M4eu9UaQm1kR/5y3k/ayB68yntRhGloL4=
 github.com/klauspost/cpuid/v2 v2.0.12/go.mod h1:g2LTdtYhdyuGPqyWyv7qRAmj1WBqxuObKfj5c0PQa7c=

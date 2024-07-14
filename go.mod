@@ -22,6 +22,7 @@ require (
 require (
 	github.com/ebitengine/purego v0.7.1 // indirect
 	github.com/gen2brain/webp v0.4.5 // indirect
+	github.com/jiahuif/go-jpegxl v0.0.0-20211118215623-013392e496db // indirect
 	github.com/klauspost/cpuid/v2 v2.2.8 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
