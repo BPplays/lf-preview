@@ -233,7 +233,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				// 	fmt.Println("Failed to encode image:", err)
 				// 	return
 				// }
-				err = jpegxl.Dynamic()
+				err = webp.Dynamic()
 				if err != nil {
 					webpdyn_err = err
 				}
