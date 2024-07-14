@@ -17,6 +17,7 @@ import (
 
 	"github.com/gen2brain/avif"
 	"github.com/gen2brain/jpegxl"
+	"github.com/gen2brain/webp"
 )
 
 func chafa_image(image *[]byte, width, height int) (string) {
@@ -225,7 +226,12 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				if debug_time {
 					pngencst = time.Now()
 				}
-				err = png.Encode(&buf, image_tmp)
+				// err = png.Encode(&buf, image_tmp)
+				// if err != nil {
+				// 	fmt.Println("Failed to encode image:", err)
+				// 	return
+				// }
+				err = webp.Encode(&buf, image_tmp, webp.Options{Lossless: true, Method: 0})
 				if err != nil {
 					fmt.Println("Failed to encode image:", err)
 					return

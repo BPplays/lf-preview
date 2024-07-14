@@ -1,6 +1,8 @@
 module github.com/BPplays/lf-preview
 
-go 1.21.5
+go 1.22
+
+toolchain go1.22.5
 
 require (
 	github.com/barasher/go-exiftool v1.10.0
@@ -19,6 +21,7 @@ require (
 
 require (
 	github.com/ebitengine/purego v0.7.1 // indirect
+	github.com/gen2brain/webp v0.4.5 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.8 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
