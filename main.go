@@ -619,7 +619,7 @@ func getBaseFolder(filePath string) string {
 
 
 
-
+var disable_compat bool
 
 
 func main() {
@@ -650,6 +650,7 @@ func main() {
 
 
 	debug_time = stringNumberToBool(os.Getenv("LF_CHAFA_PREVIEW_DEBUG_TIME"))
+	disable_compat = stringNumberToBool(os.Getenv("LF_CHAFA_PREVIEW_DISABLE_COMPAT"))
 	dbg_print_exif = stringNumberToBool(os.Getenv("LF_CHAFA_PREVIEW_DEBUG_EXIF_PRINT"))
 	var prgstart time.Time
 	if debug_time {

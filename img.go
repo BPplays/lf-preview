@@ -170,8 +170,24 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				fmt.Println("Error reading file:", err)
 				log.Fatal(err)
 			}
-			switch mime_type {
-			case "image/avif":
+
+			mime_type_compat := mime_type
+			cmpstr := "compat+;"
+			if disable_compat {
+				switch mime_type {
+				case "image/avif":
+					mime_type_compat = cmpstr+mime_type
+				case "image/jxl":
+					mime_type_compat = cmpstr+mime_type
+				
+				default:
+					mime_type_compat = mime_type
+				}
+			}
+
+
+			switch mime_type_compat {
+			case cmpstr+"image/avif":
 				var buf bytes.Buffer
 
 				err = avif.Dynamic()
@@ -195,7 +211,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				}
 				image_data = buf.Bytes()
 				image = &image_data
-			case "image/jxl":
+			case cmpstr+"image/jxl":
 				var buf bytes.Buffer
 
 				var jpegxldyn_err error
