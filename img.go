@@ -16,9 +16,8 @@ import (
 	"time"
 
 	"github.com/gen2brain/avif"
-	"github.com/gen2brain/jpegxl"
-	"github.com/gen2brain/webp"
 	jxldec "github.com/jiahuif/go-jpegxl"
+	"github.com/xfmoulet/qoi"
 )
 
 func chafa_image(image *[]byte, width, height int) (string) {
@@ -200,17 +199,13 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 			case "image/jxl":
 				var buf bytes.Buffer
 
-				var webpdyn_err error
-				var jpegxldyn_err error
+
 
 				var jpegdecst time.Time
 				if debug_time {
 					jpegdecst = time.Now()
 				}
-				err = jpegxl.Dynamic()
-				if err != nil {
-					jpegxldyn_err = err
-				}
+
 
 				reader := bytes.NewReader(image_data)
 				image_tmp, err := jxldec.Decode(reader)
@@ -220,9 +215,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				}
 				if debug_time {
 					time_output += fmt.Sprintln("jpeg xl dec time: ",time.Since(jpegdecst))
-					if jpegxldyn_err != nil {
-						time_output += fmt.Sprintln("jpeg xl dynamic lib load err:", jpegxldyn_err)
-					}
+
 				}
 
 				var pngencst time.Time
@@ -234,20 +227,14 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				// 	fmt.Println("Failed to encode image:", err)
 				// 	return
 				// }
-				err = webp.Dynamic()
-				if err != nil {
-					webpdyn_err = err
-				}
-				err = webp.Encode(&buf, image_tmp, webp.Options{Lossless: true, Method: 0})
+				err = qoi.Encode(&buf, image_tmp)
 				if err != nil {
 					fmt.Println("Failed to encode image:", err)
 					return
 				}
 				if debug_time {
 					time_output += fmt.Sprintln("webp enc time: ",time.Since(pngencst))
-					if webpdyn_err != nil {
-						time_output += fmt.Sprintln("webp dynamic lib load err:", webpdyn_err)
-					}
+
 				}
 				image_data = buf.Bytes()
 				image = &image_data

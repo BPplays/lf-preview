@@ -28,5 +28,6 @@ require (
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/tetratelabs/wazero v1.7.3 // indirect
 	github.com/twmb/murmur3 v1.1.8 // indirect
+	github.com/xfmoulet/qoi v0.2.0 // indirect
 	golang.org/x/sys v0.22.0 // indirect
 )
