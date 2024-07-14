@@ -198,6 +198,10 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 			case "image/jxl":
 				var buf bytes.Buffer
 
+				var jpegdecst time.Time
+				if debug_time {
+					jpegdecst = time.Now()
+				}
 				err = jpegxl.Dynamic()
 				if err != nil {
 					_ = 1
@@ -209,11 +213,21 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 					fmt.Println("Error decoding avif file:", err)
 					return
 				}
+				if debug_time {
+					time_output += fmt.Sprintln("jpeg xl dec time: ",time.Since(jpegdecst))
+				}
 
+				var pngencst time.Time
+				if debug_time {
+					pngencst = time.Now()
+				}
 				err = png.Encode(&buf, image_tmp)
 				if err != nil {
 					fmt.Println("Failed to encode image:", err)
 					return
+				}
+				if debug_time {
+					time_output += fmt.Sprintln("png enc time: ",time.Since(pngencst))
 				}
 				image_data = buf.Bytes()
 				image = &image_data
