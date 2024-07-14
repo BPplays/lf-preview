@@ -16,6 +16,7 @@ import (
 	"time"
 
 	"github.com/gen2brain/avif"
+	"github.com/gen2brain/jpegxl"
 	jxldec "github.com/jiahuif/go-jpegxl"
 	"github.com/xfmoulet/qoi"
 )
@@ -199,13 +200,16 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 			case "image/jxl":
 				var buf bytes.Buffer
 
-
+				var jpegxldyn_err error
 
 				var jpegdecst time.Time
 				if debug_time {
 					jpegdecst = time.Now()
 				}
-
+				err = jpegxl.Dynamic()
+				if err != nil {
+					jpegxldyn_err = err
+				}
 
 				reader := bytes.NewReader(image_data)
 				image_tmp, err := jxldec.Decode(reader)
@@ -215,7 +219,9 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				}
 				if debug_time {
 					time_output += fmt.Sprintln("jpeg xl dec time: ",time.Since(jpegdecst))
-
+					if jpegxldyn_err != nil {
+						time_output += fmt.Sprintln("jpeg xl dynamic lib load err:", jpegxldyn_err)
+					}
 				}
 
 				var pngencst time.Time
@@ -233,7 +239,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 					return
 				}
 				if debug_time {
-					time_output += fmt.Sprintln("webp enc time: ",time.Since(pngencst))
+					time_output += fmt.Sprintln("qoi enc time: ",time.Since(pngencst))
 
 				}
 				image_data = buf.Bytes()
