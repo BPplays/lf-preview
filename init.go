@@ -109,7 +109,7 @@ func init2(wg *sync.WaitGroup) {
 			fmt.Println("Error:", err)
 			return
 		}
-		height -= 1
+		height -= 2
 	}
 
 
