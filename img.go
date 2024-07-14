@@ -17,7 +17,6 @@ import (
 
 	"github.com/gen2brain/avif"
 	"github.com/gen2brain/jpegxl"
-	jxldec "github.com/jiahuif/go-jpegxl"
 	"github.com/xfmoulet/qoi"
 )
 
@@ -212,7 +211,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				}
 
 				reader := bytes.NewReader(image_data)
-				image_tmp, err := jxldec.Decode(reader)
+				image_tmp, err := jpegxl.Decode(reader)
 				if err != nil {
 					fmt.Println("Error decoding jxl file:", err)
 					return
