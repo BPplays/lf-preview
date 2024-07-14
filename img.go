@@ -197,6 +197,7 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				image = &image_data
 			case "image/jxl":
 				var buf bytes.Buffer
+				var jpegxldyn_err error
 
 				var jpegdecst time.Time
 				if debug_time {
@@ -204,17 +205,20 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				}
 				err = jpegxl.Dynamic()
 				if err != nil {
-					_ = 1
+					jpegxldyn_err = err
 				}
 
 				reader := bytes.NewReader(image_data)
 				image_tmp, err := jpegxl.Decode(reader)
 				if err != nil {
-					fmt.Println("Error decoding avif file:", err)
+					fmt.Println("Error decoding jxl file:", err)
 					return
 				}
 				if debug_time {
 					time_output += fmt.Sprintln("jpeg xl dec time: ",time.Since(jpegdecst))
+					if jpegxldyn_err != nil {
+						time_output += fmt.Sprintln("jpeg xl dynamic lib load err:", jpegxldyn_err)
+					}
 				}
 
 				var pngencst time.Time
