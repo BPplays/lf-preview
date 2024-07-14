@@ -65,7 +65,7 @@ func init1(wg *sync.WaitGroup) {
 	}
 	
 
-	if err == nil {
+	if err == nil && arg2-2 > 0 {
 		width = arg2 - 2
 
 	} else {
@@ -96,7 +96,7 @@ func init2(wg *sync.WaitGroup) {
 	}
 	
 
-	if err == nil {
+	if err == nil && arg3-2 > 0 {
 		height = arg3
 
 	} else {
