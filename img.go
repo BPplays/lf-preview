@@ -14,6 +14,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/gen2brain/avif"
 	"github.com/gen2brain/jpegxl"
 	"github.com/xfmoulet/qoi"
 )
@@ -170,7 +171,30 @@ func image_gr(filename string, width, height int, ch chan<- order_string, order 
 				log.Fatal(err)
 			}
 			switch mime_type {
+			case "image/avif":
+				var buf bytes.Buffer
 
+				err = avif.Dynamic()
+				if err != nil {
+					_ = 1
+					// fmt.Println("NON-fatal error Dynamic lib file. decoding time will be slower:\n	", err)
+					// return
+				}
+
+				reader := bytes.NewReader(image_data)
+				image_tmp, err := avif.Decode(reader)
+				if err != nil {
+					fmt.Println("Error decoding avif file:", err)
+					return
+				}
+
+				err = qoi.Encode(&buf, image_tmp)
+				if err != nil {
+					fmt.Println("Failed to encode image:", err)
+					return
+				}
+				image_data = buf.Bytes()
+				image = &image_data
 			case "image/jxl":
 				var buf bytes.Buffer
 
