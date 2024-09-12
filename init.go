@@ -63,7 +63,7 @@ func init1(wg *sync.WaitGroup) {
 	if len(os.Args) > 2 {
 		arg2, err = strconv.Atoi(os.Args[2])
 	}
-	
+
 
 	if err == nil && arg2-2 > 0 {
 		width = arg2 - 2
@@ -83,7 +83,7 @@ func init1(wg *sync.WaitGroup) {
 
 	// _, width = get_termsize()
 	// }
-	
+
 }
 
 func init2(wg *sync.WaitGroup) {
@@ -94,7 +94,7 @@ func init2(wg *sync.WaitGroup) {
 	if len(os.Args) > 2 {
 		arg3, err = strconv.Atoi(os.Args[3])
 	}
-	
+
 
 	if err == nil && arg3-2 > 0 {
 		height = arg3
@@ -116,7 +116,7 @@ func init2(wg *sync.WaitGroup) {
 	// hight, _ = get_termsize()
 
 	// }
-	
+
 }
 
 
@@ -212,7 +212,7 @@ func init7(wg *sync.WaitGroup) {
 // 	// for len(sep1) < width {
 // 	// 	sep1 = sep1 + sep1
 // 	// }
-// 	sep1 = strings.Repeat("=", width) 
+// 	sep1 = strings.Repeat("=", width)
 // }
 
 
@@ -249,8 +249,8 @@ func gr_initall() {
 	}()
 
 	// fmt.Println(width)
-	sep1 = strings.Repeat("=", width) 
-	
+	sep1 = strings.Repeat("=", width)
+
 
 }
 
@@ -350,26 +350,26 @@ func intToBase(n int64, base int64) string {
 // 	}
 
 // 	return string(runes)
-	
+
 // }
 
 func hw_test() {
 	output := ""
-    for i := 1; i <= width; i++ {
-        // output += fmt.Sprint(i)
+	for i := 1; i <= width; i++ {
+		// output += fmt.Sprint(i)
 		output += fmt.Sprint(intToBase(int64(i), 99964))
-    }
+	}
 	for i := width; i <= width+50; i++ {
-        // output += fmt.Sprint("+", i-width)
+		// output += fmt.Sprint("+", i-width)
 		output += fmt.Sprint(intToBase(int64(i-width), 99964))
-    }
+	}
 	output += "\n"
-    for i := 2; i <= height; i++ {
-        output += fmt.Sprint(intToBase(int64(i), 99964), "   |   width: ", width, " hight: ", height, "\n")
-    }
+	for i := 2; i <= height; i++ {
+		output += fmt.Sprint(intToBase(int64(i), 99964), "   |   width: ", width, " hight: ", height, "\n")
+	}
 	for i := height; i <= height+50; i++ {
-        output += fmt.Sprint(intToBase(int64(i+1-height), 99964), "\n")
-    }
+		output += fmt.Sprint(intToBase(int64(i+1-height), 99964), "\n")
+	}
 	fmt.Print(output)
 	os.Exit(0)
 }
@@ -488,7 +488,7 @@ func get_lfCacheDir() string {
 	if lfCacheDir == "" {
 		defaultCacheBase := filepath.Join(getHomeDir(), ".cache")
 		cacheBase = getEnvOrFallback("XDG_CACHE_HOME", defaultCacheBase)
-	
+
 		lfCacheDir = filepath.Join(cacheBase, "lf-preview")
 		if _, err := os.Stat(lfCacheDir); os.IsNotExist(err) {
 			err := os.MkdirAll(lfCacheDir, os.ModePerm)

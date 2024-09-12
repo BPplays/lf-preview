@@ -331,10 +331,10 @@ func limitStringToBytes(input string, maxBytes int) string {
 
 
 func clampToMax(value, max int) int {
-    if value > max {
-        return max
-    }
-    return value
+	if value > max {
+		return max
+	}
+	return value
 }
 
 
@@ -395,15 +395,15 @@ var sep1 = ""
 
 
 func findExecutableInPath(executable string, default_path string) (string) {
-    paths := strings.Split(os.Getenv("PATH"), string(os.PathListSeparator))
-    for _, path := range paths {
-        fullPath := path + string(os.PathSeparator) + executable
-        _, err := exec.LookPath(fullPath)
-        if err == nil {
-            return fullPath
-        }
-    }
-    return default_path
+	paths := strings.Split(os.Getenv("PATH"), string(os.PathListSeparator))
+	for _, path := range paths {
+		fullPath := path + string(os.PathSeparator) + executable
+		_, err := exec.LookPath(fullPath)
+		if err == nil {
+			return fullPath
+		}
+	}
+	return default_path
 }
 
 
@@ -417,13 +417,13 @@ type order_string struct {
 
 
 func countRune(s string, r rune) int {
-    count := 0
-    for _, c := range s {
-        if c == r {
-            count++
-        }
-    }
-    return count
+	count := 0
+	for _, c := range s {
+		if c == r {
+			count++
+		}
+	}
+	return count
 }
 
 
@@ -611,9 +611,9 @@ var no_info bool
 
 
 func getBaseFolder(filePath string) string {
-    folder := filepath.Dir(filePath)
-    baseFolder := filepath.Base(folder)
-    return baseFolder
+	folder := filepath.Dir(filePath)
+	baseFolder := filepath.Base(folder)
+	return baseFolder
 }
 
 
@@ -628,24 +628,24 @@ func main() {
 	memprofile := os.Getenv("LF_CHAFA_PREVIEW_DEBUG_MEMPROF")
 
 	flag.Parse()
-    if cpuprofile != "" {
-        f, err := os.Create(cpuprofile)
-        if err != nil {
-            log.Fatal("could not create CPU profile: ", err)
-        }
-        defer f.Close() // error handling omitted for example
-        if err := pprof.StartCPUProfile(f); err != nil {
-            log.Fatal("could not start CPU profile: ", err)
-        }
-        defer pprof.StopCPUProfile()
-    }
+	if cpuprofile != "" {
+		f, err := os.Create(cpuprofile)
+		if err != nil {
+			log.Fatal("could not create CPU profile: ", err)
+		}
+		defer f.Close() // error handling omitted for example
+		if err := pprof.StartCPUProfile(f); err != nil {
+			log.Fatal("could not start CPU profile: ", err)
+		}
+		defer pprof.StopCPUProfile()
+	}
 
 	pflag.BoolVarP(&no_info, "no_info", "n", false, "no info section")
 
 	pflag.Parse()
 
 
-	
+
 
 
 
@@ -692,8 +692,8 @@ func main() {
 	mime_sl := strings.Split(tmpt[0], "/")
 	mime_top := mime_sl[0]
 
-    switch mime_top {
-    // case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico", ".svg", ".svgz":
+	switch mime_top {
+	// case ".bmp", ".jpg", ".jpeg", ".png", ".xpm", ".webp", ".tiff", ".gif", ".jfif", ".ico", ".svg", ".svgz":
 	case "image":
 
 
@@ -710,13 +710,13 @@ func main() {
 
 		preview_output = image_exif(file, width, height, file, music_tags, "audio")
 
-	
+
 	// case ".mkv", ".mp4", ".webm", ".avi", ".mts", ".m2ts", ".mov", ".flv":
 	case "video":
 		preview_output = image_exif(file, width, height, file, video_tags, "video")
 
-    default:
-        // fmt.Println("sdf")
+	default:
+		// fmt.Println("sdf")
 
 		if get_file_mb() > 0.1 {
 			preview_output = fmt.Sprintf("file to big to preview\n%v mb", get_file_mb())
@@ -743,7 +743,7 @@ func main() {
 
 		}
 
-    }
+	}
 
 
 
@@ -763,17 +763,17 @@ func main() {
 	}
 
 
-    if memprofile != "" {
-        f, err := os.Create(memprofile)
-        if err != nil {
-            log.Fatal("could not create memory profile: ", err)
-        }
-        defer f.Close() // error handling omitted for example
-        runtime.GC() // get up-to-date statistics
-        if err := pprof.WriteHeapProfile(f); err != nil {
-            log.Fatal("could not write memory profile: ", err)
-        }
-    }
+	if memprofile != "" {
+		f, err := os.Create(memprofile)
+		if err != nil {
+			log.Fatal("could not create memory profile: ", err)
+		}
+		defer f.Close() // error handling omitted for example
+		runtime.GC() // get up-to-date statistics
+		if err := pprof.WriteHeapProfile(f); err != nil {
+			log.Fatal("could not write memory profile: ", err)
+		}
+	}
 
 	// unhideCursor()
 
