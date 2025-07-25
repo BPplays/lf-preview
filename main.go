@@ -16,6 +16,7 @@ import (
 	"runtime/pprof"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 	"unicode/utf8"
 
@@ -96,32 +97,26 @@ func blake3Hash(data []byte) string {
 
 
 
-var hash_started bool = false
+var hash_mutex sync.Mutex
 
 func get_hash() string {
 	if hash_res == "" {
-		if !hash_started {
-			hash_started = true
+		hash_mutex.Lock()
+
+		var hashstart time.Time
 
 
-			var hashstart time.Time
-
-
-			if debug_time {
-				hashstart = time.Now()
-			}
-
-			hash_res = limitStringToBytes(calculateHash(file)+blake3Hash([]byte(filepath.Base(file))), get_cache_byte_limit())
-
-			if debug_time {
-				time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
-			}
-		} else {
-			for hash_res == "" {
-				time.Sleep(80 * time.Microsecond)
-			}
+		if debug_time {
+			hashstart = time.Now()
 		}
 
+		hash_res = limitStringToBytes(calculateHash(file)+blake3Hash([]byte(filepath.Base(file))), get_cache_byte_limit())
+
+		if debug_time {
+			time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
+		}
+
+		hash_mutex.Unlock()
 	}
 
 	return hash_res
@@ -645,7 +640,7 @@ func main() {
 	pflag.Parse()
 
 
-	
+
 
 
 
@@ -710,7 +705,7 @@ func main() {
 
 		preview_output = image_exif(file, width, height, file, music_tags, "audio")
 
-	
+
 	// case ".mkv", ".mp4", ".webm", ".avi", ".mts", ".m2ts", ".mov", ".flv":
 	case "video":
 		preview_output = image_exif(file, width, height, file, video_tags, "video")
