@@ -102,7 +102,10 @@ var hash_mutex sync.Mutex
 func get_hash() string {
 	if hash_res == "" {
 		hash_mutex.Lock()
+		defer hash_mutex.Unlock()
+	}
 
+	if hash_res == "" {
 		var hashstart time.Time
 
 
@@ -115,8 +118,6 @@ func get_hash() string {
 		if debug_time {
 			time_output = time_output + fmt.Sprintln("hash time: ",time.Since(hashstart))
 		}
-
-		hash_mutex.Unlock()
 	}
 
 	return hash_res
