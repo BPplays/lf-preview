@@ -1,0 +1,532 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ChafaPlacement: Chafa Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
+<link rel="home" href="index.html" title="Chafa Reference Manual">
+<link rel="up" href="ch02.html" title="Chafa C API">
+<link rel="prev" href="chafa-ChafaCanvasConfig.html" title="ChafaCanvasConfig">
+<link rel="next" href="chafa-ChafaImage.html" title="ChafaImage">
+<meta name="generator" content="GTK-Doc V1.36.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#chafa-ChafaPlacement.description" class="shortcut">Description</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="ch02.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="chafa-ChafaCanvasConfig.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="chafa-ChafaImage.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="chafa-ChafaPlacement"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="chafa-ChafaPlacement.top_of_page"></a>ChafaPlacement</span></h2>
+<p>ChafaPlacement — Placement of a <a class="link" href="chafa-ChafaImage.html#ChafaImage" title="ChafaImage"><span class="type">ChafaImage</span></a> on a <a class="link" href="chafa-ChafaCanvas.html#ChafaCanvas" title="ChafaCanvas"><span class="type">ChafaCanvas</span></a></p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="chafa-ChafaPlacement.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_proto_type">
+<col class="functions_proto_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="returnvalue">ChafaPlacement</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="chafa-ChafaPlacement.html#chafa-placement-new" title="chafa_placement_new ()">chafa_placement_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="chafa-ChafaPlacement.html#chafa-placement-ref" title="chafa_placement_ref ()">chafa_placement_ref</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="chafa-ChafaPlacement.html#chafa-placement-unref" title="chafa_placement_unref ()">chafa_placement_unref</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="chafa-ChafaPlacement.html#ChafaTuck" title="enum ChafaTuck"><span class="returnvalue">ChafaTuck</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="chafa-ChafaPlacement.html#chafa-placement-get-tuck" title="chafa_placement_get_tuck ()">chafa_placement_get_tuck</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="chafa-ChafaPlacement.html#chafa-placement-set-tuck" title="chafa_placement_set_tuck ()">chafa_placement_set_tuck</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="chafa-ChafaPlacement.html#ChafaAlign" title="enum ChafaAlign"><span class="returnvalue">ChafaAlign</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="chafa-ChafaPlacement.html#chafa-placement-get-halign" title="chafa_placement_get_halign ()">chafa_placement_get_halign</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="chafa-ChafaPlacement.html#chafa-placement-set-halign" title="chafa_placement_set_halign ()">chafa_placement_set_halign</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="chafa-ChafaPlacement.html#ChafaAlign" title="enum ChafaAlign"><span class="returnvalue">ChafaAlign</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="chafa-ChafaPlacement.html#chafa-placement-get-valign" title="chafa_placement_get_valign ()">chafa_placement_get_valign</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="chafa-ChafaPlacement.html#chafa-placement-set-valign" title="chafa_placement_set_valign ()">chafa_placement_set_valign</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="chafa-ChafaPlacement.other"></a><h2>Types and Values</h2>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="other_proto_type">
+<col class="other_proto_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="datatype_keyword">enum</td>
+<td class="function_name"><a class="link" href="chafa-ChafaPlacement.html#ChafaTuck" title="enum ChafaTuck">ChafaTuck</a></td>
+</tr>
+<tr>
+<td class="datatype_keyword">enum</td>
+<td class="function_name"><a class="link" href="chafa-ChafaPlacement.html#ChafaAlign" title="enum ChafaAlign">ChafaAlign</a></td>
+</tr>
+<tr>
+<td class="typedef_keyword">typedef</td>
+<td class="function_name"><a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement">ChafaPlacement</a></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="chafa-ChafaPlacement.description"></a><h2>Description</h2>
+<p>A <a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a> describes how an image is placed on a <a class="link" href="chafa-ChafaCanvas.html#ChafaCanvas" title="ChafaCanvas"><span class="type">ChafaCanvas</span></a>. It
+contains information about the image, its alignment and tucking policy.</p>
+</div>
+<div class="refsect1">
+<a name="chafa-ChafaPlacement.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="chafa-placement-new"></a><h3>chafa_placement_new ()</h3>
+<pre class="programlisting"><a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="returnvalue">ChafaPlacement</span></a> *
+chafa_placement_new (<em class="parameter"><code><a class="link" href="chafa-ChafaImage.html#ChafaImage" title="ChafaImage"><span class="type">ChafaImage</span></a> *image</code></em>,
+                     <em class="parameter"><code><span class="type">gint</span> id</code></em>);</pre>
+<p>Creates a new <a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a>.</p>
+<div class="refsect3">
+<a name="chafa-placement-new.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>image</p></td>
+<td class="parameter_description"><p>The image to place on the canvas</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>id</p></td>
+<td class="parameter_description"><p>An ID to assign to the placement, or &lt;= 0 to assign one automatically</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="chafa-placement-new.returns"></a><h4>Returns</h4>
+<p> The new placement</p>
+</div>
+<p class="since">Since: <a class="link" href="new-api-index-1.14.html#api-index-1.14">1.14</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="chafa-placement-ref"></a><h3>chafa_placement_ref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+chafa_placement_ref (<em class="parameter"><code><a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a> *placement</code></em>);</pre>
+<p>Adds a reference to <em class="parameter"><code>placement</code></em>
+.</p>
+<div class="refsect3">
+<a name="chafa-placement-ref.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>placement</p></td>
+<td class="parameter_description"><p>Placement to add a reference to</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<p class="since">Since: <a class="link" href="new-api-index-1.14.html#api-index-1.14">1.14</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="chafa-placement-unref"></a><h3>chafa_placement_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+chafa_placement_unref (<em class="parameter"><code><a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a> *placement</code></em>);</pre>
+<p>Removes a reference from <em class="parameter"><code>placement</code></em>
+. When remaining references drops to
+zero, the placement is freed and can no longer be used.</p>
+<div class="refsect3">
+<a name="chafa-placement-unref.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>placement</p></td>
+<td class="parameter_description"><p>Placement to remove a reference from</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<p class="since">Since: <a class="link" href="new-api-index-1.14.html#api-index-1.14">1.14</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="chafa-placement-get-tuck"></a><h3>chafa_placement_get_tuck ()</h3>
+<pre class="programlisting"><a class="link" href="chafa-ChafaPlacement.html#ChafaTuck" title="enum ChafaTuck"><span class="returnvalue">ChafaTuck</span></a>
+chafa_placement_get_tuck (<em class="parameter"><code><a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a> *placement</code></em>);</pre>
+<p>Gets the tucking policy of <em class="parameter"><code>placement</code></em>
+. This describes how the image is
+resized to fit <em class="parameter"><code>placement</code></em>
+'s extents, and defaults to <a class="link" href="chafa-ChafaPlacement.html#CHAFA-TUCK-STRETCH:CAPS"><span class="type">CHAFA_TUCK_STRETCH</span></a>.</p>
+<div class="refsect3">
+<a name="chafa-placement-get-tuck.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>placement</p></td>
+<td class="parameter_description"><p>A <a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="chafa-placement-get-tuck.returns"></a><h4>Returns</h4>
+<p> The tucking policy of <em class="parameter"><code>placement</code></em>
+</p>
+</div>
+<p class="since">Since: <a class="link" href="new-api-index-1.14.html#api-index-1.14">1.14</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="chafa-placement-set-tuck"></a><h3>chafa_placement_set_tuck ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+chafa_placement_set_tuck (<em class="parameter"><code><a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a> *placement</code></em>,
+                          <em class="parameter"><code><a class="link" href="chafa-ChafaPlacement.html#ChafaTuck" title="enum ChafaTuck"><span class="type">ChafaTuck</span></a> tuck</code></em>);</pre>
+<p>Sets the tucking policy for <em class="parameter"><code>placement</code></em>
+ to <em class="parameter"><code>tuck</code></em>
+. This describes how the image is
+resized to fit <em class="parameter"><code>placement</code></em>
+'s extents, and defaults to <a class="link" href="chafa-ChafaPlacement.html#CHAFA-TUCK-STRETCH:CAPS"><span class="type">CHAFA_TUCK_STRETCH</span></a>.</p>
+<div class="refsect3">
+<a name="chafa-placement-set-tuck.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>placement</p></td>
+<td class="parameter_description"><p>A <a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>tuck</p></td>
+<td class="parameter_description"><p>Desired tucking policy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: <a class="link" href="new-api-index-1.14.html#api-index-1.14">1.14</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="chafa-placement-get-halign"></a><h3>chafa_placement_get_halign ()</h3>
+<pre class="programlisting"><a class="link" href="chafa-ChafaPlacement.html#ChafaAlign" title="enum ChafaAlign"><span class="returnvalue">ChafaAlign</span></a>
+chafa_placement_get_halign (<em class="parameter"><code><a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a> *placement</code></em>);</pre>
+<p>Gets the horizontal alignment of <em class="parameter"><code>placement</code></em>
+. This determines how any
+padding added by the tucking policy is distributed, and defaults to
+<a class="link" href="chafa-ChafaPlacement.html#CHAFA-ALIGN-START:CAPS"><span class="type">CHAFA_ALIGN_START</span></a>.</p>
+<div class="refsect3">
+<a name="chafa-placement-get-halign.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>placement</p></td>
+<td class="parameter_description"><p>A <a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="chafa-placement-get-halign.returns"></a><h4>Returns</h4>
+<p> The horizontal alignment of <em class="parameter"><code>placement</code></em>
+</p>
+</div>
+<p class="since">Since: <a class="link" href="new-api-index-1.14.html#api-index-1.14">1.14</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="chafa-placement-set-halign"></a><h3>chafa_placement_set_halign ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+chafa_placement_set_halign (<em class="parameter"><code><a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a> *placement</code></em>,
+                            <em class="parameter"><code><a class="link" href="chafa-ChafaPlacement.html#ChafaAlign" title="enum ChafaAlign"><span class="type">ChafaAlign</span></a> align</code></em>);</pre>
+<p>Sets the horizontal alignment of <em class="parameter"><code>placement</code></em>
+. This determines how any
+padding added by the tucking policy is distributed, and defaults to
+<a class="link" href="chafa-ChafaPlacement.html#CHAFA-ALIGN-START:CAPS"><span class="type">CHAFA_ALIGN_START</span></a>.</p>
+<div class="refsect3">
+<a name="chafa-placement-set-halign.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>placement</p></td>
+<td class="parameter_description"><p>A <a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>align</p></td>
+<td class="parameter_description"><p>Desired horizontal alignment</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: <a class="link" href="new-api-index-1.14.html#api-index-1.14">1.14</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="chafa-placement-get-valign"></a><h3>chafa_placement_get_valign ()</h3>
+<pre class="programlisting"><a class="link" href="chafa-ChafaPlacement.html#ChafaAlign" title="enum ChafaAlign"><span class="returnvalue">ChafaAlign</span></a>
+chafa_placement_get_valign (<em class="parameter"><code><a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a> *placement</code></em>);</pre>
+<p>Gets the vertical alignment of <em class="parameter"><code>placement</code></em>
+. This determines how any
+padding added by the tucking policy is distributed, and defaults to
+<a class="link" href="chafa-ChafaPlacement.html#CHAFA-ALIGN-START:CAPS"><span class="type">CHAFA_ALIGN_START</span></a>.</p>
+<div class="refsect3">
+<a name="chafa-placement-get-valign.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>placement</p></td>
+<td class="parameter_description"><p>A <a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="chafa-placement-get-valign.returns"></a><h4>Returns</h4>
+<p> The vertical alignment of <em class="parameter"><code>placement</code></em>
+</p>
+</div>
+<p class="since">Since: <a class="link" href="new-api-index-1.14.html#api-index-1.14">1.14</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="chafa-placement-set-valign"></a><h3>chafa_placement_set_valign ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+chafa_placement_set_valign (<em class="parameter"><code><a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a> *placement</code></em>,
+                            <em class="parameter"><code><a class="link" href="chafa-ChafaPlacement.html#ChafaAlign" title="enum ChafaAlign"><span class="type">ChafaAlign</span></a> align</code></em>);</pre>
+<p>Sets the vertical alignment of <em class="parameter"><code>placement</code></em>
+. This determines how any
+padding added by the tucking policy is distributed.</p>
+<div class="refsect3">
+<a name="chafa-placement-set-valign.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>placement</p></td>
+<td class="parameter_description"><p>A <a class="link" href="chafa-ChafaPlacement.html#ChafaPlacement" title="ChafaPlacement"><span class="type">ChafaPlacement</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>align</p></td>
+<td class="parameter_description"><p>Desired vertical alignment</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: <a class="link" href="new-api-index-1.14.html#api-index-1.14">1.14</a></p>
+</div>
+</div>
+<div class="refsect1">
+<a name="chafa-ChafaPlacement.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="ChafaTuck"></a><h3>enum ChafaTuck</h3>
+<p>Resizing options when placing an element within an area. Usually used in conjunction
+with <a class="link" href="chafa-ChafaPlacement.html#ChafaAlign" title="enum ChafaAlign"><span class="type">ChafaAlign</span></a> to control the padding.</p>
+<div class="refsect3">
+<a name="ChafaTuck.members"></a><h4>Members</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="300px" class="enum_members_name">
+<col class="enum_members_description">
+<col width="200px" class="enum_members_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="enum_member_name"><p><a name="CHAFA-TUCK-STRETCH:CAPS"></a>CHAFA_TUCK_STRETCH</p></td>
+<td class="enum_member_description">
+<p>Resize element to fit the area exactly, changing its aspect ratio.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="CHAFA-TUCK-FIT:CAPS"></a>CHAFA_TUCK_FIT</p></td>
+<td class="enum_member_description">
+<p>Resize element to fit the area, preserving its aspect ratio by adding padding.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="CHAFA-TUCK-SHRINK-TO-FIT:CAPS"></a>CHAFA_TUCK_SHRINK_TO_FIT</p></td>
+<td class="enum_member_description">
+<p>Like <em class="parameter"><code>CHAFA_TUCK_FIT</code></em>
+, but prohibit enlargement.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="CHAFA-TUCK-MAX:CAPS"></a>CHAFA_TUCK_MAX</p></td>
+<td class="enum_member_description">
+<p>Last supported tucking policy, plus one.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: <a class="link" href="new-api-index-1.14.html#api-index-1.14">1.14</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="ChafaAlign"></a><h3>enum ChafaAlign</h3>
+<p>Alignment options when placing an element within an area.</p>
+<div class="refsect3">
+<a name="ChafaAlign.members"></a><h4>Members</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="300px" class="enum_members_name">
+<col class="enum_members_description">
+<col width="200px" class="enum_members_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="enum_member_name"><p><a name="CHAFA-ALIGN-START:CAPS"></a>CHAFA_ALIGN_START</p></td>
+<td class="enum_member_description">
+<p>Align flush with beginning of the area (top or left in LTR locales).</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="CHAFA-ALIGN-END:CAPS"></a>CHAFA_ALIGN_END</p></td>
+<td class="enum_member_description">
+<p>Align flush with end of the area (bottom or right in LTR locales).</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="CHAFA-ALIGN-CENTER:CAPS"></a>CHAFA_ALIGN_CENTER</p></td>
+<td class="enum_member_description">
+<p>Align in the middle of the area.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="CHAFA-ALIGN-MAX:CAPS"></a>CHAFA_ALIGN_MAX</p></td>
+<td class="enum_member_description">
+<p>Last supported alignment, plus one.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: <a class="link" href="new-api-index-1.14.html#api-index-1.14">1.14</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="ChafaPlacement"></a><h3>ChafaPlacement</h3>
+<pre class="programlisting">typedef struct ChafaPlacement ChafaPlacement;
+</pre>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>Generated by GTK-Doc V1.36.1</div>
+</body>
+</html>

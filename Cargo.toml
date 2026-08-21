@@ -1,0 +1,14 @@
+[package]
+name = "go-lf-preview"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+members = ["xtask"]
+resolver = "2"
+
+[dependencies]
+clap = { version = "4.6.6", features = ["unicode", "string", "derive", "env"] }
+image = { version = "0.25.10", features = ["color_quant", "rayon", "serde"] }
+jxl-image = "0.13.0"
+ratatui-image = { version = "11.0.6", features = ["chafa-static", "crossterm", "image-defaults", "serde", "tokio"], default-features = false }

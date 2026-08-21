@@ -1,0 +1,12 @@
+prefix=/c/Users/suzuko/dev/go/go-lf-preview/.native/chafa/x86_64-pc-windows-gnu/1.18.2
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Chafa
+Description: Image to character art facsimile
+Requires: glib-2.0
+Version: 1.18.2
+Libs: -L${libdir} -lchafa
+Libs.private: -lm
+Cflags: -I${includedir}/chafa -I${libdir}/chafa/include
